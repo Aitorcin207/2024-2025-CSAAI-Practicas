@@ -1,9 +1,5 @@
-# Practica 0
+# 2024-2025-CSAAI-Practicas
+Mis prácticas de la asignatura Construcción de Servicios y Aplicaciones Audiovisuales en Internet Curso 2024-2025
+
 
 Probando el VsCode...
-
-**********************
-** Mi segundo caambio...
-************************
-
-2º Commit
