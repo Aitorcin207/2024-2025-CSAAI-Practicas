@@ -13,6 +13,13 @@
   border: 5px solid;
   vertical-align: bottom;
   border-image: linear-gradient(to right, white,gray, black) 1;
+  overflow: hidden;
+  }
+
+  .cuadrado {
+    width: auto;
+    height: auto;
+    overflow: hidden;
   }
   
   .izquierda {
