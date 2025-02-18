@@ -63,7 +63,25 @@
   width: 50%;
   }
   
+  .linea {
+    width: 100%;
+    height: 1px;
+    background-color: black;
+    margin: 10px 0;
+  }
+  /*
+  @media screen and (max-width: 600px) {
+    .linea {
+      width: 100%;
+      height: 2px;
+      background-color: gray;
+    }
+  }*/
   
+
+
+
+
   
   /* Responsive layout - cuando el ancho de pantalla es menor a 600px, muestra las columnas apiladas. */
   /* Así conseguimos que el contenido se vea bien en dispositvos móviles */
