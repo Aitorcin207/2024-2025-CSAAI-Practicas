@@ -33,7 +33,8 @@
 .texto {
   float: right;
   font-size: 1em;
-  text-align: center;
+  text-align: left;
+  /*width: 100%; */
   }
 
   /* Clear floats despues de las columnas para eliminar la superposición */
