@@ -34,7 +34,8 @@
   float: right;
   font-size: 1em;
   text-align: left;
-  /*width: 100%; */
+  width: 85%; 
+  
   }
 
   /* Clear floats despues de las columnas para eliminar la superposición */
