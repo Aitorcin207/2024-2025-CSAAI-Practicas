@@ -31,22 +31,30 @@
     overflow: hidden;
   }
 
-.texto {
-  float: right;
-  font-size: 1em;
-  text-align: left;
-  width: 85%; 
-  
+  .cuadrado_derecha {
+    float: right;
+    width: auto;
+    height: auto;
+    overflow: hidden;
   }
 
-.cuadrado_texto {
-  float: right;
-  width: 85%;
-  height: auto;
-  overflow: hidden;
-  text-align: center;
-  font-size: 1em;
+  .texto {
+    float: right;
+    font-size: 1em;
+    text-align: left;
+    width: 85%; 
+    
   }
+
+  .cuadrado_texto {
+    float: right;
+    width: 85%;
+    height: auto;
+    overflow: hidden;
+    text-align: center;
+    font-size: 1em;
+  }
+  
 
   /* Clear floats despues de las columnas para eliminar la superposición */
   .filla:after {
