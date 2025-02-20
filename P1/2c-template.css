@@ -8,19 +8,13 @@
   .columna {
   float: left;
   padding: 10px;
-  min-height: 50px;
+  min-height: 500px;
   border-radius: 10px;
   border: 5px solid;
   vertical-align: bottom;
   border-image: linear-gradient(to right, white, gray, black) 1;
   overflow: hidden;
   width: 100%;
-  }
-
-  .cuadrado {
-    width: auto;
-    height: auto;
-    overflow: hidden;
   }
   
   .izquierda {
@@ -31,6 +25,12 @@
   width: 75%;
   }
   
+  .cuadrado {
+    width: auto;
+    height: auto;
+    overflow: hidden;
+  }
+
 .texto {
   float: right;
   font-size: 1em;
@@ -110,21 +110,15 @@
   /* Así conseguimos que el contenido se vea bien en dispositvos móviles */
   
   @media screen and (max-width: 600px) {
-  .columna {
-  width: 100%;
-  
-  }
-  
-  .iresponsive {
-  width: 100%;
-  }
-  .fila {
-  padding: 0 6px;
-  float: left;
-  width: 50%;
-  flex-direction: column;
-  }
-  }
+    .columna {
+      width: 100%;
+    }
+
+    .iresponsive {
+        width: 100%;
+    }
+}
+
   
   /* Más sobre diseño web responsive https://www.w3schools.com/css/css_rwd_intro.asp */
   
