@@ -31,6 +31,7 @@
     overflow: hidden;
   }
 
+
   .cuadrado_derecha {
     float: right;
     width: auto;
@@ -42,6 +43,14 @@
     float: right;
     font-size: 1em;
     text-align: left;
+    width: 85%; 
+    
+  }
+
+  .texto_derecha {
+    float: right;
+    font-size: 1em;
+    text-align: right;
     width: 85%; 
     
   }
@@ -78,26 +87,24 @@
   /* posicionamiento de imágenes https://www.w3schools.com/css/css_positioning.asp */
   
   img {
-  width: auto;
+  width: 100%;
   height: auto;
   border: 5px solid;
-
-  border-image: linear-gradient(to right, white,gray, black) 1;
+  border-image: linear-gradient(to right, white, gray, black) 1;
   border-radius: 5px;
   }
 
-  .imagen {
+  .img_derecha {
     width: 100%;
     height: auto;
     border: 5px solid;
-
     border-radius: 5px;
   }
-  
-.vista_movil {
-  width: 100%;
-  height: auto;
-  }
+
+  .vista_movil {
+    width: 100%;
+    height: auto;
+    }
   
   .iresponsive {
   padding: 0 6px;
