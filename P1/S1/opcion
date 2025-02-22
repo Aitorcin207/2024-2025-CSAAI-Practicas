@@ -1,0 +1,103 @@
+<body>
+    <h1>ASHOKA TANO</h1>
+    <div class="container">
+        <div class="content">
+            <h2>Sobre mí:</h2>
+            <div class="flex-container">
+                <img src="ashoka_bebe.png" alt="Ashoka Bebe">
+                <div class="text">
+                    <p>Nací en un planeta pequeño del borde exterior llamado Shili, soy de la raza Togruta y ex-aprendiz del templo jedi de Corusant, llevo estudiando la fuerza desde que tengo uso de memoria sabiendo de esta practicamente todo lo que hay que saber.</p>
+                </div>
+            </div>
+            <div class="flex-container">
+                <img src="501.png" alt="501">
+                <div class="text">
+                    <p>Participé como comandante en el ejercito Clon defendiendo la Republica con mi maestro Anakin y la legión de clones que comandaba; la 501th la cual era una de las mejores legiones clon a la que se puede pertenecer con soldados tan valerosos y honorables como el Capitan Rex, Cincos, Echo, Tub o Dogma.</p>
+                </div>
+            </div>
+            <div class="flex-container">
+                <img src="Geonosis.png" alt="Geonosis">
+                <div class="text">
+                    <p>Participé en múltiples batallas durante la guerra junto a compañeros y amigos, perdiendo por el camino a muchos de ellos los cuales no se merecían morir y siempre recordaré con cariño y respeto. Estuve en planetas que se desmoronaban por culpa de la guerra como Geonosis, Christophsis, Ryloth, Umbara, Onderon, Coruscant, entre otros donde se perdieron muchas vidas de ambos bandos.</p>
+                </div>
+            </div>
+            <div class="flex-container">
+                <img src="templo_jedi.png" alt="Templo Jedi">
+                <div class="text">
+                    <p>Teniendo un excelente desempeño como jedi de forma impecable, usando la fuerza para defender al débil y proteger la paz en la galaxia, hasta mi injusto juicio por una falsa acusación de asesinato lo que llevó a que abandonase la orden ya que me hicieron ver que no eran capaces de confiar en mí.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <h2>Aficiones:</h2>
+            <div class="flex-container">
+                <img src="sabacc.webp" alt="Sabacc">
+                <div class="text">
+                    <p>Me gusta mucho jugar al sabacc, es un juego de cartas muy popular en la galaxia que me permite pasármelo bien y relajarme entre las batallas con mis amigos y compañeros de la 501th, soy muy buena en el y me permite ganar muchas partidas y sacar algo de dinero para poder subsistir ya que no estoy en la orden jedi.</p>
+                </div>
+            </div>
+            <div class="flex-container">
+                <img src="meditacion.png" alt="Meditación">
+                <div class="text">
+                    <p>Me gusta mucho la meditación jedi ya que esta me permite relajarme y aclarar mis pensamientos, haciendo que así pueda estar en sincronía con el lado luminoso de la fuerza y que pueda elegir siempre la decisión correcta en cada momento además me permite centrarme en mí misma y darme cuenta de cuáles son mis necesidades en cada momento y qué he de hacer para solucionar mis problemas más apremiantes.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <h2>Datos de interés:</h2>
+            <div class="flex-container">
+                <img src="ashoka_new.png" alt="Ashoka New">
+                <div class="text">
+                    <ol style="list-style-type: none;">
+                        <li><strong>1.</strong> Soy una de las pocas Togrutas que han estado en la Orden Jedi.</li>
+                        <li><strong>2.</strong> Experiencia en el manejo de la fuerza y el sable de luz.</li>
+                        <li><strong>3.</strong> Experiencia en el manejo de tropas, liderazgo y estrategias de combate.</li>
+                        <li><strong>4.</strong> Experiencia en misiones de sigilo y protección de objetivos (vivientes o mercancía).</li>
+                        <li><strong>5.</strong> Experiencia en misiones de rescate de condiciones inhóspitas (ej: temperaturas de frío extremo).</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <h2>Trayectoria en las Guerras Clon:</h2>
+            <div class="flex-container">
+                <div class="text">
+                    <li><strong>1. Batalla de Christophsis</strong></li>
+                    <img src="Christophsis.webp" alt="Christophsis" style="margin-top: 10px;">
+                </div>
+                <div class="text">
+                    <li><strong>2. Batalla de Teth</strong></li>
+                    <img src="Teth.webp" alt="Teth" style="margin-top: 10px;">
+                </div>
+                <div class="text">
+                    <li><strong>3. Batalla de Ryloth</strong></li>
+                    <img src="Ryloth.webp" alt="Ryloth" style="margin-top: 10px;">
+                </div>
+            </div>
+            <div class="flex-container">
+                <div class="text">
+                    <li><strong>4. Batalla de Geonosis</strong></li>
+                    <img src="Geonosis_2.png" alt="Geonosis" style="margin-top: 10px;">
+                </div>
+                <div class="text">
+                    <li><strong>5. Batalla de Kamino</strong></li>
+                    <img src="Kamino.webp" alt="Kamino" style="margin-top: 10px;">
+                </div>
+                <div class="text">
+                    <li><strong>6. Batalla de Cato Neimoidia</strong></li>
+                    <img src="cato_neimoidia.jpg" alt="Cato Neimoidia" style="margin-top: 10px;">
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <h2>Fuente de información:</h2>
+            <a href="https://starwars.fandom.com/es/wiki/Ahsoka_Tano" style="color: rgb(207, 207, 1);"><strong>Información en español</strong></a>
+            <a href="https://starwars.fandom.com/wiki/Ahsoka_Tano" style="margin-left: 20px; color: rgb(207, 207, 1);"><strong>Información en inglés</strong></a>
+        </div>
+    </div>
+</body>
+</html>
