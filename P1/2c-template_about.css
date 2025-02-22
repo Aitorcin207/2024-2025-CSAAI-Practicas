@@ -99,6 +99,7 @@ table {
       width: 100%;
       text-align: center;
       float: none;
+      max-width: 100%;
     }
 }
 
