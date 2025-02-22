@@ -85,6 +85,14 @@
   border-image: linear-gradient(to right, white,gray, black) 1;
   border-radius: 5px;
   }
+
+  .imagen {
+    width: 100%;
+    height: auto;
+    border: 5px solid;
+
+    border-radius: 5px;
+  }
   
 .vista_movil {
   width: 100%;
