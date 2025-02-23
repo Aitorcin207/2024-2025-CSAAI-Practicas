@@ -8,7 +8,8 @@
   .columna {
   float: left;
   padding: 10px;
-  min-height: 500px;
+  min-height: 100vh;
+  min-height: 2000px;
   border-radius: 10px;
   border: 5px solid;
   vertical-align: bottom;
@@ -19,10 +20,12 @@
   
   .izquierda {
   width: 25%;
+  
   }
   
   .derecha {
   width: 75%;
+
   }
   
   .cuadrado {
@@ -127,6 +130,13 @@
     }
   }*/
   
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+}
 
 
 
