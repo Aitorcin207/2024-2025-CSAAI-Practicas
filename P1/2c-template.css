@@ -49,6 +49,13 @@ p {
 
 }
 
+.logo img {
+  max-width: 100%;
+  height: auto;
+  overflow: hidden;
+  min-width: 50%;
+}
+
   .derecha {
   width: 75%;
 
