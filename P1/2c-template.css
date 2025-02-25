@@ -36,25 +36,22 @@ iframe {
 }
 @font-face {
   font-family: 'Star Jedi Rounded';
-  src: url(StarJediRounded-jW3R.ttf);
+  src: url(StarJediRounded-jW3R.ttf) format("truetype");
 }
 h1 {
   font-family: 'Star Jedi Rounded';
-  src: url(StarJediRounded-jW3R.ttf) format("truetype");
   font-style: normal;
   font-weight: normal;
 }
 
 h2 {
   font-family: 'Star Jedi Rounded';
-  src: url(StarJediRounded-jW3R.ttf) format("truetype");
   font-style: normal;
   font-weight: normal;
 }
 
 h3 {
   font-family: 'Star Jedi Rounded';
-  src: url(StarJediRounded-jW3R.ttf) format("truetype");
   font-style: normal;
   font-weight: normal;
 }
