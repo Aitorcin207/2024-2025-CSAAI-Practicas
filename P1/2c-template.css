@@ -22,7 +22,19 @@
   width: 25%;
 
   }
-  
+
+iframe {
+  width: 100%;
+
+  border: 0px;
+
+
+}
+.height {
+  height: 100%;
+
+}
+
 h1 {
   font-family: 'Star Jedi Rounded';
   src: url(StarJediRounded-jW3R.ttf) format("truetype");
