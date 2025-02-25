@@ -138,6 +138,7 @@ table {
 @media screen and (max-width: 600px) {
     .columna {
       width: 100%;
+      min-height: auto;
     }
 
     .iresponsive {
