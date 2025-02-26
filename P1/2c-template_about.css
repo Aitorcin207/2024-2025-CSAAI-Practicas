@@ -53,22 +53,22 @@ clear: both;
 /* posicionamiento de imágenes https://www.w3schools.com/css/css_positioning.asp */
 
 @font-face {
-  font-family: 'Starjedi';
-  src: url(./Starjedi.ttf) format("truetype");
+  font-family: 'Star Jedi Outline';
+  src: url(./Starjout.ttf) format("truetype");
 }
 
 h1 {
-  font-family: 'Starjedi';
+  font-family: 'Star Jedi Outline';
 
 }
 
 h2 {
-  font-family: 'Starjedi';
+  font-family: 'Star Jedi Outline';
 
 }
 
 h3 {
-  font-family: 'Starjedi';
+  font-family: 'Star Jedi Outline';
 
 }
 
