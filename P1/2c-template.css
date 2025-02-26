@@ -36,7 +36,7 @@ iframe {
 }
 @font-face {
   font-family: 'Star Jedi Rounded';
-  src: url(StarJediRounded-jW3R.ttf) format("truetype");
+  src: url(./StarJediRounded-jW3R.ttf) format("truetype");
 }
 h1 {
   font-family: 'Star Jedi Rounded';
