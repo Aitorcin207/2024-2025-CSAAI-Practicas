@@ -53,24 +53,24 @@ clear: both;
 /* posicionamiento de imágenes https://www.w3schools.com/css/css_positioning.asp */
 
 @font-face {
-  font-family: 'StarJediRounded';
+  font-family: 'Star Jedi Rounded';
   src: url(./StarJediRounded-jW3R.ttf) format("truetype");
 }
 
 h1 {
-  font-family: 'StarJediRounded';
+  font-family: 'Star Jedi Rounded';
 
   font-weight: normal;
 }
 
 h2 {
-  font-family: 'StarJediRounded';
+  font-family: 'Star Jedi Rounded';
 
   font-weight: normal;
 }
 
 h3 {
-  font-family: 'StarJediRounded';
+  font-family: 'Star Jedi Rounded';
 
   font-weight: normal;
 }
