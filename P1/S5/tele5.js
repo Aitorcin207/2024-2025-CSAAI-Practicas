@@ -2,7 +2,15 @@
 //-- Cada vez que se hace clic en el párrafo se invoca a esta función
 function manejador_parrafo()
 {
-  console.log("Clic sobre el párrafo...")
+  console.log("Clic sobre el párrafo crack!")
+  test.style.backgroundColor = "yellow"
+  test.style.color = "red"
+  if (test.style.backgroundColor == "yellow") {
+    test.style.backgroundColor = "red"
+
+  } else {
+    test.style.fontWeight = "normal"
+  }
 }
 
 console.log("Ejecutando js...")
