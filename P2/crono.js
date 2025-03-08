@@ -9,32 +9,100 @@ function crearContraseña() {
 let segundos = 0;
 let minutos = 0;
 let horas = 0;
-function iniciarCronometro() {
+class Crono {
 
-    let intervalo = setInterval(() => {
-        segundos++;
-        if (segundos === 60) {
-            segundos = 0;
-            minutos++;
-        }
-        if (minutos === 60) {
-            minutos = 0;
-            horas++;
-        }
-        document.getElementById("cronometro").textContent = `${horas}:${minutos}:${segundos}`;
-    }, 1000);
+    //-- Constructor. Hay que indicar el 
+    //-- display donde mostrar el cronómetro
+    constructor(display) {
+        this.display = display;
 
-    document.getElementById("Start").onclick = iniciarCronometro;
-
-    document.getElementById("Stop").onclick = () => {
-        document.getElementById("cronometro").textContent = `${horas}:${minutos}:${segundos}`;
+        //-- Tiempo
+        this.cent = 0, //-- Centésimas
+        this.seg = 0,  //-- Segundos
+        this.min = 0,  //-- Minutos
+        this.timer = 0;  //-- Temporizador asociado
     }
 
-    document.getElementById("Reset").onclick = () => {
-        clearInterval(intervalo);
-    };
+    //-- Método que se ejecuta cada centésima
+    tic() {
+        //-- Incrementar en una centesima
+        this.cent += 1;
+
+        //-- 100 centésimas hacen 1 segundo
+        if (this.cent == 100) {
+        this.seg += 1;
+        this.cent = 0;
+        }
+
+        //-- 60 segundos hacen un minuto
+        if (this.seg == 60) {
+        this.min = 1;
+        this.seg = 0;
+        }
+
+        //-- Mostrar el valor actual
+        this.display.innerHTML = this.min + ":" + this.seg + ":" + this.cent
+    }
+
+    //-- Arrancar el cronómetro
+    start() {
+       if (!this.timer) {
+          //-- Lanzar el temporizador para que llame 
+          //-- al método tic cada 10ms (una centésima)
+          this.timer = setInterval( () => {
+              this.tic();
+          }, 10);
+        }
+    }
+
+    //-- Parar el cronómetro
+    stop() {
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = null;
+        }
+    }
+
+    //-- Reset del cronómetro
+    reset() {
+        this.cent = 0;
+        this.seg = 0;
+        this.min = 0;
+
+        this.display.innerHTML = "0:0:0";
+    }
+}
+const mostrarCronometro = {
+    display : document.getElementById("mostrar"),
+    start : document.getElementById("Start"),
+    stop : document.getElementById("Stop"),
+    reset : document.getElementById("Reset")
 }
 
+console.log("Ejecutando JS...");
+
+//-- Definir un objeto cronómetro
+const crono = new Crono(mostrarCronometro.display);
+
+//---- Configurar las funciones de retrollamada
+
+//-- Arranque del cronometro
+mostrarCronometro.start.onclick = () => {
+    console.log("Start!!");
+    crono.start();
+}
+  
+//-- Detener el cronómetro
+mostrarCronometro.stop.onclick = () => {
+    console.log("Stop!");
+    crono.stop();
+}
+
+//-- Reset del cronómetro
+mostrarCronometro.reset.onclick = () => {
+    console.log("Reset!");
+    crono.reset();
+}
 
 const digitos = document.getElementsByClassName("digito");
 
