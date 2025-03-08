@@ -9,6 +9,7 @@ function crearContraseña() {
 let segundos = 0;
 let minutos = 0;
 let horas = 0;
+
 class Crono {
 
     //-- Constructor. Hay que indicar el 
@@ -79,7 +80,6 @@ const mostrarCronometro = {
     reset : document.getElementById("Reset")
 }
 
-console.log("Ejecutando JS...");
 
 //-- Definir un objeto cronómetro
 const crono = new Crono(mostrarCronometro.display);
