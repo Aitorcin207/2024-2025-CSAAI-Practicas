@@ -1,0 +1,204 @@
+/* https://www.w3schools.com/howto/howto_css_two_columns.asp */
+/* https://developer.mozilla.org/es/docs/Web/CSS/box-sizing */
+/* Así definimos el comportamiento de caja para todos los elementos */
+* {
+    box-sizing: border-box;
+    }
+    /* Crear columnas de ancho diferente que se colocan una a continuación de la otra */
+    .columna {
+    float: left;
+    padding: 10px;
+    min-height: 100vh;
+    min-height: 2000px;
+    border-radius: 10px;
+    border: 5px solid;
+    vertical-align: bottom;
+    border-image: linear-gradient(to right, white, gray, black) 1;
+    overflow: hidden;
+    width: 100%;
+    }
+    
+    .izquierda {
+    width: 25%;
+  
+    }
+  
+  iframe {
+    width: 100%;
+  
+    border: 0px;
+  
+  
+  }
+  .height {
+    height: 100%;
+  
+  }
+  @font-face {
+    font-family: 'Star Jedi Hollow';
+    src: url(./Starjhol.ttf) format("truetype");
+  
+  }
+  h1 {
+    font-family: 'Star Jedi Hollow';
+  
+  }
+  
+  h2 {
+    font-family: 'Star Jedi Hollow';
+  
+  }
+  
+  h3 {
+    font-family: 'Star Jedi Hollow';
+  
+  }
+  
+  p {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  
+  }
+  
+  .logo img {
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+    min-width: 50%;
+  }
+  
+    .derecha {
+    width: 75%;
+  
+    }
+    
+    .cuadrado {
+      width: auto;
+      height: auto;
+      overflow: hidden;
+    }
+  
+  
+    .cuadrado_derecha {
+      float: right;
+      width: auto;
+      height: auto;
+      overflow: hidden;
+    }
+  
+    .texto {
+      float: right;
+      font-size: 1em;
+      text-align: left;
+      width: 85%; 
+      
+    }
+  
+    .texto_derecha {
+      float: right;
+      font-size: 1em;
+      text-align: right;
+      width: 85%; 
+      
+    }
+  
+    .cuadrado_texto {
+      float: right;
+      width: 85%;
+      height: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-align: center;
+      font-size: 1em;
+    }
+    
+  
+    /* Clear floats despues de las columnas para eliminar la superposición */
+    .filla:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+    
+    #c1 {
+    background-color:#aaa;
+    }
+    
+    #c2 {
+    background-color:#bbb;
+    }
+    
+    /* estilos para imágenes https://www.w3schools.com/css/css3_images.asp */
+    /* posicionamiento de imágenes https://www.w3schools.com/css/css_positioning.asp */
+    
+    img {
+    width: 100%;
+    height: auto;
+    border: 5px solid;
+    border-image: linear-gradient(to right, white, gray, black) 1;
+    border-radius: 5px;
+    }
+  
+    .img_derecha {
+      width: 100%;
+      height: auto;
+      border: 5px solid;
+      border-radius: 5px;
+    }
+  
+    .vista_movil {
+      width: 100%;
+      height: auto;
+      }
+    
+    .iresponsive {
+    padding: 0 6px;
+    float: left;
+    width: 50%;
+    }
+    
+    .linea {
+      width: 100%;
+      height: 1px;
+      background-color: black;
+      margin: 10px 0;
+    }
+    /*
+    @media screen and (max-width: 600px) {
+      .linea {
+        width: 100%;
+        height: 2px;
+        background-color: gray;
+      }
+    }*/
+    
+  html {
+    height: 100%;
+  }
+  
+  body {
+    min-height: 100%;
+  }
+  
+  
+  
+  
+  
+    /* Responsive layout - cuando el ancho de pantalla es menor a 600px, muestra las columnas apiladas. */
+    /* Así conseguimos que el contenido se vea bien en dispositvos móviles */
+    
+    @media screen and (max-width: 600px) {
+      .columna {
+        width: 100%;
+        min-height: auto;
+      }
+  
+      .iresponsive {
+          width: 100%;
+      }
+  }
+  
+    
+    /* Más sobre diseño web responsive https://www.w3schools.com/css/css_rwd_intro.asp */
+    
