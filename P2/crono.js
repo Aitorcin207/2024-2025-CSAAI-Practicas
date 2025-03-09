@@ -1,9 +1,14 @@
 
 function crearContraseña() {
     const digitos = document.getElementsByClassName("digito");
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 4; i++) {
         digitos[i].value = Math.floor(Math.random() * 9) + 1;
+
     }
+    celda1 = digitos[0].value;
+    celda2 = digitos[1].value;
+    celda3 = digitos[2].value;
+    celda4 = digitos[3].value;
 }
 
 class Crono {
@@ -103,14 +108,19 @@ mostrarCronometro.reset.onclick = () => {
 const digitos = document.getElementsByClassName("digito");
 
 function verificarContraseña() {
-    let contraseña = "";
-    for (let digito of digitos) {
-        contraseña += digito.value;
-    }
 
-    if (contraseña.length === 4 && !isNaN(contraseña)) {
-        document.getElementById("resultado").textContent = "Contraseña válida: " + contraseña;
-    } else {
-        document.getElementById("resultado").textContent = "Contraseña inválida. Debe contener 4 dígitos.";
+    for (let digito of digitos) {
+        if (celda1.value == digito.value) {
+            
+        }
+        else if (celda2.value == digito.value) {
+
+        }
+        else if (celda3.value == digito.value) {
+
+        }
+        else if (celda4.value == digito.value) {
+
+        }
     }
 }
