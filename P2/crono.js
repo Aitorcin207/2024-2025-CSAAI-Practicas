@@ -78,7 +78,13 @@ const mostrarCronometro = {
     display : document.getElementById("mostrar"),
     start : document.getElementById("Start"),
     stop : document.getElementById("Stop"),
-    reset : document.getElementById("Reset")
+    reset : document.getElementById("Reset"),
+    digito : document.getElementsByClassName("digito"),
+    celda1 : document.getElementById("celda1"),
+    celda2 : document.getElementById("celda2"),
+    celda3 : document.getElementById("celda3"),
+    celda4 : document.getElementById("celda4")
+    
 }
 
 
@@ -105,22 +111,36 @@ mostrarCronometro.reset.onclick = () => {
     crono.reset();
 }
 
-const digitos = document.getElementsByClassName("digito");
+valor1 = "*";
+valor2 = "*";
+valor3 = "*";
+valor4 = "*";
+mostrarCronometro.celda1.innerHTML = valor1;
+mostrarCronometro.celda2.innerHTML = valor2;
+mostrarCronometro.celda3.innerHTML = valor3;
+mostrarCronometro.celda4.innerHTML = valor4;
+
+// const digitos = document.getElementsByClassName("digito");
 
 function verificarContraseña() {
 
     for (let digito of digitos) {
         if (celda1.value == digito.value) {
-            
+            valor1 = digito.value;
+            mostrarCronometro.celda1.innerHTML = valor1;
         }
         else if (celda2.value == digito.value) {
-
+            valor2 = digito.value;
+            mostrarCronometro.celda2.innerHTML = valor2;
         }
         else if (celda3.value == digito.value) {
-
+            valor3 = digito.value;
+            mostrarCronometro.celda3.innerHTML = valor3;
+            
         }
         else if (celda4.value == digito.value) {
-
+            valor4 = digito.value;
+            mostrarCronometro.celda4.innerHTML = valor4;
         }
     }
 }
