@@ -3,13 +3,16 @@ function crearContraseña() {
     const digitos = document.getElementsByClassName("digito");
     for (let i = 0; i < 4; i++) {
         digitos[i].value = Math.floor(Math.random() * 9) + 1;
+        }
+        celda1.value = digitos[0].value;
+        celda2.value = digitos[1].value;
+        celda3.value = digitos[2].value;
+        celda4.value = digitos[3].value;
+        }
 
-    }
-    celda1 = digitos[0].value;
-    celda2 = digitos[1].value;
-    celda3 = digitos[2].value;
-    celda4 = digitos[3].value;
-}
+// Ejecutar la función al cargar la página
+window.onload = crearContraseña;
+
 
 class Crono {
 
