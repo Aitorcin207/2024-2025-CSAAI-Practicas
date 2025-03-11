@@ -8,11 +8,19 @@ function crearContraseña() {
         celda2.value = digitos[1].value;
         celda3.value = digitos[2].value;
         celda4.value = digitos[3].value;
+        valor1 = "*";
+        valor2 = "*";
+        valor3 = "*";
+        valor4 = "*";
+        mostrarCronometro.celda1.innerHTML = valor1;
+        mostrarCronometro.celda2.innerHTML = valor2;
+        mostrarCronometro.celda3.innerHTML = valor3;
+        mostrarCronometro.celda4.innerHTML = valor4;
         }
 
 // Ejecutar la función al cargar la página
 window.onload = crearContraseña;
-
+puedes_jugar = false;
 
 class Crono {
 
@@ -100,50 +108,65 @@ const crono = new Crono(mostrarCronometro.display);
 mostrarCronometro.start.onclick = () => {
     console.log("Start!!");
     crono.start();
+    puedes_jugar = true;
 }
   
 //-- Detener el cronómetro
 mostrarCronometro.stop.onclick = () => {
     console.log("Stop!");
     crono.stop();
+    puedes_jugar = false;
 }
 
 //-- Reset del cronómetro
 mostrarCronometro.reset.onclick = () => {
     console.log("Reset!");
+    crearContraseña();
     crono.reset();
 }
 
-valor1 = "*";
-valor2 = "*";
-valor3 = "*";
-valor4 = "*";
-mostrarCronometro.celda1.innerHTML = valor1;
-mostrarCronometro.celda2.innerHTML = valor2;
-mostrarCronometro.celda3.innerHTML = valor3;
-mostrarCronometro.celda4.innerHTML = valor4;
 
-// const digitos = document.getElementsByClassName("digito");
+
+const digitos = document.getElementsByClassName("digito");
+
+digitos.digito.onclick = () => {
+    verificarContraseña();
+}
 
 function verificarContraseña() {
+    if (puedes_jugar == true) {
+        numerointentos();
+        for (let digito of digitos) {
+            if (celda1.value == digito.value) {
+                valor1 = digito.value;
+                mostrarCronometro.celda1.innerHTML = valor1;
+            }
+            else if (celda2.value == digito.value) {
+                valor2 = digito.value;
+                mostrarCronometro.celda2.innerHTML = valor2;
+            }
+            else if (celda3.value == digito.value) {
+                valor3 = digito.value;
+                mostrarCronometro.celda3.innerHTML = valor3;
+                
+            }
+            else if (celda4.value == digito.value) {
+                valor4 = digito.value;
+                mostrarCronometro.celda4.innerHTML = valor4;
+            }
+        }
+    }
+}
 
+function numerointentos() {
+    let intentos = 0;
     for (let digito of digitos) {
-        if (celda1.value == digito.value) {
-            valor1 = digito.value;
-            mostrarCronometro.celda1.innerHTML = valor1;
-        }
-        else if (celda2.value == digito.value) {
-            valor2 = digito.value;
-            mostrarCronometro.celda2.innerHTML = valor2;
-        }
-        else if (celda3.value == digito.value) {
-            valor3 = digito.value;
-            mostrarCronometro.celda3.innerHTML = valor3;
-            
-        }
-        else if (celda4.value == digito.value) {
-            valor4 = digito.value;
-            mostrarCronometro.celda4.innerHTML = valor4;
-        }
+        digito.onclick = () => {
+            intentos++;
+            if (intentos == 10) {
+                alert("Un resplandor y hace BOOOOOOM");
+                crono.stop();
+            }
+        };
     }
 }

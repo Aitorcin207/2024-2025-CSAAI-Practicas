@@ -134,7 +134,10 @@
     flex: 1;
 }
     
+button {
+  display: none;
 
+}
     .digito {
         width: 70%;
         height: 100px;
@@ -241,3 +244,7 @@
     
     /* Más sobre diseño web responsive https://www.w3schools.com/css/css_rwd_intro.asp */
     
+
+
+
+  
