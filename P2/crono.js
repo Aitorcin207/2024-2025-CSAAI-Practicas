@@ -127,33 +127,27 @@ mostrarCronometro.reset.onclick = () => {
 
 
 
-const digitos = document.getElementsByClassName("digito");
-
-digitos.digito.onclick = () => {
-    verificarContraseña();
+for (let digito of mostrarCronometro) {
+    digito.onclick = () => {
+        verificarContraseña(digito);
+    }
 }
 
-function verificarContraseña() {
+function verificarContraseña(digito) {
     if (puedes_jugar == true) {
         numerointentos();
-        for (let digito of digitos) {
-            if (mostrarCronometro.celda1.value == digito.value) {
-                valor1 = digito.value;
-                mostrarCronometro.celda1.innerHTML = valor1;
-            }
-            else if (mostrarCronometro.celda2.value == digito.value) {
-                valor2 = digito.value;
-                mostrarCronometro.celda2.innerHTML = valor2;
-            }
-            else if (mostrarCronometro.celda3.value == digito.value) {
-                valor3 = digito.value;
-                mostrarCronometro.celda3.innerHTML = valor3;
-                
-            }
-            else if (mostrarCronometro.celda4.value == digito.value) {
-                valor4 = digito.value;
-                mostrarCronometro.celda4.innerHTML = valor4;
-            }
+        if (mostrarCronometro.celda1.value == digito.value) {
+            valor1 = digito.value;
+            mostrarCronometro.celda1.innerHTML = valor1;
+        } else if (mostrarCronometro.celda2.value == digito.value) {
+            valor2 = digito.value;
+            mostrarCronometro.celda2.innerHTML = valor2;
+        } else if (mostrarCronometro.celda3.value == digito.value) {
+            valor3 = digito.value;
+            mostrarCronometro.celda3.innerHTML = valor3;
+        } else if (mostrarCronometro.celda4.value == digito.value) {
+            valor4 = digito.value;
+            mostrarCronometro.celda4.innerHTML = valor4;
         }
     }
 }
