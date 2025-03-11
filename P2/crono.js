@@ -154,7 +154,7 @@ function verificarContraseña(digito) {
 
 function numerointentos() {
     let intentos = 0;
-    for (let digito of digitos) {
+    for (let digito of mostrarCronometro) {
         digito.onclick = () => {
             intentos++;
             if (intentos == 10) {
