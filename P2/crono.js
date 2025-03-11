@@ -81,7 +81,7 @@ class Crono {
         this.cent = 0;
         this.seg = 0;
         this.min = 0;
-
+        intentos = 0;
         this.display.innerHTML = "0:0:0";
     }
 }
@@ -137,20 +137,20 @@ function verificarContraseña() {
     if (puedes_jugar == true) {
         numerointentos();
         for (let digito of digitos) {
-            if (celda1.value == digito.value) {
+            if (mostrarCronometro.celda1.value == digito.value) {
                 valor1 = digito.value;
                 mostrarCronometro.celda1.innerHTML = valor1;
             }
-            else if (celda2.value == digito.value) {
+            else if (mostrarCronometro.celda2.value == digito.value) {
                 valor2 = digito.value;
                 mostrarCronometro.celda2.innerHTML = valor2;
             }
-            else if (celda3.value == digito.value) {
+            else if (mostrarCronometro.celda3.value == digito.value) {
                 valor3 = digito.value;
                 mostrarCronometro.celda3.innerHTML = valor3;
                 
             }
-            else if (celda4.value == digito.value) {
+            else if (mostrarCronometro.celda4.value == digito.value) {
                 valor4 = digito.value;
                 mostrarCronometro.celda4.innerHTML = valor4;
             }
