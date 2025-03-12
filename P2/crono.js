@@ -21,7 +21,8 @@ function crearContraseña() {
 
 // Ejecutar la función al cargar la página
 window.onload = crearContraseña;
-puedes_jugar = false;
+let puedes_jugar = false;
+let intentos = 0;
 
 class Crono {
 
@@ -65,6 +66,7 @@ class Crono {
           //-- al método tic cada 10ms (una centésima)
           this.timer = setInterval( () => {
               this.tic();
+              
           }, 10);
         }
     }
@@ -74,6 +76,7 @@ class Crono {
         if (this.timer) {
             clearInterval(this.timer);
             this.timer = null;
+            puedes_jugar = false;
         }
     }
 
@@ -83,6 +86,7 @@ class Crono {
         this.seg = 0;
         this.min = 0;
         intentos = 0;
+        mostrarCronometro.intento.innerHTML = "Tienes un total de 10 intentos.";
         this.display.innerHTML = "0:0:0";
     }
 }
@@ -125,14 +129,30 @@ mostrarCronometro.reset.onclick = () => {
     console.log("Reset!");
     crearContraseña();
     crono.reset();
+    
 }
 
+const digitos = { 
+                  uno : document.getElementById("1"),
+                  dos : document.getElementById("2"),
+                  tres : document.getElementById("3"),
+                  cuatro : document.getElementById("4"),
+                  cinco : document.getElementById("5"),
+                  seis : document.getElementById("6"),
+                  siete : document.getElementById("7"),
+                  ocho : document.getElementById("8"),
+                  nueve : document.getElementById("9"),
+                  cero : document.getElementById("0")
+
+ };
 
 
-for (let digito of digitos) {
-    digito.onclick = () => {
-        verificarContraseña(digito);
-    }
+for (let key in digitos) {
+    
+        digitos[key].onclick = () => {
+            verificarContraseña(digitos[key]);
+        }
+    
 }
 
 function verificarContraseña(digito) {
@@ -155,16 +175,20 @@ function verificarContraseña(digito) {
 }
 
 function numerointentos() {
-    let intentos = 0;
-    for (let digito of mostrarCronometro) {
-        digito.onclick = () => {
-            intentos++;
-            total = 10 - intentos;
-            mostrarCronometro.intento.innerHTML = "Tienes un total de " + total + " intentos.";
-            if (intentos == 10) {
-                alert("Un resplandor y hace BOOOOOOM");
-                crono.stop();
+
+    if (puedes_jugar == true) {
+    for (let key in digitos) {
+            digitos[key].onclick = () => {
+                intentos++;
+                total = 10 - intentos;
+                mostrarCronometro.intento.innerHTML = "Tienes un total de " + total + " intentos.";
+                if (intentos == 10) {
+                    alert("Un resplandor y hace BOOOOOOM");
+                    puedes_jugar = false;
+                    crono.stop();
+                    intentos = 0;
+                }
             }
-        };
+        }
     }
 }
