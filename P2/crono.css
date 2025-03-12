@@ -35,27 +35,27 @@
   
   }
   @font-face {
-    font-family: 'Star Jedi Hollow';
-    src: url(./Starjhol.ttf) format("truetype");
+    font-family: 'Help Me';
+    src: url(./HelpMe.ttf) format("truetype");
   
   }
   h1 {
-    font-family: 'Star Jedi Hollow';
+    font-family: 'Help Me';
   
   }
   
   h2 {
-    font-family: 'Star Jedi Hollow';
+    font-family: 'Help Me';
   
   }
   
   h3 {
-    font-family: 'Star Jedi Hollow';
+    font-family: 'Help Me';
   
   }
   
   p {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Help Me';
   
   }
   
