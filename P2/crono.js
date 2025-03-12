@@ -16,6 +16,7 @@ function crearContraseña() {
         mostrarCronometro.celda2.innerHTML = valor2;
         mostrarCronometro.celda3.innerHTML = valor3;
         mostrarCronometro.celda4.innerHTML = valor4;
+        mostrarCronometro.intento.innerHTML = "Tienes un total de 10 intentos.";
         }
 
 // Ejecutar la función al cargar la página
@@ -94,7 +95,8 @@ const mostrarCronometro = {
     celda1 : document.getElementById("celda1"),
     celda2 : document.getElementById("celda2"),
     celda3 : document.getElementById("celda3"),
-    celda4 : document.getElementById("celda4")
+    celda4 : document.getElementById("celda4"),
+    intento : document.getElementById("intento")
     
 }
 
@@ -127,7 +129,7 @@ mostrarCronometro.reset.onclick = () => {
 
 
 
-for (let digito of mostrarCronometro) {
+for (let digito of digitos) {
     digito.onclick = () => {
         verificarContraseña(digito);
     }
@@ -157,6 +159,8 @@ function numerointentos() {
     for (let digito of mostrarCronometro) {
         digito.onclick = () => {
             intentos++;
+            total = 10 - intentos;
+            mostrarCronometro.intento.innerHTML = "Tienes un total de " + total + " intentos.";
             if (intentos == 10) {
                 alert("Un resplandor y hace BOOOOOOM");
                 crono.stop();
