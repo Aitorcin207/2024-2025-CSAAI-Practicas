@@ -158,6 +158,11 @@ for (let key in digitos) {
 function verificarContraseña(digito) {
     if (puedes_jugar == true) {
         numerointentos();
+        console.log(digito.value);
+        console.log(celda1.value);
+        console.log(celda2.value);
+        console.log(celda3.value);
+        console.log(celda4.value);
         if (mostrarCronometro.celda1.value == digito.value) {
             valor1 = digito.value;
             mostrarCronometro.celda1.innerHTML = valor1;
@@ -170,6 +175,9 @@ function verificarContraseña(digito) {
         } else if (mostrarCronometro.celda4.value == digito.value) {
             valor4 = digito.value;
             mostrarCronometro.celda4.innerHTML = valor4;
+        }
+        else {
+
         }
     }
 }
