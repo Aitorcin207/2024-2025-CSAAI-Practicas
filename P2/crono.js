@@ -147,12 +147,65 @@ const digitos = {
  };
 
 
-for (let key in digitos) {
     
-        digitos[key].onclick = () => {
-            verificarContraseña(digitos[key]);
-        }
+digitos.uno.onclick = () => {
+    digitos.uno.value = 1;
+    console.log("UNO");
+    verificarContraseña(digitos.uno);
+}
     
+digitos.dos.onclick = () => {
+    digitos.dos.value = 2;
+    console.log("DOS");
+    verificarContraseña(digitos.dos);
+}
+
+digitos.tres.onclick = () => {
+    digitos.tres.value = 3;
+    console.log("TRES");
+    verificarContraseña(digitos.tres);
+}
+
+digitos.cuatro.onclick = () => {
+    digitos.cuatro.value = 4;
+    console.log("CUATRO");
+    verificarContraseña(digitos.cuatro);
+}
+
+digitos.cinco.onclick = () => {
+    digitos.cinco.value = 5;
+    console.log("CINCO");
+    verificarContraseña(digitos.cinco);
+}
+
+digitos.seis.onclick = () => {
+    digitos.seis.value = 6;
+    console.log("SEIS");
+    verificarContraseña(digitos.seis);
+}
+
+digitos.siete.onclick = () => {
+    digitos.siete.value = 7;
+    console.log("SIETE");
+    verificarContraseña(digitos.siete);
+}
+
+digitos.ocho.onclick = () => {
+    digitos.ocho.value = 8;
+    console.log("OCHO");
+    verificarContraseña(digitos.ocho);
+}
+
+digitos.nueve.onclick = () => {
+    digitos.nueve.value = 9;
+    console.log("NUEVE");
+    verificarContraseña(digitos.nueve);
+}
+
+digitos.cero.onclick = () => {
+    digitos.cero.value = 0;
+    console.log("CERO");
+    verificarContraseña(digitos.cero);
 }
 
 function verificarContraseña(digito) {
@@ -164,39 +217,30 @@ function verificarContraseña(digito) {
         console.log(celda3.value);
         console.log(celda4.value);
         if (mostrarCronometro.celda1.value == digito.value) {
-            valor1 = digito.value;
-            mostrarCronometro.celda1.innerHTML = valor1;
+            valor1 = "*";
+            mostrarCronometro.celda1.innerHTML = digito.value;
         } else if (mostrarCronometro.celda2.value == digito.value) {
-            valor2 = digito.value;
-            mostrarCronometro.celda2.innerHTML = valor2;
+            valor2 = "*";
+            mostrarCronometro.celda2.innerHTML = digito.value;
         } else if (mostrarCronometro.celda3.value == digito.value) {
-            valor3 = digito.value;
-            mostrarCronometro.celda3.innerHTML = valor3;
+            valor3 = "*";
+            mostrarCronometro.celda3.innerHTML = digito.value;
         } else if (mostrarCronometro.celda4.value == digito.value) {
-            valor4 = digito.value;
-            mostrarCronometro.celda4.innerHTML = valor4;
-        }
-        else {
-
+            valor4 = "*";
+            mostrarCronometro.celda4.innerHTML = digito.value;
         }
     }
 }
 
 function numerointentos() {
 
-    if (puedes_jugar == true) {
-    for (let key in digitos) {
-            digitos[key].onclick = () => {
-                intentos++;
-                total = 10 - intentos;
-                mostrarCronometro.intento.innerHTML = "Tienes un total de " + total + " intentos.";
-                if (intentos == 10) {
-                    alert("Un resplandor y hace BOOOOOOM");
-                    puedes_jugar = false;
-                    crono.stop();
-                    intentos = 0;
-                }
-            }
-        }
+    intentos++;
+    total = 10 - intentos;
+    mostrarCronometro.intento.innerHTML = "Tienes un total de " + total + " intentos.";
+    if (intentos == 10) {
+        alert("Un resplandor y hace BOOOOOOM");
+        puedes_jugar = false;
+        crono.stop();
+        intentos = 0;
     }
 }
