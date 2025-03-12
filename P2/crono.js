@@ -145,8 +145,6 @@ const digitos = {
                   cero : document.getElementById("0")
 
  };
-
-
     
 digitos.uno.onclick = () => {
     digitos.uno.value = 1;
@@ -217,19 +215,31 @@ function verificarContraseña(digito) {
         console.log(celda3.value);
         console.log(celda4.value);
         if (mostrarCronometro.celda1.value == digito.value) {
-            valor1 = "*";
+            mostrarCronometro.celda1.value = "*";
+            valor1 = digito.value;
             mostrarCronometro.celda1.innerHTML = digito.value;
         } else if (mostrarCronometro.celda2.value == digito.value) {
-            valor2 = "*";
+            mostrarCronometro.celda2.value = "*";
+            valor2 = digito.value;
             mostrarCronometro.celda2.innerHTML = digito.value;
         } else if (mostrarCronometro.celda3.value == digito.value) {
-            valor3 = "*";
+            mostrarCronometro.celda3.value = "*";
+            valor3 = digito.value;
             mostrarCronometro.celda3.innerHTML = digito.value;
         } else if (mostrarCronometro.celda4.value == digito.value) {
-            valor4 = "*";
+            mostrarCronometro.celda4.value = "*";
+            valor4 = digito.value;
             mostrarCronometro.celda4.innerHTML = digito.value;
         }
+    
+    if (valor1 != "*" && valor2 != "*" && valor3 != "*" && valor4 != "*") {
+        alert("BOMBA DESACTIVADA");
+        puedes_jugar = false;
+        crono.stop();
+        intentos = 0;
     }
+}
+
 }
 
 function numerointentos() {
