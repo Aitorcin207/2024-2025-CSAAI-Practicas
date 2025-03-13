@@ -17,12 +17,14 @@ function crearContraseña() {
         mostrarCronometro.celda3.innerHTML = valor3;
         mostrarCronometro.celda4.innerHTML = valor4;
         mostrarCronometro.intento.innerHTML = "Tienes un total de 10 intentos.";
+        alert("DESACTIVA LA BOMBA ANTES DE QUE EXPLOTE");
         }
 
 // Ejecutar la función al cargar la página
 window.onload = crearContraseña;
 let puedes_jugar = false;
 let intentos = 0;
+let cincos = 0;
 
 class Crono {
 
@@ -172,7 +174,7 @@ digitos.cuatro.onclick = () => {
 
 digitos.cinco.onclick = () => {
     digitos.cinco.value = 5;
-    console.log("CINCO");
+    console.log("CINCOS");
     verificarContraseña(digitos.cinco);
 }
 
@@ -231,7 +233,17 @@ function verificarContraseña(digito) {
             valor4 = digito.value;
             mostrarCronometro.celda4.innerHTML = digito.value;
         }
-    
+    if (digito.value == 5) {
+        cincos++;
+        if (cincos == 5) {
+            alert("FOR THE REPUBLIC");
+            document.body.style.backgroundImage = "url('CINCOS.webp')";
+            document.body.style.backgroundSize = "cover";
+            document.body.style.backgroundPosition = "center";
+            
+
+        }
+    }
     if (valor1 != "*" && valor2 != "*" && valor3 != "*" && valor4 != "*") {
         alert("BOMBA DESACTIVADA");
         puedes_jugar = false;
@@ -248,6 +260,8 @@ function numerointentos() {
     total = 10 - intentos;
     mostrarCronometro.intento.innerHTML = "Tienes un total de " + total + " intentos.";
     if (intentos == 10) {
+        var audio = new Audio('explosion-42132.mp3');
+        audio.play();
         alert("Un resplandor y hace BOOOOOOM");
         puedes_jugar = false;
         crono.stop();
