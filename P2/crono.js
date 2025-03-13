@@ -236,6 +236,8 @@ function verificarContraseña(digito) {
     if (digito.value == 5) {
         cincos++;
         if (cincos == 5) {
+            var audio = new Audio('for-the-republic-star-wars.mp3');
+            audio.play();
             alert("FOR THE REPUBLIC");
             document.body.style.backgroundImage = "url('CINCOS.webp')";
             document.body.style.backgroundSize = "cover";
