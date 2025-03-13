@@ -12,6 +12,10 @@ function crearContraseña() {
         valor2 = "*";
         valor3 = "*";
         valor4 = "*";
+        mostrarCronometro.celda1.style.color = "red";
+        mostrarCronometro.celda2.style.color = "red";
+        mostrarCronometro.celda3.style.color = "red";
+        mostrarCronometro.celda4.style.color = "red";
         mostrarCronometro.celda1.innerHTML = valor1;
         mostrarCronometro.celda2.innerHTML = valor2;
         mostrarCronometro.celda3.innerHTML = valor3;
@@ -218,20 +222,24 @@ function verificarContraseña(digito) {
         console.log(celda4.value);
         if (mostrarCronometro.celda1.value == digito.value) {
             mostrarCronometro.celda1.value = "*";
+            mostrarCronometro.celda1.style.color = "green";
             valor1 = digito.value;
             mostrarCronometro.celda1.innerHTML = digito.value;
         } else if (mostrarCronometro.celda2.value == digito.value) {
             mostrarCronometro.celda2.value = "*";
+            mostrarCronometro.celda2.style.color = "green";
             valor2 = digito.value;
             mostrarCronometro.celda2.innerHTML = digito.value;
         } else if (mostrarCronometro.celda3.value == digito.value) {
             mostrarCronometro.celda3.value = "*";
+            mostrarCronometro.celda3.style.color = "green";
             valor3 = digito.value;
             mostrarCronometro.celda3.innerHTML = digito.value;
         } else if (mostrarCronometro.celda4.value == digito.value) {
             mostrarCronometro.celda4.value = "*";
             valor4 = digito.value;
             mostrarCronometro.celda4.innerHTML = digito.value;
+            mostrarCronometro.celda4.style.color = "green";
         }
     if (digito.value == 5) {
         cincos++;
