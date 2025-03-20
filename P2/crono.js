@@ -22,13 +22,17 @@ function crearContraseña() {
         mostrarCronometro.celda4.innerHTML = valor4;
         mostrarCronometro.intento.innerHTML = "Tienes un total de 10 intentos.";
         alert("DESACTIVA LA BOMBA ANTES DE QUE EXPLOTE");
-        }
+        var audio_fondo = new Audio("Resident Evil OST-RE2_ Ada's theme-yt.savetube.me.mp3");
+        audio_fondo.volume = 1.0; // Subir el volumen al máximo
+            audio_fondo.play();
+    }
 
 // Ejecutar la función al cargar la página
 window.onload = crearContraseña;
 let puedes_jugar = false;
 let intentos = 0;
 let cincos = 0;
+let musica_fondo = 0;
 
 class Crono {
 
@@ -92,6 +96,7 @@ class Crono {
         this.seg = 0;
         this.min = 0;
         intentos = 0;
+        musica_fondo = 0;
         mostrarCronometro.intento.innerHTML = "Tienes un total de 10 intentos.";
         this.display.innerHTML = "0:0:0";
     }
@@ -263,12 +268,13 @@ function verificarContraseña(digito) {
         document.body.style.backgroundImage = "url('campo.jpg')";
         document.body.style.backgroundSize = "cover";
         document.body.style.backgroundPosition = "center";
-        var audio = new Audio('Sonic Ring Sound Effect.mp3');
-        audio.play();
+        var audio_victoria = new Audio('Victoria.mp3');
+        audio_victoria.play();
         alert("HAS ESCAPADO Y SALVADO LA CIUDAD DE RACOON CITY");
         puedes_jugar = false;
         crono.stop();
         intentos = 0;
+        audio_fondo.stop();
     }
 }
 
@@ -280,12 +286,13 @@ function numerointentos() {
     total = 10 - intentos;
     mostrarCronometro.intento.innerHTML = "Tienes un total de " + total + " intentos.";
     if (intentos == 10) {
-        var audio = new Audio('explosion-42132.mp3');
-        audio.play();
+        var audio_derrota = new Audio('explosion-42132.mp3');
+        audio_derrota.play();
         alert("Un resplandor y hace BOOOOOOM");
         
         puedes_jugar = false;
         crono.stop();
         intentos = 0;
+        audio_fondo.stop();
     }
 }
