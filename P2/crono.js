@@ -133,6 +133,10 @@ mostrarCronometro.stop.onclick = () => {
 //-- Reset del cronómetro
 mostrarCronometro.reset.onclick = () => {
     console.log("Reset!");
+    document.body.style.backgroundImage = "url('cuarto.avif')";
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundPosition = "center";
+    cincos = 0;
     crearContraseña();
     crono.reset();
     
@@ -256,6 +260,12 @@ function verificarContraseña(digito) {
     }
     if (valor1 != "*" && valor2 != "*" && valor3 != "*" && valor4 != "*") {
         alert("BOMBA DESACTIVADA");
+        document.body.style.backgroundImage = "url('campo.jpg')";
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundPosition = "center";
+        var audio = new Audio('Sonic Ring Sound Effect.mp3');
+        audio.play();
+        alert("HAS ESCAPADO Y SALVADO LA CIUDAD DE RACOON CITY");
         puedes_jugar = false;
         crono.stop();
         intentos = 0;
@@ -273,6 +283,7 @@ function numerointentos() {
         var audio = new Audio('explosion-42132.mp3');
         audio.play();
         alert("Un resplandor y hace BOOOOOOM");
+        
         puedes_jugar = false;
         crono.stop();
         intentos = 0;
