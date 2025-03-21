@@ -5,7 +5,7 @@ let intentos = 0;
 let cincos = 0;
 let musica_fondo = 0;
 var audio_fondo = new Audio("Resident Evil OST-RE2_ Ada's theme-yt.savetube.me.mp3");
-
+var audio_pulsacion = new Audio("sonido_pulsar.mp3");
 
 function crearContraseña() {
     const digitos = document.getElementsByClassName("digito");
@@ -127,6 +127,7 @@ const crono = new Crono(mostrarCronometro.display);
 
 //-- Arranque del cronometro
 mostrarCronometro.start.onclick = () => {
+    audio_pulsacion.play();
     console.log("Start!!");
     crono.start();
     puedes_jugar = true;
@@ -134,6 +135,7 @@ mostrarCronometro.start.onclick = () => {
   
 //-- Detener el cronómetro
 mostrarCronometro.stop.onclick = () => {
+    audio_pulsacion.play();
     console.log("Stop!");
     crono.stop();
     puedes_jugar = false;
@@ -141,6 +143,7 @@ mostrarCronometro.stop.onclick = () => {
 
 //-- Reset del cronómetro
 mostrarCronometro.reset.onclick = () => {
+    audio_pulsacion.play();
     console.log("Reset!");
     document.body.style.backgroundImage = "url('cuarto.avif')";
     document.body.style.backgroundSize = "cover";
@@ -166,60 +169,70 @@ const digitos = {
  };
     
 digitos.uno.onclick = () => {
+    audio_pulsacion.play();
     digitos.uno.value = 1;
     console.log("UNO");
     verificarContraseña(digitos.uno);
 };
     
 digitos.dos.onclick = () => {
+    audio_pulsacion.play();
     digitos.dos.value = 2;
     console.log("DOS");
     verificarContraseña(digitos.dos);
 };
 
 digitos.tres.onclick = () => {
+    audio_pulsacion.play();
     digitos.tres.value = 3;
     console.log("TRES");
     verificarContraseña(digitos.tres);
 };
 
 digitos.cuatro.onclick = () => {
+    audio_pulsacion.play();
     digitos.cuatro.value = 4;
     console.log("CUATRO");
     verificarContraseña(digitos.cuatro);
 };
 
 digitos.cinco.onclick = () => {
+    audio_pulsacion.play();
     digitos.cinco.value = 5;
     console.log("CINCOS");
     verificarContraseña(digitos.cinco);
 };
 
 digitos.seis.onclick = () => {
+    audio_pulsacion.play();
     digitos.seis.value = 6;
     console.log("SEIS");
     verificarContraseña(digitos.seis);
 };
 
 digitos.siete.onclick = () => {
+    audio_pulsacion.play();
     digitos.siete.value = 7;
     console.log("SIETE");
     verificarContraseña(digitos.siete);
 };
 
 digitos.ocho.onclick = () => {
+    audio_pulsacion.play();
     digitos.ocho.value = 8;
     console.log("OCHO");
     verificarContraseña(digitos.ocho);
 };
 
 digitos.nueve.onclick = () => {
+    audio_pulsacion.play();
     digitos.nueve.value = 9;
     console.log("NUEVE");
     verificarContraseña(digitos.nueve);
 };
 
 digitos.cero.onclick = () => {
+    audio_pulsacion.play();
     digitos.cero.value = 0;
     console.log("CERO");
     verificarContraseña(digitos.cero);
