@@ -29,11 +29,21 @@ function crearContraseña() {
         mostrarCronometro.celda3.innerHTML = valor3;
         mostrarCronometro.celda4.innerHTML = valor4;
         mostrarCronometro.intento.innerHTML = "Tienes un total de 10 intentos.";
-        alert("DESACTIVA LA BOMBA ANTES DE QUE EXPLOTE Y SALVA RACCOON CITY");
+        alert("DESACTIVA LA BOMBA ANTES DE QUE EXPLOTE Y SALVA RACCOON CITY.");
 
         audio_fondo.volume = 1.0; // Subir el volumen al máximo
         audio_fondo.loop = true; // Hacer que el audio suene en bucle
-        audio_fondo.play();
+        mostrarCronometro.start.onclick = () => {
+            if (intentos != 10) {
+                audio_fondo.play(); // Reproducir audio tras interacción del usuario
+                audio_pulsacion.play();
+                console.log("Start!!");
+                crono.start();
+                puedes_jugar = true;
+            } else {
+                alert("No puedes jugar más, la ciudad ha explotado.");
+            }
+        };
     }
 
 // Ejecutar la función al cargar la página
@@ -127,10 +137,15 @@ const crono = new Crono(mostrarCronometro.display);
 
 //-- Arranque del cronometro
 mostrarCronometro.start.onclick = () => {
-    audio_pulsacion.play();
-    console.log("Start!!");
-    crono.start();
-    puedes_jugar = true;
+    if (intentos != 10) {
+        audio_pulsacion.play();
+        console.log("Start!!");
+        crono.start();
+        puedes_jugar = true;
+    }
+    else {
+        alert("No puedes jugar más, la ciudad ha explotado.");
+    }
 };
   
 //-- Detener el cronómetro
@@ -151,6 +166,7 @@ mostrarCronometro.reset.onclick = () => {
     cincos = 0;
     crearContraseña();
     crono.reset();
+    intentos = 0;
     
 };
 
@@ -290,7 +306,7 @@ function verificarContraseña(digito) {
         audio_fondo.currentTime = 0;
         
         audio_victoria.play();
-        alert("HAS ESCAPADO Y SALVADO LA CIUDAD DE RACCOON CITY");
+        alert("HAS ESCAPADO Y SALVADO LA CIUDAD DE RACCOON CITY.");
         puedes_jugar = false;
         crono.stop();
         intentos = 0;
@@ -308,11 +324,11 @@ function numerointentos() {
     if (intentos == 10) {
         var audio_derrota = new Audio('explosion-42132.mp3');
         audio_derrota.play();
-        alert("Un resplandor y hace BOOOOOOM");
+        alert("Un resplandor y hace BOOOOOOM la ciudad entera ha volado por los aires.");
         
         puedes_jugar = false;
         crono.stop();
-        intentos = 0;
+        
         audio_fondo.pause();
         audio_fondo.currentTime = 0;
     }
