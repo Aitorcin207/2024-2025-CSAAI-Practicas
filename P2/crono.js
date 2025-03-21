@@ -1,4 +1,12 @@
 
+window.onload = crearContraseña;
+let puedes_jugar = false;
+let intentos = 0;
+let cincos = 0;
+let musica_fondo = 0;
+var audio_fondo = new Audio("Resident Evil OST-RE2_ Ada's theme-yt.savetube.me.mp3");
+
+
 function crearContraseña() {
     const digitos = document.getElementsByClassName("digito");
     for (let i = 0; i < 4; i++) {
@@ -21,18 +29,14 @@ function crearContraseña() {
         mostrarCronometro.celda3.innerHTML = valor3;
         mostrarCronometro.celda4.innerHTML = valor4;
         mostrarCronometro.intento.innerHTML = "Tienes un total de 10 intentos.";
-        alert("DESACTIVA LA BOMBA ANTES DE QUE EXPLOTE");
-        var audio_fondo = new Audio("Resident Evil OST-RE2_ Ada's theme-yt.savetube.me.mp3");
+        alert("DESACTIVA LA BOMBA ANTES DE QUE EXPLOTE Y SALVA RACCOON CITY");
+
         audio_fondo.volume = 1.0; // Subir el volumen al máximo
-            audio_fondo.play();
+        audio_fondo.loop = true; // Hacer que el audio suene en bucle
+        audio_fondo.play();
     }
 
 // Ejecutar la función al cargar la página
-window.onload = crearContraseña;
-let puedes_jugar = false;
-let intentos = 0;
-let cincos = 0;
-let musica_fondo = 0;
 
 class Crono {
 
@@ -269,12 +273,15 @@ function verificarContraseña(digito) {
         document.body.style.backgroundSize = "cover";
         document.body.style.backgroundPosition = "center";
         var audio_victoria = new Audio('Victoria.mp3');
+        audio_fondo.pause();
+        audio_fondo.currentTime = 0;
+        
         audio_victoria.play();
-        alert("HAS ESCAPADO Y SALVADO LA CIUDAD DE RACOON CITY");
+        alert("HAS ESCAPADO Y SALVADO LA CIUDAD DE RACCOON CITY");
         puedes_jugar = false;
         crono.stop();
         intentos = 0;
-        audio_fondo.stop();
+
     }
 }
 
@@ -293,6 +300,7 @@ function numerointentos() {
         puedes_jugar = false;
         crono.stop();
         intentos = 0;
-        audio_fondo.stop();
+        audio_fondo.pause();
+        audio_fondo.currentTime = 0;
     }
 }
