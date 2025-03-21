@@ -70,7 +70,7 @@ class Crono {
         }
 
         //-- Mostrar el valor actual
-        this.display.innerHTML = this.min + ":" + this.seg + ":" + this.cent
+        this.display.innerHTML = this.min + ":" + this.seg + ":" + this.cent;
     }
 
     //-- Arrancar el cronómetro
@@ -117,7 +117,7 @@ const mostrarCronometro = {
     celda4 : document.getElementById("celda4"),
     intento : document.getElementById("intento")
     
-}
+};
 
 
 //-- Definir un objeto cronómetro
@@ -130,14 +130,14 @@ mostrarCronometro.start.onclick = () => {
     console.log("Start!!");
     crono.start();
     puedes_jugar = true;
-}
+};
   
 //-- Detener el cronómetro
 mostrarCronometro.stop.onclick = () => {
     console.log("Stop!");
     crono.stop();
     puedes_jugar = false;
-}
+};
 
 //-- Reset del cronómetro
 mostrarCronometro.reset.onclick = () => {
@@ -149,7 +149,7 @@ mostrarCronometro.reset.onclick = () => {
     crearContraseña();
     crono.reset();
     
-}
+};
 
 const digitos = { 
                   uno : document.getElementById("1"),
@@ -169,61 +169,61 @@ digitos.uno.onclick = () => {
     digitos.uno.value = 1;
     console.log("UNO");
     verificarContraseña(digitos.uno);
-}
+};
     
 digitos.dos.onclick = () => {
     digitos.dos.value = 2;
     console.log("DOS");
     verificarContraseña(digitos.dos);
-}
+};
 
 digitos.tres.onclick = () => {
     digitos.tres.value = 3;
     console.log("TRES");
     verificarContraseña(digitos.tres);
-}
+};
 
 digitos.cuatro.onclick = () => {
     digitos.cuatro.value = 4;
     console.log("CUATRO");
     verificarContraseña(digitos.cuatro);
-}
+};
 
 digitos.cinco.onclick = () => {
     digitos.cinco.value = 5;
     console.log("CINCOS");
     verificarContraseña(digitos.cinco);
-}
+};
 
 digitos.seis.onclick = () => {
     digitos.seis.value = 6;
     console.log("SEIS");
     verificarContraseña(digitos.seis);
-}
+};
 
 digitos.siete.onclick = () => {
     digitos.siete.value = 7;
     console.log("SIETE");
     verificarContraseña(digitos.siete);
-}
+};
 
 digitos.ocho.onclick = () => {
     digitos.ocho.value = 8;
     console.log("OCHO");
     verificarContraseña(digitos.ocho);
-}
+};
 
 digitos.nueve.onclick = () => {
     digitos.nueve.value = 9;
     console.log("NUEVE");
     verificarContraseña(digitos.nueve);
-}
+};
 
 digitos.cero.onclick = () => {
     digitos.cero.value = 0;
     console.log("CERO");
     verificarContraseña(digitos.cero);
-}
+};
 
 function verificarContraseña(digito) {
     if (puedes_jugar == true) {
