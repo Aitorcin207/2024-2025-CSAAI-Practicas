@@ -6,6 +6,7 @@ let cincos = 0;
 let musica_fondo = 0;
 var audio_fondo = new Audio("Resident Evil OST-RE2_ Ada's theme-yt.savetube.me.mp3");
 var audio_pulsacion = new Audio("sonido_pulsar.mp3");
+let salvado = false;
 
 function crearContraseña() {
     const digitos = document.getElementsByClassName("digito");
@@ -34,12 +35,17 @@ function crearContraseña() {
         audio_fondo.volume = 1.0; // Subir el volumen al máximo
         audio_fondo.loop = true; // Hacer que el audio suene en bucle
         mostrarCronometro.start.onclick = () => {
-            if (intentos != 10) {
-                audio_fondo.play(); // Reproducir audio tras interacción del usuario
-                audio_pulsacion.play();
-                console.log("Start!!");
-                crono.start();
-                puedes_jugar = true;
+            if (intentos != 10){
+                if (salvado == false) {
+                    audio_fondo.play(); // Reproducir audio tras interacción del usuario
+                    audio_pulsacion.play();
+                    console.log("Start!!");
+                    crono.start();
+                    puedes_jugar = true;
+                    }
+                else {
+                    alert("No puedes jugar más, ya has salvado la ciudad.");
+                }
             } else {
                 alert("No puedes jugar más, la ciudad ha explotado.");
             }
@@ -167,6 +173,7 @@ mostrarCronometro.reset.onclick = () => {
     crearContraseña();
     crono.reset();
     intentos = 0;
+    salvado = false;
     
 };
 
@@ -256,7 +263,7 @@ digitos.cero.onclick = () => {
 
 function verificarContraseña(digito) {
     if (puedes_jugar == true) {
-        numerointentos();
+
         console.log(digito.value);
         console.log(celda1.value);
         console.log(celda2.value);
@@ -304,13 +311,16 @@ function verificarContraseña(digito) {
         var audio_victoria = new Audio('Victoria.mp3');
         audio_fondo.pause();
         audio_fondo.currentTime = 0;
-        
+        salvado = true;
         audio_victoria.play();
         alert("HAS ESCAPADO Y SALVADO LA CIUDAD DE RACCOON CITY.");
         puedes_jugar = false;
         crono.stop();
         intentos = 0;
 
+    }
+    else {
+        numerointentos();
     }
 }
 
