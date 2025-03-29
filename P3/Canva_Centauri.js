@@ -42,6 +42,8 @@ function enemigos() {
   }
 
   requestAnimationFrame(moverse_enemigos);
+  
+
 }
 
 function moverse_enemigos() {
@@ -84,7 +86,31 @@ document.addEventListener("keydown", function(event) {
       x -= velocidad_movimiento; // Mover a la izquierda
     }
   }
+  else if (event.key === " ") {
+    let proyectilX = x + 30; // Centrar el proyectil en el objeto
+    let proyectilY = y;
+
+    function dispararProyectil() {
+      ctx.clearRect(proyectilX - 2, proyectilY, 4, 10); // Limpiar el proyectil anterior
+      proyectilY -= velocidad_disparo; // Mover el proyectil hacia arriba
+
+      if (proyectilY > 500) {
+        ctx.beginPath();
+        ctx.setLineDash([5, 5]); // Línea de puntos
+        ctx.moveTo(proyectilX, proyectilY);
+        ctx.lineTo(proyectilX, proyectilY + 10);
+        ctx.strokeStyle = "yellow";
+        ctx.stroke();
+        ctx.closePath();
+
+        requestAnimationFrame(dispararProyectil); // Continuar animación
+      }
+    }
+
+    dispararProyectil(); // Iniciar el disparo
+  }
   ctx.clearRect(0, y, canvas.width, 30);
+
 
 });
 
