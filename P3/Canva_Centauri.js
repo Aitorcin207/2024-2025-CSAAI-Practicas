@@ -26,36 +26,22 @@ dibujarP(x, y, 60, 30, "blue");
 //-- Función principal de animación
 
 function enemigos() {
-  dibujarP(em1x, em1y, 60, 30, "red");
-  dibujarP(em1x + 70, em1y, 60, 30, "red"); 
-  dibujarP(em1x + 140, em1y, 60, 30, "red"); 
-  dibujarP(em1x + 210, em1y, 60, 30, "red"); 
-  dibujarP(em1x + 280, em1y, 60, 30, "red");
-  dibujarP(em1x + 350, em1y, 60, 30, "red");
-  dibujarP(em1x + 420, em1y, 60, 30, "red");
-  dibujarP(em1x + 490, em1y, 60, 30, "red");
-  dibujarP(em1x + 560, em1y, 60, 30, "red");
-  dibujarP(em1x, em1y - 40, 60, 30, "red");
-  dibujarP(em1x + 70, em1y - 40, 60, 30, "red");
-  dibujarP(em1x + 140, em1y - 40, 60, 30, "red");
-  dibujarP(em1x + 210, em1y - 40, 60, 30, "red");
-  dibujarP(em1x + 280, em1y - 40, 60, 30, "red");
-  dibujarP(em1x + 350, em1y - 40, 60, 30, "red");
-  dibujarP(em1x + 420, em1y - 40, 60, 30, "red");
-  dibujarP(em1x + 490, em1y - 40, 60, 30, "red");
-  dibujarP(em1x + 560, em1y - 40, 60, 30, "red");
-  dibujarP(em1x, em1y - 80, 60, 30, "red");
-  dibujarP(em1x + 70, em1y - 80, 60, 30, "red");
-  dibujarP(em1x + 140, em1y - 80, 60, 30, "red");
-  dibujarP(em1x + 210, em1y - 80, 60, 30, "red");
-  dibujarP(em1x + 280, em1y - 80, 60, 30, "red");
-  dibujarP(em1x + 350, em1y - 80, 60, 30, "red");
-  dibujarP(em1x + 420, em1y - 80, 60, 30, "red");
-  dibujarP(em1x + 490, em1y - 80, 60, 30, "red");
-  dibujarP(em1x + 560, em1y - 80, 60, 30, "red");
+  const filas = 3; // Número de filas de enemigos
+  const columnas = 9; // Número de enemigos por fila
+  const ancho = 60;
+  const alto = 30;
+  const separacionX = 70;
+  const separacionY = 40;
+
+  for (let fila = 0; fila < filas; fila++) {
+    for (let columna = 0; columna < columnas; columna++) {
+      let x = em1x + columna * separacionX;
+      let y = em1y - fila * separacionY;
+      dibujarP(x, y, ancho, alto, "red");
+    }
+  }
 
   requestAnimationFrame(moverse_enemigos);
-
 }
 
 function moverse_enemigos() {
@@ -63,7 +49,7 @@ function moverse_enemigos() {
   em1x += velocidad_enemigos; // Mover a la derecha
   if (em1x + 630 >= canvas.width) {
     em1x = 0; // Reiniciar la posición del enemigo al lado izquierdo
-    if (em1y >= canvas.height) {
+    if (em1y >= canvas.height - 80) {
       velocidad_enemigos = 0; // Detener el movimiento del enemigo
     } else {
       em1y += 40; // Cambiar la posición vertical del enemigo
