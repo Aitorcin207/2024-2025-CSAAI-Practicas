@@ -41,7 +41,7 @@ function enemigos() {
     }
   }
 
-  requestAnimationFrame(moverse_enemigos);
+  //requestAnimationFrame(moverse_enemigos);
   
 
 }
