@@ -19,9 +19,9 @@ let em1y = 200;
 //-- Velocidades del objeto
 let velocidad_movimiento = 4;
 let velocidad_disparo = 10;
-let velocidad_enemigos = 2;
+let velocidad_enemigos = 6;
 let puedeDisparar = true; // Flag para controlar el disparo
-requestAnimationFrame(enemigos);
+
 
 dibujarP(x, y, 60, 30, "blue"); 
 //-- Función principal de animación
@@ -77,7 +77,7 @@ function moverse_enemigos() {
         });
 
         requestAnimationFrame(moverse_enemigos);
-    }, 16); // Control de FPS (~60 FPS)
+    }, 16);
 }
 
 // Llamar solo una vez al iniciar
