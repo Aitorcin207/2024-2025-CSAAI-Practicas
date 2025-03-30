@@ -23,7 +23,7 @@ let velocidad_enemigos = 6;
 let puedeDisparar = true; // Flag para controlar el disparo
 
 
-dibujarP(x, y, 60, 30, "blue"); 
+
 //-- Función principal de animación
 
 let enemigosLista = []; // Almacenará los enemigos generados
@@ -80,8 +80,28 @@ function moverse_enemigos() {
     }, 16);
 }
 
-// Llamar solo una vez al iniciar
-enemigos();
+document.getElementById("btnIniciar").addEventListener("click", function() {
+  dibujarP(x, y, 60, 30, "blue"); 
+  enemigos();
+});
+document.getElementById("btnReiniciar").addEventListener("click", function() {
+  // Limpiar el canvas completamente
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Reiniciar las variables
+  x = (canvas.width - 60) / 2; // Centrado horizontalmente
+  y = canvas.height - 35; // Abajo en el canvas
+  em1x = 130;
+  em1y = 200;
+  enemigosLista = [];
+  puedeDisparar = true;
+
+  // Dibujar el jugador nuevamente
+  dibujarP(x, y, 60, 30, "blue");
+
+  // Reiniciar los enemigos
+  enemigos();
+});
 
 function iniciar() {
   dibujarP(x, y, 60, 30, "blue"); // Pintar el proyectil
