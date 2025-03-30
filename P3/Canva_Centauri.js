@@ -19,47 +19,69 @@ let em1y = 200;
 //-- Velocidades del objeto
 let velocidad_movimiento = 4;
 let velocidad_disparo = 10;
-let velocidad_enemigos = 5;
+let velocidad_enemigos = 2;
+let puedeDisparar = true; // Flag para controlar el disparo
 requestAnimationFrame(enemigos);
 
 dibujarP(x, y, 60, 30, "blue"); 
 //-- Función principal de animación
 
-function enemigos() {
-  const filas = 3; // Número de filas de enemigos
-  const columnas = 9; // Número de enemigos por fila
-  const ancho = 60;
-  const alto = 30;
-  const separacionX = 70;
-  const separacionY = 40;
+let enemigosLista = []; // Almacenará los enemigos generados
 
-  for (let fila = 0; fila < filas; fila++) {
-    for (let columna = 0; columna < columnas; columna++) {
-      let x = em1x + columna * separacionX;
-      let y = em1y - fila * separacionY;
-      dibujarP(x, y, ancho, alto, "red");
+const filas = 3, columnas = 9;
+const ancho = 60, alto = 30;
+const separacionX = 70, separacionY = 40;
+let moviendoEnemigos = false; // Evita múltiples loops de animación
+
+function enemigos() {  
+    enemigosLista = []; // Crear la lista una sola vez
+
+    for (let fila = 0; fila < filas; fila++) {
+        for (let columna = 0; columna < columnas; columna++) {
+            let x = em1x + columna * separacionX;
+            let y = em1y + fila * separacionY;
+
+            enemigosLista.push({ x, y, ancho, alto });
+        }
     }
-  }
 
-  //requestAnimationFrame(moverse_enemigos);
-  
-
+    if (!moviendoEnemigos) {
+        moviendoEnemigos = true;
+        moverse_enemigos();
+    }
 }
 
 function moverse_enemigos() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar todo el canvas
-  em1x += velocidad_enemigos; // Mover a la derecha
-  if (em1x + 630 >= canvas.width) {
-    em1x = 0; // Reiniciar la posición del enemigo al lado izquierdo
-    if (em1y >= canvas.height - 80) {
-      velocidad_enemigos = 0; // Detener el movimiento del enemigo
-    } else {
-      em1y += 40; // Cambiar la posición vertical del enemigo
-    }
-  }
+    setTimeout(() => {
+        // Limpiar solo el área de los enemigos
+        ctx.clearRect(em1x - 5, em1y - 5, columnas * separacionX + 10, filas * separacionY + 10);
 
-  enemigos(); // Redibujar enemigos
+        em1x += velocidad_enemigos; // Mover en grupo
+
+        // Detectar colisión con el borde del canvas
+        let bordeDerecho = em1x + (columnas * separacionX);
+        if (bordeDerecho >= canvas.width || em1x <= 0) {
+            velocidad_enemigos *= -1; // Cambiar dirección
+            em1y += 40; // Bajar una fila
+
+            // También bajamos cada enemigo individualmente
+            enemigosLista.forEach(enemigo => {
+                enemigo.y += 40;
+            });
+        }
+
+        // Mover y redibujar cada enemigo
+        enemigosLista.forEach(enemigo => {
+            enemigo.x += velocidad_enemigos;
+            dibujarP(enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto, "red");
+        });
+
+        requestAnimationFrame(moverse_enemigos);
+    }, 16); // Control de FPS (~60 FPS)
 }
+
+// Llamar solo una vez al iniciar
+enemigos();
 
 function iniciar() {
   dibujarP(x, y, 60, 30, "blue"); // Pintar el proyectil
@@ -78,6 +100,7 @@ document.addEventListener("keydown", function(event) {
     }
 
   }
+
   else if (event.key === "ArrowLeft") {
     if (x <= 4) {
       x = 4;
@@ -86,29 +109,49 @@ document.addEventListener("keydown", function(event) {
       x -= velocidad_movimiento; // Mover a la izquierda
     }
   }
-  else if (event.key === " ") {
-    let proyectilX = x + 30; // Centrar el proyectil en el objeto
+
+  else if (event.key === "ArrowUp" && puedeDisparar) {
+    puedeDisparar = false; // Bloquear disparo
+
+    let proyectilX = x + 30;
     let proyectilY = y;
-
+    let proyectilAncho = 4, proyectilAlto = 10;
+    
     function dispararProyectil() {
-      ctx.clearRect(proyectilX - 2, proyectilY, 4, 10); // Limpiar el proyectil anterior
-      proyectilY -= velocidad_disparo; // Mover el proyectil hacia arriba
+        ctx.clearRect(proyectilX - 2, proyectilY, proyectilAncho, proyectilAlto);
 
-      if (proyectilY > 500) {
-        ctx.beginPath();
-        ctx.setLineDash([5, 5]); // Línea de puntos
-        ctx.moveTo(proyectilX, proyectilY);
-        ctx.lineTo(proyectilX, proyectilY + 10);
-        ctx.strokeStyle = "yellow";
-        ctx.stroke();
-        ctx.closePath();
+        // Verificar colisión con algún enemigo
+        for (let i = 0; i < enemigosLista.length; i++) {
+            let enemigo = enemigosLista[i];
+            if (
+                proyectilX < enemigo.x + enemigo.ancho &&
+                proyectilX + proyectilAncho > enemigo.x &&
+                proyectilY < enemigo.y + enemigo.alto &&
+                proyectilY + proyectilAlto > enemigo.y
+            ) {
+                console.log("¡Impacto en un enemigo!");
+                  ctx.clearRect(enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto); // Limpiar el enemigo del canvas
+                  enemigosLista.splice(i, 1); // Eliminar enemigo
+                return; // Detener el disparo
+            }
+        }
 
-        requestAnimationFrame(dispararProyectil); // Continuar animación
-      }
+        proyectilY -= 5; // Mover el proyectil hacia arriba
+
+        // Dibujar proyectil
+        ctx.fillStyle = "yellow";
+        ctx.fillRect(proyectilX - 2, proyectilY, proyectilAncho, proyectilAlto);
+        
+        requestAnimationFrame(dispararProyectil);
     }
 
-    dispararProyectil(); // Iniciar el disparo
-  }
+    dispararProyectil();
+
+    setTimeout(() => {
+        puedeDisparar = true;
+    }, 1600);
+}
+
   ctx.clearRect(0, y, canvas.width, 30);
 
 
