@@ -15,6 +15,7 @@ let y = canvas.height - 35; // Abajo en el canvas
 
 let em1x = 130;
 let em1y = 200;
+let puntuaje = 0;
 
 //-- Velocidades del objeto
 let velocidad_movimiento = 4;
@@ -86,6 +87,8 @@ document.getElementById("btnIniciar").addEventListener("click", function() {
 });
 document.getElementById("btnReiniciar").addEventListener("click", function() {
   // Limpiar el canvas completamente
+  puntuaje = 0;
+  puntuacion.innerHTML = puntuaje + "pts";
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Reiniciar las variables
@@ -152,6 +155,9 @@ document.addEventListener("keydown", function(event) {
                 console.log("¡Impacto en un enemigo!");
                   ctx.clearRect(enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto); // Limpiar el enemigo del canvas
                   enemigosLista.splice(i, 1); // Eliminar enemigo
+                  puntuaje += 400;
+                  console.log(puntuaje);
+                  puntuacion.innerHTML = puntuaje + "pts"; // Actualizar la puntuación en el HTML
                 return; // Detener el disparo
             }
         }
