@@ -14,13 +14,13 @@ let x = (canvas.width - 60) / 2; // Centrado horizontalmente
 let y = canvas.height - 35; // Abajo en el canvas
 
 let em1x = 130;
-let em1y = 200;
+let em1y = 60;
 let puntuaje = 0;
 
 //-- Velocidades del objeto
-let velocidad_movimiento = 4;
+let velocidad_movimiento = 9;
 let velocidad_disparo = 10;
-let velocidad_enemigos = 6;
+let velocidad_enemigos = 3;
 let puedeDisparar = true; // Flag para controlar el disparo
 
 
@@ -53,34 +53,45 @@ function enemigos() {
 }
 
 function moverse_enemigos() {
-    setTimeout(() => {
-        // Limpiar solo el área de los enemigos
-        ctx.clearRect(em1x - 5, em1y - 5, columnas * separacionX + 10, filas * separacionY + 10);
+  {
+    if (em1x + 620 >= canvas.width) {
+      velocidad_enemigos = -velocidad_enemigos;
+      em1y += 20;
+    }
+    
+    if (em1x  <= 0) {
+      velocidad_enemigos = -velocidad_enemigos;
+      em1y += 20;
+    }
 
-        em1x += velocidad_enemigos; // Mover en grupo
+    //-- Actualizar la posición
+    em1x += velocidad_enemigos;
+    //-- 2) Borrar solo la parte de los bloques
+    enemigosLista.forEach((enemigo) => {
+      ctx.clearRect(enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto);
+    });
 
-        // Detectar colisión con el borde del canvas
-        let bordeDerecho = em1x + (columnas * separacionX);
-        if (bordeDerecho >= canvas.width || em1x <= 0) {
-            velocidad_enemigos *= -1; // Cambiar dirección
-            em1y += 40; // Bajar una fila
+    //-- 3) Dibujar los enemigos
+    enemigosLista.forEach((enemigo) => {
+      enemigo.x += velocidad_enemigos; // Mover cada enemigo
+      ctx.beginPath();
+      ctx.rect(enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto);
 
-            // También bajamos cada enemigo individualmente
-            enemigosLista.forEach(enemigo => {
-                enemigo.y += 40;
-            });
-        }
+      //-- Dibujar
+      ctx.fillStyle = 'red';
 
-        // Mover y redibujar cada enemigo
-        enemigosLista.forEach(enemigo => {
-            enemigo.x += velocidad_enemigos;
-            dibujarP(enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto, "red");
-        });
+      //-- Rellenar
+      ctx.fill();
 
-        requestAnimationFrame(moverse_enemigos);
-    }, 16);
+      //-- Dibujar el trazo
+      ctx.stroke();
+      ctx.closePath();
+    });
+  
+    //-- 4) Volver a ejecutar update cuando toque
+    requestAnimationFrame(moverse_enemigos);
+  }
 }
-
 document.getElementById("btnIniciar").addEventListener("click", function() {
   dibujarP(x, y, 60, 30, "blue"); 
   enemigos();
