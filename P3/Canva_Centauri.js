@@ -33,6 +33,7 @@ const filas = 3, columnas = 9;
 const ancho = 60, alto = 30;
 const separacionX = 70, separacionY = 40;
 let moviendoEnemigos = false; // Evita múltiples loops de animación
+let bajar = false; // Variable para controlar el descenso de los enemigos
 
 function enemigos() {  
     enemigosLista = []; // Crear la lista una sola vez
@@ -54,18 +55,26 @@ function enemigos() {
 
 function moverse_enemigos() {
   {
+    if (em1y >= canvas.height - 150) {
+      // Si los enemigos llegan al fondo, termina el juego
+      alert("Game Over! Los enemigos han llegado al fondo.");
+      return;
+    }
     if (em1x + 620 >= canvas.width) {
       velocidad_enemigos = -velocidad_enemigos;
-      em1y += 20;
+      bajar = true;
+      em1y += 10;
     }
     
     if (em1x  <= 0) {
       velocidad_enemigos = -velocidad_enemigos;
-      em1y += 20;
+      bajar = true;
+      em1y += 10;
     }
 
     //-- Actualizar la posición
     em1x += velocidad_enemigos;
+    
     //-- 2) Borrar solo la parte de los bloques
     enemigosLista.forEach((enemigo) => {
       ctx.clearRect(enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto);
@@ -74,6 +83,9 @@ function moverse_enemigos() {
     //-- 3) Dibujar los enemigos
     enemigosLista.forEach((enemigo) => {
       enemigo.x += velocidad_enemigos; // Mover cada enemigo
+      if (bajar) {
+        enemigo.y += 10; // Bajar cada enemigo
+      }
       ctx.beginPath();
       ctx.rect(enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto);
 
@@ -87,7 +99,7 @@ function moverse_enemigos() {
       ctx.stroke();
       ctx.closePath();
     });
-  
+    bajar = false;
     //-- 4) Volver a ejecutar update cuando toque
     requestAnimationFrame(moverse_enemigos);
   }
@@ -106,7 +118,7 @@ document.getElementById("btnReiniciar").addEventListener("click", function() {
   x = (canvas.width - 60) / 2; // Centrado horizontalmente
   y = canvas.height - 35; // Abajo en el canvas
   em1x = 130;
-  em1y = 200;
+  em1y = 60;
   enemigosLista = [];
   puedeDisparar = true;
 
