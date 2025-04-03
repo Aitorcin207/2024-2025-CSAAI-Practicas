@@ -1,7 +1,17 @@
+body {
+  background-color: rgb(4, 5, 6);
+  background-image: url('NEW_VEGAS.png'); /* Reemplaza con la ruta de tu imagen */
+  background-size: cover; /* Asegura que la imagen cubra toda la página */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-attachment: fixed; /* Fija la imagen al fondo */
+  margin: 0; /* Elimina el margen por defecto del body */
+}
+
 canvas {
-    background-color: rgb(4, 5, 6);
-    border-style: solid;
-    border-width: 10px;
-    border-color: rgb(193, 79, 79);
-    border-radius: 6px;
-  }
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semi transparente */
+  border-style: solid;
+  border-width: 10px;
+  border-color: rgb(193, 79, 79);
+  border-radius: 6px;
+}

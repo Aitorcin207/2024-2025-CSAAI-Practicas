@@ -34,76 +34,112 @@ const ancho = 60, alto = 30;
 const separacionX = 70, separacionY = 40;
 let moviendoEnemigos = false; // Evita múltiples loops de animación
 let bajar = false; // Variable para controlar el descenso de los enemigos
+const imagenes = ["mutaracha.webp", "sanginario.webp", "Mirelurk.webp"];
+const imagenesCargadas = {}; // Almacenar imágenes cargadas para no recargarlas varias veces
 
 function enemigos() {  
-    enemigosLista = []; // Crear la lista una sola vez
 
-    for (let fila = 0; fila < filas; fila++) {
-        for (let columna = 0; columna < columnas; columna++) {
-            let x = em1x + columna * separacionX;
-            let y = em1y + fila * separacionY;
 
-            enemigosLista.push({ x, y, ancho, alto });
-        }
-    }
+  // Cargar imágenes una sola vez
+  imagenes.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      imagenesCargadas[src] = img;
+  });
 
-    if (!moviendoEnemigos) {
-        moviendoEnemigos = true;
-        moverse_enemigos();
-    }
-}
+  // Crear la lista de enemigos
+  for (let fila = 0; fila < filas; fila++) {
+      for (let columna = 0; columna < columnas; columna++) {
+          let x = em1x + columna * separacionX;
+          let y = em1y + fila * separacionY;
+          let imagen = imagenes[fila % imagenes.length];
 
-function moverse_enemigos() {
-  {
-    if (em1y >= canvas.height - 150) {
-      // Si los enemigos llegan al fondo, termina el juego
-      alert("Game Over! Los enemigos han llegado al fondo.");
-      return;
-    }
-    if (em1x + 620 >= canvas.width) {
-      velocidad_enemigos = -velocidad_enemigos;
-      bajar = true;
-      em1y += 10;
-    }
-    
-    if (em1x  <= 0) {
-      velocidad_enemigos = -velocidad_enemigos;
-      bajar = true;
-      em1y += 10;
-    }
-
-    //-- Actualizar la posición
-    em1x += velocidad_enemigos;
-    
-    //-- 2) Borrar solo la parte de los bloques
-    enemigosLista.forEach((enemigo) => {
-      ctx.clearRect(enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto);
-    });
-
-    //-- 3) Dibujar los enemigos
-    enemigosLista.forEach((enemigo) => {
-      enemigo.x += velocidad_enemigos; // Mover cada enemigo
-      if (bajar) {
-        enemigo.y += 10; // Bajar cada enemigo
+          enemigosLista.push({ x, y, ancho, alto, imagen });
       }
-      ctx.beginPath();
-      ctx.rect(enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto);
+  }
 
-      //-- Dibujar
-      ctx.fillStyle = 'red';
+  // Dibujar enemigos después de que las imágenes hayan cargado
+  enemigosLista.forEach((enemigo) => {
+      let img = imagenesCargadas[enemigo.imagen];
+      img.onload = () => {
+          ctx.drawImage(img, enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto);
+      };
+      // Si la imagen ya está cargada, dibujarla directamente
+      if (img.complete) {
+          ctx.drawImage(img, enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto);
+      }
+  });
 
-      //-- Rellenar
-      ctx.fill();
-
-      //-- Dibujar el trazo
-      ctx.stroke();
-      ctx.closePath();
-    });
-    bajar = false;
-    //-- 4) Volver a ejecutar update cuando toque
-    requestAnimationFrame(moverse_enemigos);
+  if (!moviendoEnemigos) {
+      moviendoEnemigos = true;
+      moverse_enemigos();
   }
 }
+// Objeto para almacenar las imágenes precargadas
+
+
+function precargarImagenes() {
+    const imagenes = {
+        mutaracha: "mutaracha.webp",
+        mirelurk: "Mirelurk.webp",
+        sanginario: "sanginario.webp"
+    };
+
+    for (let key in imagenes) {
+        const img = new Image();
+        img.src = imagenes[key];
+        imagenesCargadas[key] = img;
+    }
+}
+
+// Llamar esta función al inicio para precargar las imágenes
+precargarImagenes();
+
+function moverse_enemigos() {
+    if (em1y >= canvas.height - 150) {
+        alert("Game Over! Los enemigos han llegado al fondo.");
+        return;
+    }
+
+    // Cambiar dirección si llegan a los bordes
+    if (em1x + 620 >= canvas.width || em1x <= 0) {
+        velocidad_enemigos = -velocidad_enemigos;
+        bajar = true;
+        em1y += 10;
+    }
+
+    // Actualizar la posición de la primera fila
+    em1x += velocidad_enemigos;
+
+    // Borrar solo las áreas de los enemigos para no afectar el fondo
+    enemigosLista.forEach((enemigo) => {
+        ctx.clearRect(enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto);
+    });
+
+    // Mover y redibujar los enemigos
+    enemigosLista.forEach((enemigo, index) => {
+        enemigo.x += velocidad_enemigos; // Mover enemigo horizontalmente
+        if (bajar) enemigo.y += 10; // Bajar enemigo si corresponde
+
+        // Asignar imagen según la fila
+        let tipoEnemigo;
+        if (index < columnas) tipoEnemigo = "mutaracha"; // Primera fila
+        else if (index < columnas * 2) tipoEnemigo = "mirelurk"; // Segunda fila
+        else tipoEnemigo = "sanginario"; // Tercera fila
+
+        // Dibujar la imagen desde el objeto precargado
+        const img = imagenesCargadas[tipoEnemigo];
+        if (img.complete) {
+            ctx.drawImage(img, enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto);
+        }
+    });
+
+    bajar = false; // Resetear el flag de bajada
+
+    // Llamar de nuevo a la animación
+    requestAnimationFrame(moverse_enemigos);
+}
+
 document.getElementById("btnIniciar").addEventListener("click", function() {
   dibujarP(x, y, 60, 30, "blue"); 
   enemigos();
