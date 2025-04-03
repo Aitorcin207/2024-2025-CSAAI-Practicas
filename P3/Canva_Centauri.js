@@ -135,8 +135,28 @@ function iniciar() {
   //console.log("test");
 }
 
-document.addEventListener("keydown", function(event) {
+const derecha = document.getElementById("btnDerecha");
+const izquierda = document.getElementById("btnIzquierda");
+const disparo = document.getElementById("btnShoot");
+const controles = document.getElementById("btnControles");
+
+derecha.addEventListener("click", function() {
   if (event.key === "ArrowRight") {
+    x = (canvas.width - 64);
+  } else {
+    x += velocidad_movimiento; // Mover a la derecha
+  }
+});
+izquierda.addEventListener("click", function() {
+  if (event.key === "ArrowLeft") {
+    x = 4;
+  } else {
+    x -= velocidad_movimiento; // Mover a la izquierda
+  }
+});
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "ArrowRight"|| derecha.onclick) {
 
     if (x >= (canvas.width - 64)) {
       x = (canvas.width - 64);
@@ -147,7 +167,7 @@ document.addEventListener("keydown", function(event) {
 
   }
 
-  else if (event.key === "ArrowLeft") {
+  else if (event.key === "ArrowLeft"|| izquierda.onclick) {
     if (x <= 4) {
       x = 4;
     }
@@ -162,10 +182,14 @@ document.addEventListener("keydown", function(event) {
     let proyectilX = x + 30;
     let proyectilY = y;
     let proyectilAncho = 4, proyectilAlto = 10;
+    let sonido_disparo = new Audio("laser-312360.mp3"); // Cargar el sonido
+    let sonido_derribo = new Audio("cartoon-splat-310479.mp3"); // Cargar el sonido de derribo
     
     function dispararProyectil() {
+        if (proyectilY === y) {
+          sonido_disparo.play(); // Reproducir sonido solo una vez al inicio del disparo
+        }
         ctx.clearRect(proyectilX - 2, proyectilY, proyectilAncho, proyectilAlto);
-
         // Verificar colisión con algún enemigo
         for (let i = 0; i < enemigosLista.length; i++) {
             let enemigo = enemigosLista[i];
@@ -181,6 +205,7 @@ document.addEventListener("keydown", function(event) {
                   puntuaje += 400;
                   console.log(puntuaje);
                   puntuacion.innerHTML = puntuaje + "pts"; // Actualizar la puntuación en el HTML
+                  sonido_derribo.play(); // Reproducir sonido de derribo
                 return; // Detener el disparo
             }
         }
