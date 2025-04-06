@@ -8,6 +8,30 @@ body {
   margin: 0; /* Elimina el margen por defecto del body */
 }
 
+
+
+span {
+  color: rgb(193, 79, 79); /* Color del texto */
+  font-family: 'Brush Script MT', cursive; /* Fuente del texto */
+  font-size: 50px; /* Tamaño de la fuente */
+  text-shadow: 0px 0px 5px rgba(193, 79, 79, 0.7); /* Sombra del texto */
+}
+
+button {
+  background-color: rgb(193, 79, 79); /* Color de fondo del botón */
+  color: white; /* Color del texto del botón */
+  border: none; /* Sin borde */
+  padding: 10px 20px; /* Espaciado interno */
+  text-align: center; /* Centra el texto */
+  text-decoration: none; /* Sin subrayado */
+  display: inline-block; /* Muestra como bloque en línea */
+  font-family: 'Brush Script MT', cursive; /* Fuente del texto */
+  font-size: 16px; /* Tamaño de la fuente */
+  margin: 4px 2px; /* Margen alrededor del botón */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  border-radius: 12px; /* Bordes redondeados */
+}
+
 canvas {
   background-color: rgba(0, 0, 0, 0.5); /* Fondo semi transparente */
   border-style: solid;

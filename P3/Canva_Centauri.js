@@ -68,14 +68,14 @@ function dibujarEnemigos() {
 function moverse_enemigos() {
     if (em1y >= canvas.height - 150) {
         alert("Game Over! Los enemigos han llegado al fondo.");
-
+        finalizarPartida();
         moviendoEnemigos = false; // Detener el movimiento de enemigos
         return;
     }
 
     if (enemigosLista.length === 0) {
         alert("¡Felicidades! Has eliminado a todos los enemigos.");
-
+        finalizarPartida();
         moviendoEnemigos = false; // Detener el movimiento de enemigos
         return;
     }
