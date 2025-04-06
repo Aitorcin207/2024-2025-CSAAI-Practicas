@@ -23,6 +23,7 @@ const ancho = 60, alto = 60;
 const separacionX = 70, separacionY = 40;
 let moviendoEnemigos = false;
 let bajar = false;
+let iniciado = false;
 const imagenes = {
     mutaracha: "mutaracha.webp",
     mirelurk: "Mirelurk.webp",
@@ -67,16 +68,18 @@ function dibujarEnemigos() {
 function moverse_enemigos() {
     if (em1y >= canvas.height - 150) {
         alert("Game Over! Los enemigos han llegado al fondo.");
-        reiniciarJuego();
+
+        moviendoEnemigos = false; // Detener el movimiento de enemigos
         return;
     }
 
     if (enemigosLista.length === 0) {
         alert("¡Felicidades! Has eliminado a todos los enemigos.");
 
-        reiniciarJuego();
+        moviendoEnemigos = false; // Detener el movimiento de enemigos
         return;
     }
+
     // Cambiar dirección si llegan a los bordes
     if (em1x + columnas * separacionX >= canvas.width || em1x <= 0) {
         velocidad_enemigos = -velocidad_enemigos;
@@ -102,7 +105,10 @@ function moverse_enemigos() {
     });
 
     bajar = false;
-    requestAnimationFrame(moverse_enemigos);
+
+    if (iniciado) {
+        requestAnimationFrame(moverse_enemigos); // Continuar moviendo solo si el juego está iniciado
+    }
 }
 
 // Dibujar al protagonista
@@ -113,13 +119,16 @@ function dibujarProtagonista() {
 
 // Función para iniciar el juego
 function iniciarJuego() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    dibujarProtagonista();
-    generarEnemigos();
-    dibujarEnemigos();
-    if (!moviendoEnemigos) {
-        moviendoEnemigos = true;
-        moverse_enemigos();
+    if (iniciado == false) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        dibujarProtagonista();
+        generarEnemigos();
+        dibujarEnemigos();
+        iniciado = true;
+        if (!moviendoEnemigos) {
+            moviendoEnemigos = true;
+            moverse_enemigos();
+        }
     }
 }
 
@@ -134,12 +143,15 @@ function reiniciarJuego() {
     em1y = 60;
     enemigosLista = [];
     puedeDisparar = true;
+    iniciado = false;
     iniciarJuego();
 }
 
-// Controles
+
 document.getElementById("btnIniciar").addEventListener("click", iniciarJuego);
+
 document.getElementById("btnReiniciar").addEventListener("click", reiniciarJuego);
+
 
 document.addEventListener("keydown", function(event) {
     if (event.key === "ArrowRight") {
