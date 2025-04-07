@@ -76,7 +76,7 @@ function moverse_enemigos() {
     if (enemigosVivos.length === 0) {
         if (infinito == true) {
             alert("¡Felicidades! Has eliminado a todos los enemigos. ¡Nivel Completo!");
-            velocidad_enemigos += 0.5; // Aumentar la velocidad de los enemigos
+            velocidad_enemigos += 1; // Aumentar la velocidad de los enemigos
             // filas += 1; // Aumentar el número de filas
             iniciado = false; // Reiniciar el juego
             infinitoJuego();
