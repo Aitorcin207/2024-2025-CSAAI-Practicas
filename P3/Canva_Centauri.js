@@ -7,6 +7,8 @@ const ctx = canvas.getContext("2d");
 // Variables del protagonista
 let x = (canvas.width - 60) / 2; // Centrado horizontalmente
 let y = canvas.height - 80; // Posición inicial
+let normal = false;
+let infinito = false;
 const anchoProta = 60, altoProta = 60;
 const protaImg = new Image();
 protaImg.src = "servo.png"; // Imagen del protagonista
@@ -67,19 +69,38 @@ function dibujarEnemigos() {
 
 // Función para mover los enemigos
 function moverse_enemigos() {
-    let alturaMasBaja = Math.max(...enemigosLista.map(enemigo => enemigo.y + enemigo.alto));
+    // Filtrar solo los enemigos que no han sido eliminados
+    let enemigosVivos = enemigosLista.filter(enemigo => !enemigo.eliminado);
+    
+    // Si ya se han eliminado todos, ganaste
+    if (enemigosVivos.length === 0) {
+        if (infinito == true) {
+            alert("¡Felicidades! Has eliminado a todos los enemigos. ¡Nivel Completo!");
+            velocidad_enemigos += 0.5; // Aumentar la velocidad de los enemigos
+            // filas += 1; // Aumentar el número de filas
+            iniciado = false; // Reiniciar el juego
+            infinitoJuego();
+            return;
+        }  
+        if (normal == true) {
+            alert("¡Felicidades! Has eliminado a todos los enemigos.");
+            finalizarPartida();
+            moviendoEnemigos = false; // Detener el movimiento de enemigos
+            normales = false;
+        return;
+        } 
 
-    if (alturaMasBaja >= canvas.height - 60) { // Ajustar el umbral para que sea más cercano al fondo
+    }
+
+    // Calcular la posición más baja de los enemigos vivos
+    let alturaMasBaja = Math.max(...enemigosVivos.map(enemigo => enemigo.y + enemigo.alto));
+    
+    if (alturaMasBaja >= canvas.height - 70) { // Ajusta el umbral según tus necesidades
         alert("Game Over! Los enemigos han llegado al fondo.");
         finalizarPartida();
         moviendoEnemigos = false; // Detener el movimiento de enemigos
-        return;
-    }
-
-    if (enemigosLista.length === 0) {
-        alert("¡Felicidades! Has eliminado a todos los enemigos.");
-        finalizarPartida();
-        moviendoEnemigos = false; // Detener el movimiento de enemigos
+        normales = false;
+        infinito = false;
         return;
     }
 
@@ -128,6 +149,7 @@ function iniciarJuego() {
         generarEnemigos();
         dibujarEnemigos();
         iniciado = true;
+        normal = true;
         if (!moviendoEnemigos) {
             moviendoEnemigos = true;
             moverse_enemigos();
@@ -150,9 +172,26 @@ function reiniciarJuego() {
     iniciarJuego();
 }
 
+function infinitoJuego() {
+    if (iniciado == false) {
+        em1x = 130;
+        em1y = 60;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        dibujarProtagonista();
+        generarEnemigos();
+        dibujarEnemigos();
+        iniciado = true;
+        infinito = true;
+        moviendoEnemigos = false; 
+        if (!moviendoEnemigos) {
+            moviendoEnemigos = true;
+            moverse_enemigos();
+        }
+    }
+}
 
 document.getElementById("btnIniciar").addEventListener("click", iniciarJuego);
-
+document.getElementById("btnInfinito").addEventListener("click", infinitoJuego);
 document.getElementById("btnReiniciar").addEventListener("click", reiniciarJuego);
 
 
@@ -226,12 +265,13 @@ document.addEventListener("keydown", function(event) {
 });
 
 const controles = document.getElementById("btnControles");
-if (window.innerWidth <= 768) { // Umbral para considerar dispositivos móviles
-    alert(`Controles para móvil:\n- Mover: Botones táctiles\n- Disparar: Botón táctil de disparo\n- Habilidad Especial: Botón táctil especial\nResolución: ${window.innerWidth}x${window.innerHeight}`);
-} else {
-    alert(`Controles:\n- Mover: Flechas Izquierda y Derecha\n- Disparar: Flecha Arriba\n- Habilidad Especial: Flecha Abajo\nResolución: ${window.innerWidth}x${window.innerHeight}`);
-
-};
+controles.addEventListener("click", () => {
+    if (window.innerWidth <= 768) { // Umbral para considerar dispositivos móviles
+        alert(`Controles para móvil:\n- Mover: Botones táctiles\n- Disparar: Botón táctil de disparo\n- Habilidad Especial: Botón táctil especial`);
+    } else {
+        alert(`Controles:\n- Mover: Flechas Izquierda y Derecha\n- Disparar: Flecha Arriba\n- Habilidad Especial: Flecha Abajo`);
+    }
+});
 
 let proyectiles = [];
 
@@ -253,7 +293,7 @@ function dispararProyectil() {
 
     setTimeout(() => {
         puedeDisparar = true;
-    }, 1600); // Permitir otro disparo después de 300ms
+    }, 1200); // Permitir otro disparo después de 300ms
 }
 
 // Dibujar proyectiles en pantalla
