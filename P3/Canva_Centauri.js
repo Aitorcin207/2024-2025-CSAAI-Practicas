@@ -1,3 +1,4 @@
+
 const canvas = document.getElementById("canvas");
 canvas.height = 650;
 canvas.width = 900;
@@ -66,7 +67,9 @@ function dibujarEnemigos() {
 
 // Función para mover los enemigos
 function moverse_enemigos() {
-    if (em1y >= canvas.height - 150) {
+    let alturaMasBaja = Math.max(...enemigosLista.map(enemigo => enemigo.y + enemigo.alto));
+
+    if (alturaMasBaja >= canvas.height - 60) { // Ajustar el umbral para que sea más cercano al fondo
         alert("Game Over! Los enemigos han llegado al fondo.");
         finalizarPartida();
         moviendoEnemigos = false; // Detener el movimiento de enemigos
@@ -220,6 +223,11 @@ document.addEventListener("keydown", function(event) {
     if (event.key === "ArrowDown") {
         activarRayo();
     }
+});
+
+const controles = document.getElementById("btnControles");
+controles.addEventListener("click", function() {
+    alert("Controles:\n- Mover: Flechas Izquierda y Derecha\n- Disparar: Flecha Arriba\n- Habilidad Especial: Flecha Abajo");
 });
 
 let proyectiles = [];
