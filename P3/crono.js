@@ -53,12 +53,18 @@ class Crono {
     const crono = new Crono(display);
   
     const btnIniciar = document.getElementById("btnIniciar");
+    const btnInfinito = document.getElementById("btnInfinito");
+
     const btnReiniciar = document.getElementById("btnReiniciar");
   
     btnIniciar.addEventListener("click", () => {
       crono.start();
     });
   
+    btnInfinito.addEventListener("click", () => {
+      crono.start();
+    });
+
     btnReiniciar.addEventListener("click", () => {
       crono.reset();
     });
