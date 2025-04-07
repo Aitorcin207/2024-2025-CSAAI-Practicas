@@ -32,11 +32,50 @@ button {
   cursor: pointer; /* Cambia el cursor al pasar por encima */
   border-radius: 12px; /* Bordes redondeados */
 }
-
 canvas {
   background-color: rgba(0, 0, 0, 0.5); /* Fondo semi transparente */
   border-style: solid;
   border-width: 10px;
   border-color: rgb(193, 79, 79);
   border-radius: 6px;
+  max-width: 100%; /* Asegura que el canvas no exceda el ancho de la pantalla */
+  height: auto; /* Mantiene la proporción del canvas */
+}
+
+@media (max-width: 768px) {
+  body {
+    background-image: url('NEW_VEGAS.png'); /* Cambia la imagen de fondo para pantallas pequeñas */
+    background-size: cover; /* Asegura que la imagen cubra toda la página */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-attachment: fixed; /* Fija la imagen al fondo */
+  }
+
+  span {
+    font-size: 30px; /* Reduce el tamaño de la fuente en pantallas pequeñas */
+  }
+
+  button {
+    font-size: 14px; /* Reduce el tamaño de la fuente del botón */
+    padding: 8px 16px; /* Ajusta el espaciado interno del botón */
+  }
+
+  canvas {
+    border-width: 5px; /* Reduce el ancho del borde del canvas */
+  }
+}
+
+@media (max-width: 480px) {
+  span {
+    font-size: 20px; /* Reduce aún más el tamaño de la fuente en pantallas muy pequeñas */
+  }
+
+  button {
+    font-size: 12px; /* Ajusta el tamaño de la fuente del botón */
+    padding: 6px 12px; /* Ajusta el espaciado interno del botón */
+  }
+
+  canvas {
+    border-width: 3px; /* Reduce aún más el ancho del borde del canvas */
+  }
 }

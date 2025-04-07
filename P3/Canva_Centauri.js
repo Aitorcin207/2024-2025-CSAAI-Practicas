@@ -226,9 +226,12 @@ document.addEventListener("keydown", function(event) {
 });
 
 const controles = document.getElementById("btnControles");
-controles.addEventListener("click", function() {
-    alert("Controles:\n- Mover: Flechas Izquierda y Derecha\n- Disparar: Flecha Arriba\n- Habilidad Especial: Flecha Abajo");
-});
+if (window.innerWidth <= 768) { // Umbral para considerar dispositivos móviles
+    alert(`Controles para móvil:\n- Mover: Botones táctiles\n- Disparar: Botón táctil de disparo\n- Habilidad Especial: Botón táctil especial\nResolución: ${window.innerWidth}x${window.innerHeight}`);
+} else {
+    alert(`Controles:\n- Mover: Flechas Izquierda y Derecha\n- Disparar: Flecha Arriba\n- Habilidad Especial: Flecha Abajo\nResolución: ${window.innerWidth}x${window.innerHeight}`);
+
+};
 
 let proyectiles = [];
 
