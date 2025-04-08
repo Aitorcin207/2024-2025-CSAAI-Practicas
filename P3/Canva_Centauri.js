@@ -30,7 +30,11 @@ let iniciado = false;
 const imagenes = {
     mutaracha: "mutaracha.webp",
     mirelurk: "Mirelurk.webp",
-    sanginario: "sanginario.webp"
+    sanginario: "sanginario.webp",
+    irradiado: "irradiado.webp",
+    bonus: "bonus.png",
+    mutascorpio: "mutascorpio.png",
+    reina_mirelurk: "reina-mirelurk.webp",
 };
 const imagenesCargadas = {}; // Para precargar imágenes
 
@@ -51,10 +55,23 @@ function generarEnemigos() {
         for (let columna = 0; columna < columnas; columna++) {
             let x = em1x + columna * separacionX;
             let y = em1y + fila * separacionY;
-            let tipoEnemigo = fila === 0 ? "sanginario" : fila === 1 ? "mirelurk" :"mutaracha";
+            let tipoEnemigo;
+            if (fila === 0) {
+                tipoEnemigo = columna % 2 === 0 ? "sanginario" : "reina_mirelurk";
+            } else if (fila === 1) {
+                tipoEnemigo = columna % 2 === 0 ? "mirelurk" : "irradiado";
+            } else {
+                tipoEnemigo = columna % 2 === 0 ? "mutaracha" : "mutascorpio";
+            }
             enemigosLista.push({ x, y, ancho, alto, imagen: tipoEnemigo });
         }
     }
+}
+
+function bonus() {
+    let x = Math.random() * (canvas.width - 50);
+    let y = Math.random() * (canvas.height - 50);
+    enemigosLista.push({ x, y, ancho: 50, alto: 50, imagen: "bonus" });
 }
 
 // Dibujar enemigos
