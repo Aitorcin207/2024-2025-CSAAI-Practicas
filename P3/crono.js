@@ -67,6 +67,7 @@ class Crono {
 
     btnReiniciar.addEventListener("click", () => {
       crono.reset();
+      crono.start();
     });
   
     // Función para detener el cronómetro cuando finaliza la partida.

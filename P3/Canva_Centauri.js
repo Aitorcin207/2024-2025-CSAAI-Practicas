@@ -90,9 +90,13 @@ function iniciarBonus() {
         animarBonus(); // Start the bonus animation
         setTimeout(() => {
             bonusActivo = false; // Deactivate the bonus after 5 seconds
-        }, 2000);
+        if (enemigosLista.length === 0) {
+            bonusActivo = false; // Stop the bonus completely
+            cancelAnimationFrame(bonusAnimationFrame); // Cancel the animation frame
+            return;
+        }
+        }, 2000); // Bonus duration
     }
-
     setInterval(mostrarBonus, Math.random() * (30000 - 15000) + 15000); // Every 15-30 seconds
 }
 
