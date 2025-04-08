@@ -98,29 +98,51 @@ function iniciarBonus() {
 
 function bonus() {
     if (bonusActivo) {
-    {
-
         //-- Algoritmo de animación:
-        //-- 1) Actualizar posición del  elemento
+        //-- 1) Actualizar posición del elemento
         //-- (física del movimiento rectilíneo uniforme)
-    bonusx = bonusx + velocidad_bonus;
-    
-    // Reset bonus position if it moves out of the canvas
-    if (bonusx > canvas.width) {
-        bonusx = 0;
-    }
-    
-    //-- 2) Borrar la línea del bonus
-    ctx.clearRect(bonusx, bonusy, 60, 60);
-      
+        bonusx = bonusx + velocidad_bonus;
+
+        // Reset bonus position if it moves out of the canvas
+        if (bonusx > canvas.width) {
+            bonusx = 0;
+        }
+
+        //-- 2) Borrar la línea del bonus
+        ctx.clearRect(bonusx, bonusy, 60, 60);
+
         //-- 3) Dibujar los elementos visibles
-            const nukalurkImg = imagenesCargadas["nukalurk"];
-            if (nukalurkImg.complete) {
-                ctx.drawImage(nukalurkImg, bonusx, bonusy, 60, 60);
+        const nukalurkImg = imagenesCargadas["nukalurk"];
+        if (nukalurkImg.complete) {
+            ctx.drawImage(nukalurkImg, bonusx, bonusy, 60, 60);
+        }
+
+        //-- 4) Detectar colisión con proyectiles
+        for (let i = 0; i < proyectiles.length; i++) {
+            let proyectil = proyectiles[i];
+            if (
+                proyectil.x < bonusx + 60 &&
+                proyectil.x + proyectil.ancho > bonusx &&
+                proyectil.y < bonusy + 60 &&
+                proyectil.y + proyectil.alto > bonusy
+            ) {
+                // Eliminar el bonus y el proyectil
+                ctx.clearRect(bonusx, bonusy, 60, 60);
+                proyectiles.splice(i, 1);
+                bonusActivo = false;
+
+                // Otorgar puntos
+                puntuaje += 5000;
+                document.getElementById("puntuacion").innerHTML = puntuaje + " pts";
+
+                // Reproducir sonido de bonus
+                let sonido_bonus = new Audio("bonus-sound.mp3");
+                sonido_bonus.play();
+
+                break;
             }
-      
+        }
     }
-}
 }
 
 // Dibujar enemigos
