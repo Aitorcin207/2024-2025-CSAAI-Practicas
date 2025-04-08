@@ -16,11 +16,13 @@ protaImg.src = "servo.png"; // Imagen del protagonista
 // Variables de los enemigos
 let em1x = 130, em1y = 60;
 let puntuaje = 0;
+let bonusActivo = false; // Variable para controlar el estado del bonus
 let velocidad_movimiento = 9;
 let velocidad_disparo = 10;
 let velocidad_enemigos = 3;
 let puedeDisparar = true;
 let enemigosLista = [];
+let velocidad_bonus = 8;
 const filas = 3, columnas = 9;
 const ancho = 60, alto = 60;
 const separacionX = 70, separacionY = 40;
@@ -69,8 +71,56 @@ function generarEnemigos() {
     }
 }
 
+let bonusx = 0; // Posición inicial del bonus
+let bonusy = 0; // Posición inicial del bonus
+function iniciarBonus() {
+    let bonusAnimationFrame; // Variable to store the animation frame ID
+
+    function animarBonus() {
+        if (!bonusActivo) {
+            cancelAnimationFrame(bonusAnimationFrame); // Stop the animation if bonus is inactive
+            return;
+        }
+        bonus();
+        bonusAnimationFrame = requestAnimationFrame(animarBonus); // Continue animating the bonus
+    }
+
+    function mostrarBonus() {
+        bonusActivo = true; // Activate the bonus
+        animarBonus(); // Start the bonus animation
+        setTimeout(() => {
+            bonusActivo = false; // Deactivate the bonus after 5 seconds
+        }, 2000);
+    }
+
+    setInterval(mostrarBonus, Math.random() * (30000 - 15000) + 15000); // Every 15-30 seconds
+}
+
 function bonus() {
+    if (bonusActivo) {
+    {
+
+        //-- Algoritmo de animación:
+        //-- 1) Actualizar posición del  elemento
+        //-- (física del movimiento rectilíneo uniforme)
+    bonusx = bonusx + velocidad_bonus;
     
+    // Reset bonus position if it moves out of the canvas
+    if (bonusx > canvas.width) {
+        bonusx = 0;
+    }
+    
+    //-- 2) Borrar la línea del bonus
+    ctx.clearRect(bonusx, bonusy, 60, 60);
+      
+        //-- 3) Dibujar los elementos visibles
+            const nukalurkImg = imagenesCargadas["nukalurk"];
+            if (nukalurkImg.complete) {
+                ctx.drawImage(nukalurkImg, bonusx, bonusy, 60, 60);
+            }
+      
+    }
+}
 }
 
 // Dibujar enemigos
@@ -167,6 +217,7 @@ function iniciarJuego() {
         dibujarProtagonista();
         generarEnemigos();
         dibujarEnemigos();
+        iniciarBonus();
         iniciado = true;
         normal = true;
         if (!moviendoEnemigos) {
@@ -197,12 +248,14 @@ function reiniciarJuego() {
 
 function infinitoJuego() {
     if (iniciado == false) {
+        
         em1x = 130;
         em1y = 60;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         dibujarProtagonista();
         generarEnemigos();
         dibujarEnemigos();
+        iniciarBonus();
         iniciado = true;
         infinito = true;
         moviendoEnemigos = false; 
@@ -216,6 +269,7 @@ function infinitoJuego() {
 document.getElementById("btnIniciar").addEventListener("click", iniciarJuego);
 document.getElementById("btnInfinito").addEventListener("click", infinitoJuego);
 document.getElementById("btnReiniciar").addEventListener("click", reiniciarJuego);
+
 
 let moviendoIzquierda = false;
 let moviendoDerecha = false;
