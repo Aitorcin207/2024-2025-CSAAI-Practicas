@@ -194,6 +194,43 @@ document.getElementById("btnIniciar").addEventListener("click", iniciarJuego);
 document.getElementById("btnInfinito").addEventListener("click", infinitoJuego);
 document.getElementById("btnReiniciar").addEventListener("click", reiniciarJuego);
 
+let moviendoIzquierda = false;
+let moviendoDerecha = false;
+
+document.getElementById("btnIzquierda").addEventListener("mousedown", function() {
+    moviendoIzquierda = true;
+});
+document.getElementById("btnIzquierda").addEventListener("mouseup", function() {
+    moviendoIzquierda = false;
+});
+document.getElementById("btnDerecha").addEventListener("mousedown", function() {
+    moviendoDerecha = true;
+});
+document.getElementById("btnDerecha").addEventListener("mouseup", function() {
+    moviendoDerecha = false;
+});
+document.getElementById("btnShoot").addEventListener("click", function() {
+    if (puedeDisparar) {
+        dispararProyectil();
+    }
+});
+
+// Actualizar movimiento continuo con velocidad reducida
+function actualizarMovimiento() {
+    if (moviendoIzquierda && x > 0) {
+        x -= velocidad_movimiento * 0.5; // Reducir la velocidad a la mitad
+        dibujarProtagonista();
+    }
+    if (moviendoDerecha && x < canvas.width - anchoProta) {
+        x += velocidad_movimiento * 0.5; // Reducir la velocidad a la mitad
+        dibujarProtagonista();
+    }
+    requestAnimationFrame(actualizarMovimiento);
+}
+
+// Iniciar el bucle de movimiento continuo
+actualizarMovimiento();
+
 
 document.addEventListener("keydown", function(event) {
     if (event.key === "ArrowRight") {
@@ -205,6 +242,7 @@ document.addEventListener("keydown", function(event) {
     }
     dibujarProtagonista();
 });
+
 // Variables del disparo
 
 // Variables de la habilidad especial
