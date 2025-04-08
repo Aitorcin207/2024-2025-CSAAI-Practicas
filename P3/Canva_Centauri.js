@@ -35,6 +35,7 @@ const imagenes = {
     bonus: "bonus.png",
     mutascorpio: "mutascorpio.png",
     reina_mirelurk: "reina-mirelurk.webp",
+    nukalurk: "nukalurk.webp",
 };
 const imagenesCargadas = {}; // Para precargar imágenes
 
@@ -69,9 +70,7 @@ function generarEnemigos() {
 }
 
 function bonus() {
-    let x = Math.random() * (canvas.width - 50);
-    let y = Math.random() * (canvas.height - 50);
-    enemigosLista.push({ x, y, ancho: 50, alto: 50, imagen: "bonus" });
+    
 }
 
 // Dibujar enemigos
@@ -93,7 +92,8 @@ function moverse_enemigos() {
     if (enemigosVivos.length === 0) {
         if (infinito == true) {
             alert("¡Felicidades! Has eliminado a todos los enemigos. ¡Nivel Completo!");
-            velocidad_enemigos += 1; // Aumentar la velocidad de los enemigos
+            velocidad_enemigos += 1.3; // Aumentar la velocidad de los enemigos
+            velocidad_disparo -= 0.5;
             // filas += 1; // Aumentar el número de filas
             iniciado = false; // Reiniciar el juego
             infinitoJuego();
@@ -161,6 +161,8 @@ function dibujarProtagonista() {
 // Función para iniciar el juego
 function iniciarJuego() {
     if (iniciado == false) {
+        velocidad_disparo = 10;
+        velocidad_enemigos = 3;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         dibujarProtagonista();
         generarEnemigos();
@@ -176,17 +178,21 @@ function iniciarJuego() {
 
 // Función para reiniciar el juego
 function reiniciarJuego() {
-    puntuaje = 0;
-    document.getElementById("puntuacion").innerHTML = puntuaje + " pts";
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    x = (canvas.width - 60) / 2;
-    y = canvas.height - 80;
-    em1x = 130;
-    em1y = 60;
-    enemigosLista = [];
-    puedeDisparar = true;
-    iniciado = false;
-    iniciarJuego();
+    if (iniciado == true) {
+        velocidad_disparo = 10;
+        velocidad_enemigos = 3;
+        puntuaje = 0;
+        document.getElementById("puntuacion").innerHTML = puntuaje + " pts";
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        x = (canvas.width - 60) / 2;
+        y = canvas.height - 80;
+        em1x = 130;
+        em1y = 60;
+        enemigosLista = [];
+        puedeDisparar = true;
+        iniciado = false;
+        iniciarJuego();
+    }
 }
 
 function infinitoJuego() {
