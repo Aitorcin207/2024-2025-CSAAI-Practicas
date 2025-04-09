@@ -566,7 +566,7 @@ function actualizarCanvas() {
 const mensaje = document.createElement("div");
 mensaje.innerText = "El refugio está en peligro, vienen oleadas de monstruos mutados a por nosotros y debes defendernos, te daremos chapas a cambio.";
 mensaje.style.position = "absolute";
-mensaje.style.top = "20%";
+mensaje.style.top = "50%";
 mensaje.style.left = "50%";
 mensaje.style.transform = "translate(-50%, -50%)";
 mensaje.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
