@@ -97,6 +97,8 @@ canvas {
 
   canvas {
     border-width: 5px; /* Reduce el ancho del borde del canvas */
+    width: 100%; /* Asegura que el canvas no se sobresalga por los laterales */
+    box-sizing: border-box; /* Incluye el borde en el ancho total */
   }
 }
 
