@@ -172,12 +172,29 @@ function moverse_enemigos() {
         
         if (infinito == true) {
             audio_fondo.pause();
-            alert("¡Felicidades! Has eliminado a todos los enemigos. ¡Nivel Completo!");
+            const mensaje = document.createElement("div");
+            mensaje.innerText = "¡Felicidades! Has eliminado a todos los enemigos. ¡Nivel Completo!";
+            mensaje.style.position = "absolute";
+            mensaje.style.top = "50%";
+            mensaje.style.left = "50%";
+            mensaje.style.transform = "translate(-50%, -50%)";
+            mensaje.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+            mensaje.style.color = "white";
+            mensaje.style.padding = "20px";
+            mensaje.style.borderRadius = "10px";
+            mensaje.style.textAlign = "center";
+            mensaje.style.zIndex = "1000";
+            document.body.appendChild(mensaje);
+
+            setTimeout(() => {
+            document.body.removeChild(mensaje);
+            }, 3000); // Remove the message after 3 seconds
+
             velocidad_enemigos += 1.3; // Aumentar la velocidad de los enemigos
             velocidad_disparo -= 0.5;
             iniciado = false; // Reiniciar el juego
             infinitoJuego();
-            funcional = false; // Desactivar la funcionalidad del juego
+
             return;
         }  
         if (normal == true) {
