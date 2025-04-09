@@ -338,6 +338,16 @@ document.getElementById("btnIzquierda").addEventListener("mousedown", function()
 document.getElementById("btnIzquierda").addEventListener("mouseup", function() {
     moviendoIzquierda = false;
 });
+document.getElementById("btnIzquierda").addEventListener("touchstart", function(event) {
+    event.preventDefault(); // Evitar comportamiento predeterminado en móviles
+    if (iniciado == false) return;
+    moviendoIzquierda = true;
+});
+document.getElementById("btnIzquierda").addEventListener("touchend", function(event) {
+    event.preventDefault();
+    moviendoIzquierda = false;
+});
+
 document.getElementById("btnDerecha").addEventListener("mousedown", function() {
     if (iniciado == false) return;
     moviendoDerecha = true;
@@ -345,7 +355,23 @@ document.getElementById("btnDerecha").addEventListener("mousedown", function() {
 document.getElementById("btnDerecha").addEventListener("mouseup", function() {
     moviendoDerecha = false;
 });
+document.getElementById("btnDerecha").addEventListener("touchstart", function(event) {
+    event.preventDefault();
+    if (iniciado == false) return;
+    moviendoDerecha = true;
+});
+document.getElementById("btnDerecha").addEventListener("touchend", function(event) {
+    event.preventDefault();
+    moviendoDerecha = false;
+});
+
 document.getElementById("btnShoot").addEventListener("click", function() {
+    if (puedeDisparar) {
+        dispararProyectil();
+    }
+});
+document.getElementById("btnShoot").addEventListener("touchstart", function(event) {
+    event.preventDefault();
     if (puedeDisparar) {
         dispararProyectil();
     }
