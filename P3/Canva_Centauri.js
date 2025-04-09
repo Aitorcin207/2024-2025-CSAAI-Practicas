@@ -25,6 +25,7 @@ let velocidad_enemigos = 3;
 let puedeDisparar = true;
 let enemigosLista = [];
 let velocidad_bonus = 8;
+let funcional = false;
 const filas = 3, columnas = 9;
 const ancho = 60, alto = 60;
 const separacionX = 70, separacionY = 40;
@@ -176,6 +177,7 @@ function moverse_enemigos() {
             velocidad_disparo -= 0.5;
             iniciado = false; // Reiniciar el juego
             infinitoJuego();
+            funcional = false; // Desactivar la funcionalidad del juego
             return;
         }  
         if (normal == true) {
@@ -183,27 +185,30 @@ function moverse_enemigos() {
             audio_fondo.currentTime = 0; // Reiniciar el audio al inicio
             alert("¡Felicidades! Has eliminado a todos los enemigos.");
 
+
             moviendoEnemigos = false; // Detener el movimiento de enemigos
-            normales = false;
-            iniciado = false;
+            normal = false;
+            funcional = false; // Desactivar la funcionalidad del juego
             audio_nojuego.play(); // Reiniciar el audio de fondo del menú
             audio_nojuego.loop = true; // Repetir el audio de fondo
-        return;
+            finalizarPartida();
+            clearInterval(cronometroIntervalo);
+            return;
         } 
 
     }
 
     // Calcular la posición más baja de los enemigos vivos
     let alturaMasBaja = Math.max(...enemigosVivos.map(enemigo => enemigo.y + enemigo.alto));
-    
     if (alturaMasBaja >= canvas.height - 70) { // Ajusta el umbral según tus necesidades
         alert("Los monstruos han conseguido entrar en el refugio y han hecho una matanza :(.");
-
+        finalizarPartida();
         cancelAnimationFrame(bonusAnimationFrame); // Cancelar la animación del bonus
         clearInterval(bonusInterval);
         moviendoEnemigos = false; // Detener el movimiento de enemigos
-        normales = false;
+        normal = false;
         infinito = false;
+        funcional = false;
         audio_fondo.pause();
         audio_gameover.play();
         audio_gameover.onended = () => {
@@ -211,6 +216,10 @@ function moverse_enemigos() {
         };
         audio_nojuego.loop = true; // Repetir el audio de fondo
         audio_fondo.currentTime = 0; // Reiniciar el audio al inicio
+
+        // Detener el cronómetro
+        clearInterval(cronometroIntervalo);
+
         return;
     }
 
@@ -261,6 +270,7 @@ function iniciarJuego() {
         audio_fondo.play();
         audio_fondo.loop = true;
         
+        funcional = true;
         velocidad_disparo = 10;
         velocidad_enemigos = 3;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -285,6 +295,7 @@ function reiniciarJuego() {
         velocidad_disparo = 10;
         velocidad_enemigos = 3;
         puntuaje = 0;
+        funcional = true;
         document.getElementById("puntuacion").innerHTML = puntuaje + " pts";
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         x = (canvas.width - 60) / 2;
@@ -305,6 +316,7 @@ function infinitoJuego() {
         audio_fondo.play();
         audio_fondo.loop = true;
         
+        funcional = true;
         em1x = 130;
         em1y = 60;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -332,7 +344,7 @@ let moviendoIzquierda = false;
 let moviendoDerecha = false;
 
 document.getElementById("btnIzquierda").addEventListener("mousedown", function() {
-    if (iniciado == false) return;
+    if (funcional == false) return;
     moviendoIzquierda = true;
 });
 document.getElementById("btnIzquierda").addEventListener("mouseup", function() {
@@ -340,7 +352,7 @@ document.getElementById("btnIzquierda").addEventListener("mouseup", function() {
 });
 document.getElementById("btnIzquierda").addEventListener("touchstart", function(event) {
     event.preventDefault(); // Evitar comportamiento predeterminado en móviles
-    if (iniciado == false) return;
+    if (funcional == false) return;
     moviendoIzquierda = true;
 });
 document.getElementById("btnIzquierda").addEventListener("touchend", function(event) {
@@ -349,7 +361,7 @@ document.getElementById("btnIzquierda").addEventListener("touchend", function(ev
 });
 
 document.getElementById("btnDerecha").addEventListener("mousedown", function() {
-    if (iniciado == false) return;
+    if (funcional == false) return;
     moviendoDerecha = true;
 });
 document.getElementById("btnDerecha").addEventListener("mouseup", function() {
@@ -357,7 +369,7 @@ document.getElementById("btnDerecha").addEventListener("mouseup", function() {
 });
 document.getElementById("btnDerecha").addEventListener("touchstart", function(event) {
     event.preventDefault();
-    if (iniciado == false) return;
+    if (funcional == false) return;
     moviendoDerecha = true;
 });
 document.getElementById("btnDerecha").addEventListener("touchend", function(event) {
@@ -395,9 +407,9 @@ actualizarMovimiento();
 
 
 document.addEventListener("keydown", function(event) {
-    if (event.key === "ArrowRight" && iniciado) {
+    if (event.key === "ArrowRight" && funcional) {
         if (x < canvas.width - anchoProta) x += velocidad_movimiento;
-    } else if (event.key === "ArrowLeft" && iniciado) {
+    } else if (event.key === "ArrowLeft" && funcional) {
         if (x > 0) x -= velocidad_movimiento;
     } else if (event.key === "ArrowUp" && puedeDisparar) {
         dispararProyectil();
@@ -476,7 +488,7 @@ controles.addEventListener("click", () => {
 let proyectiles = [];
 
 function dispararProyectil() {
-    if (iniciado == false) return;
+    if (funcional == false) return;
     if (!puedeDisparar) return;
     
     puedeDisparar = false;
