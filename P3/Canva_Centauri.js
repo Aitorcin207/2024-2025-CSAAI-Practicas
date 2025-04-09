@@ -525,14 +525,25 @@ function actualizarCanvas() {
     requestAnimationFrame(actualizarCanvas);
 }
 
-// Evento de disparo con la tecla "Arriba"
-document.addEventListener("keydown", function(event) {
-    if (event.key === "ArrowUp") {
-        dispararProyectil();
-    }
-});
+const mensaje = document.createElement("div");
+mensaje.innerText = "El refugio está en peligro, vienen oleadas de monstruos mutados a por nosotros y debes defendernos, te daremos chapas a cambio.";
+mensaje.style.position = "absolute";
+mensaje.style.top = "20%";
+mensaje.style.left = "50%";
+mensaje.style.transform = "translate(-50%, -50%)";
+mensaje.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+mensaje.style.color = "white";
+mensaje.style.padding = "20px";
+mensaje.style.borderRadius = "10px";
+mensaje.style.textAlign = "center";
+mensaje.style.zIndex = "1000";
+document.body.appendChild(mensaje);
+
+setTimeout(() => {
+    document.body.removeChild(mensaje);
+}, 3000); // Remove the message after 3 seconds
+
 
 audio_nojuego.play();
 audio_nojuego.loop = true; // Repetir el audio de fondo
-alert("El refugio esta en peligro, vienen oleadas de monstruos mutados a por nosotros y debes defendernos, te daremos chapas a cambio.")
 actualizarCanvas();
