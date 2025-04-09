@@ -9,8 +9,6 @@ body {
   margin: 0; /* Elimina el margen por defecto del body */
 }
 
-
-
 span {
   color: rgb(193, 79, 79); /* Color del texto */
   font-family: 'Brush Script MT', cursive; /* Fuente del texto */

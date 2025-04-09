@@ -1,9 +1,11 @@
 
+var audio_fondo = new Audio("Emi Meyer - For Whom the Bell Tolls (From Blue Eye Samurai).mp3");
+var audio_gameover = new Audio("game-over.mp3");
+var audio_nojuego = new Audio("I Dont Want To Set The World On Fire-The Ink Spots.mp3");
 const canvas = document.getElementById("canvas");
 canvas.height = 650;
 canvas.width = 900;
 const ctx = canvas.getContext("2d");
-
 // Variables del protagonista
 let x = (canvas.width - 60) / 2; // Centrado horizontalmente
 let y = canvas.height - 80; // Posición inicial
@@ -73,9 +75,8 @@ function generarEnemigos() {
 
 let bonusx = 0; // Posición inicial del bonus
 let bonusy = 0; // Posición inicial del bonus
+let bonusAnimationFrame; 
 function iniciarBonus() {
-    let bonusAnimationFrame; // Variable to store the animation frame ID
-
     function animarBonus() {
         if (!bonusActivo) {
             cancelAnimationFrame(bonusAnimationFrame); // Stop the animation if bonus is inactive
@@ -86,18 +87,15 @@ function iniciarBonus() {
     }
 
     function mostrarBonus() {
-        bonusActivo = true; // Activate the bonus
-        animarBonus(); // Start the bonus animation
-        setTimeout(() => {
-            bonusActivo = false; // Deactivate the bonus after 5 seconds
-        if (enemigosLista.length === 0) {
-            bonusActivo = false; // Stop the bonus completely
-            cancelAnimationFrame(bonusAnimationFrame); // Cancel the animation frame
-            return;
+        if (iniciado && enemigosLista.length > 0) { // Solo activar el bonus si hay enemigos vivos
+            bonusActivo = true; // Activar el bonus
+            animarBonus(); // Iniciar la animación del bonus
+            setTimeout(() => {
+                bonusActivo = false; // Desactivar el bonus después de 2 segundos
+            }, 2000);
         }
-        }, 2000); // Bonus duration
     }
-    setInterval(mostrarBonus, Math.random() * (30000 - 15000) + 15000); // Every 15-30 seconds
+    bonusInterval = setInterval(mostrarBonus, Math.random() * (30000 - 15000) + 15000); // Every 15-30 seconds
 }
 
 function bonus() {
@@ -166,20 +164,30 @@ function moverse_enemigos() {
     
     // Si ya se han eliminado todos, ganaste
     if (enemigosVivos.length === 0) {
+        bonusActivo = false; // Desactivar el bonus si no hay enemigos vivos
+        cancelAnimationFrame(bonusAnimationFrame); // Cancelar la animación del bonus
+        clearInterval(bonusInterval); // Limpiar el intervalo del bonus
+        ctx.clearRect(bonusx, bonusy, 60, 60); // Limpiar el área del bonus
+        
         if (infinito == true) {
+            audio_fondo.pause();
             alert("¡Felicidades! Has eliminado a todos los enemigos. ¡Nivel Completo!");
             velocidad_enemigos += 1.3; // Aumentar la velocidad de los enemigos
             velocidad_disparo -= 0.5;
-            // filas += 1; // Aumentar el número de filas
             iniciado = false; // Reiniciar el juego
             infinitoJuego();
             return;
         }  
         if (normal == true) {
+            audio_fondo.pause();
+            audio_fondo.currentTime = 0; // Reiniciar el audio al inicio
             alert("¡Felicidades! Has eliminado a todos los enemigos.");
-            finalizarPartida();
+
             moviendoEnemigos = false; // Detener el movimiento de enemigos
             normales = false;
+            iniciado = false;
+            audio_nojuego.play(); // Reiniciar el audio de fondo del menú
+            audio_nojuego.loop = true; // Repetir el audio de fondo
         return;
         } 
 
@@ -189,11 +197,20 @@ function moverse_enemigos() {
     let alturaMasBaja = Math.max(...enemigosVivos.map(enemigo => enemigo.y + enemigo.alto));
     
     if (alturaMasBaja >= canvas.height - 70) { // Ajusta el umbral según tus necesidades
-        alert("Game Over! Los enemigos han llegado al fondo.");
-        finalizarPartida();
+        alert("Los monstruos han conseguido entrar en el refugio y han hecho una matanza :(.");
+
+        cancelAnimationFrame(bonusAnimationFrame); // Cancelar la animación del bonus
+        clearInterval(bonusInterval);
         moviendoEnemigos = false; // Detener el movimiento de enemigos
         normales = false;
         infinito = false;
+        audio_fondo.pause();
+        audio_gameover.play();
+        audio_gameover.onended = () => {
+            audio_nojuego.play(); // Reiniciar el audio de fondo del menú
+        };
+        audio_nojuego.loop = true; // Repetir el audio de fondo
+        audio_fondo.currentTime = 0; // Reiniciar el audio al inicio
         return;
     }
 
@@ -230,13 +247,20 @@ function moverse_enemigos() {
 
 // Dibujar al protagonista
 function dibujarProtagonista() {
-    ctx.clearRect(x, y, anchoProta, altoProta);
-    ctx.drawImage(protaImg, x, y, anchoProta, altoProta);
+    if (iniciado == true) {
+        ctx.clearRect(x, y, anchoProta, altoProta);
+        ctx.drawImage(protaImg, x, y, anchoProta, altoProta);
+    }
 }
 
 // Función para iniciar el juego
 function iniciarJuego() {
     if (iniciado == false) {
+        audio_nojuego.pause(); // Detener el audio de fondo del menú
+        audio_nojuego.currentTime = 0; // Reiniciar el audio al inicio
+        audio_fondo.play();
+        audio_fondo.loop = true;
+        
         velocidad_disparo = 10;
         velocidad_enemigos = 3;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -256,6 +280,8 @@ function iniciarJuego() {
 // Función para reiniciar el juego
 function reiniciarJuego() {
     if (iniciado == true) {
+        audio_nojuego.pause(); // Detener el audio de fondo del menú
+        audio_nojuego.currentTime = 0; // Reiniciar el audio al inicio
         velocidad_disparo = 10;
         velocidad_enemigos = 3;
         puntuaje = 0;
@@ -274,6 +300,10 @@ function reiniciarJuego() {
 
 function infinitoJuego() {
     if (iniciado == false) {
+        audio_nojuego.pause(); // Detener el audio de fondo del menú
+        audio_nojuego.currentTime = 0; // Reiniciar el audio al inicio
+        audio_fondo.play();
+        audio_fondo.loop = true;
         
         em1x = 130;
         em1y = 60;
@@ -297,16 +327,19 @@ document.getElementById("btnInfinito").addEventListener("click", infinitoJuego);
 document.getElementById("btnReiniciar").addEventListener("click", reiniciarJuego);
 
 
+
 let moviendoIzquierda = false;
 let moviendoDerecha = false;
 
 document.getElementById("btnIzquierda").addEventListener("mousedown", function() {
+    if (iniciado == false) return;
     moviendoIzquierda = true;
 });
 document.getElementById("btnIzquierda").addEventListener("mouseup", function() {
     moviendoIzquierda = false;
 });
 document.getElementById("btnDerecha").addEventListener("mousedown", function() {
+    if (iniciado == false) return;
     moviendoDerecha = true;
 });
 document.getElementById("btnDerecha").addEventListener("mouseup", function() {
@@ -336,9 +369,9 @@ actualizarMovimiento();
 
 
 document.addEventListener("keydown", function(event) {
-    if (event.key === "ArrowRight") {
+    if (event.key === "ArrowRight" && iniciado) {
         if (x < canvas.width - anchoProta) x += velocidad_movimiento;
-    } else if (event.key === "ArrowLeft") {
+    } else if (event.key === "ArrowLeft" && iniciado) {
         if (x > 0) x -= velocidad_movimiento;
     } else if (event.key === "ArrowUp" && puedeDisparar) {
         dispararProyectil();
@@ -417,6 +450,7 @@ controles.addEventListener("click", () => {
 let proyectiles = [];
 
 function dispararProyectil() {
+    if (iniciado == false) return;
     if (!puedeDisparar) return;
     
     puedeDisparar = false;
@@ -480,11 +514,14 @@ function moverProyectiles() {
 
 // Actualizar el canvas continuamente
 function actualizarCanvas() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    dibujarProtagonista();
-    dibujarEnemigos();
-    dibujarProyectiles();
-    moverProyectiles();
+    if (iniciado == true) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        dibujarProtagonista();
+        dibujarEnemigos();
+        dibujarProyectiles();
+        moverProyectiles();
+
+    }
     requestAnimationFrame(actualizarCanvas);
 }
 
@@ -495,5 +532,7 @@ document.addEventListener("keydown", function(event) {
     }
 });
 
-// Iniciar el bucle de actualización
+audio_nojuego.play();
+audio_nojuego.loop = true; // Repetir el audio de fondo
+alert("El refugio esta en peligro, vienen oleadas de monstruos mutados a por nosotros y debes defendernos, te daremos chapas a cambio.")
 actualizarCanvas();
