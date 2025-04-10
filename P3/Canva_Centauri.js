@@ -482,6 +482,16 @@ function activarRafaga() {
     sonido_rafaga.play();
 }
 
+const player = {
+    x: canvas.width / 2 - 25,
+    y: canvas.height - 60,
+    width: 50,
+    height: 50,
+    speed: 5,    // Velocidad base
+    dx: 0,       // Velocidad actual horizontal (inicialmente 0)
+    health: 10
+};
+
 function verificarRecargaHabilidad() {
     if (habilidadUsada && rondasTranscurridas >= 2) {
         habilidadUsada = false; // Recargar la habilidad después de 2 rondas

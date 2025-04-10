@@ -1,21 +1,16 @@
-//-- Cargar la imagen de la explosión
+// ------------------------------------
+// CARGA DE IMÁGENES Y VARIABLES INICIALES
+// ------------------------------------
+
+// Cargar imagen de la explosión
 const explosionImg = new Image();
 explosionImg.src = "assets/explosion.png";
 
-
-hitIndex = 0;
-let gameOver = false;
-
-const canvas = document.getElementById("canvas");
-canvas.height = 650;
-canvas.width = 900;
-
-const ctx = canvas.getContext("2d");
-
-//-- Cargar la imagen del boss
+// Cargar imagen del boss (jefe)
 const bossImg = new Image();
 bossImg.src = "prydwen.png";
 
+// Sonidos para disparos y golpes
 const shootSounds = [
     new Audio("sound/shoot.mp3"),
     new Audio("sound/shoot.mp3"),
@@ -27,42 +22,69 @@ const hitSounds = [
     new Audio("sound/hit.mp3"),
     new Audio("sound/hit.mp3")
 ];
+let hitIndex = 0;
 const victorySound = new Audio("sound/victory.mp3");
 
+let gameOver = false;
+let victory = false;
+
+// Variables adicionales para el jugador (control, disparo y habilidad especial)
+let funcional = true;      // Si el juego está activo para el jugador
+let puedeDisparar = true;  // Para limitar la cadencia de disparos
+let habilidadUsada = false;
+let rondasTranscurridas = 0;  // Para recargar la habilidad especial
+
+// Variables para controles táctiles
+let moviendoIzquierda = false;
+let moviendoDerecha = false;
+
+// Obtención y configuración del canvas
+const canvas = document.getElementById("canvas");
+canvas.height = 650;
+canvas.width = 900;
+const ctx = canvas.getContext("2d");
+
+// ------------------------------------
+// OBJETOS Y VARIABLES PRINCIPALES
+// ------------------------------------
+
+// Objeto jugador
 const player = {
     x: canvas.width / 2 - 25,
     y: canvas.height - 60,
     width: 50,
     height: 50,
-    speed: 5,
+    speed: 10,
     dx: 0,
-    health: 10 // El jugador puede recibir 10 impactos antes de ser derrotado
+    health: 10 // El jugador puede recibir 10 impactos
 };
 
-//-- lista de disparos
+// Listas para disparos y explosiones
 const bullets = [];
-//-- lista de explosiones
 const explosions = [];
 const bossBullets = [];
 
-//-- Definición de Boss
+// Definición del jefe
 const boss = {
     x: canvas.width / 2 - 75,
     y: 100,
     width: 280,
     height: 180,
-    health: 500,
+    health: 30,
     alive: true,
-    damageTimer: 0, // Temporizador de daño recibido
-    dx: 2, // velocidad horizontal
-    dy: 0.5 // velociadad horizontal
+    damageTimer: 0,
+    dx: 2,
+    dy: 0.5
 };
 
-let victory = false;
+// ------------------------------------
+// DIBUJADOS
+// ------------------------------------
 
 function drawPlayer() {
-    ctx.fillStyle = "white";
-    ctx.fillRect(player.x, player.y, player.width, player.height);
+    const playerImg = new Image();
+    playerImg.src = "servo.png"; // Imagen del protagonista
+    ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
 }
 
 function drawPlayerHealthBar() {
@@ -70,20 +92,111 @@ function drawPlayerHealthBar() {
     const barHeight = 10;
     const x = 20;
     const y = canvas.height - barHeight - 20;
-
-    const healthRatio = player.health / 10; // Suponiendo 10 impactos totales
-
+    const healthRatio = player.health / 10;
     ctx.fillStyle = "gray";
     ctx.fillRect(x, y, barWidth, barHeight);
-
     ctx.fillStyle = "green";
     ctx.fillRect(x, y, barWidth * healthRatio, barHeight);
-
     ctx.strokeStyle = "white";
     ctx.strokeRect(x, y, barWidth, barHeight);
 }
 
+function drawBoss() {
+    if (!boss.alive) return;
+    ctx.drawImage(bossImg, boss.x, boss.y, boss.width, boss.height);
+    if (boss.damageTimer > 0) {
+        if (boss.damageTimer % 2 === 0) {
+            ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+            ctx.fillRect(boss.x, boss.y, boss.width, boss.height);
+        }
+        boss.damageTimer--;
+    }
+}
 
+function drawBossHealthBar() {
+    if (!boss.alive) return;
+    const barWidth = 200;
+    const barHeight = 20;
+    const x = canvas.width - barWidth - 20;
+    const y = 20;
+    const healthRatio = boss.health / 30;
+    ctx.fillStyle = "gray";
+    ctx.fillRect(x, y, barWidth, barHeight);
+    ctx.fillStyle = "red";
+    ctx.fillRect(x, y, barWidth * healthRatio, barHeight);
+    ctx.strokeStyle = "white";
+    ctx.strokeRect(x, y, barWidth, barHeight);
+}
+
+function drawBullets() {
+    ctx.fillStyle = "red";
+    bullets.forEach(bullet => {
+        ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+    });
+}
+
+function drawBossBullets() {
+    ctx.fillStyle = "purple";
+    bossBullets.forEach(bullet => {
+        ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+    });
+}
+
+function drawExplosions() {
+    explosions.forEach((explosion, index) => {
+        ctx.drawImage(explosionImg, explosion.x, explosion.y, explosion.width, explosion.height);
+        explosion.timer--;
+        if (explosion.timer <= 0) {
+            explosions.splice(index, 1);
+        }
+    });
+}
+
+function drawGameOver() {
+    ctx.fillStyle = "red";
+    ctx.font = "40px Arial";
+    ctx.fillText("¡Game Over!", canvas.width / 2 - 100, canvas.height / 2);
+}
+
+function drawVictory() {
+    ctx.fillStyle = "green";
+    ctx.font = "40px Arial";
+    ctx.fillText("¡Victoria!", canvas.width / 2 - 80, canvas.height / 2);
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawPlayer();
+    drawBoss();
+    drawBossHealthBar();
+    drawExplosions();
+    drawBullets();
+    drawBossBullets();
+    drawPlayerHealthBar();
+    if (victory) {
+        drawVictory();
+    } else if (gameOver) {
+        drawGameOver();
+    }
+}
+
+// ------------------------------------
+// MOVIMIENTO Y ACTUALIZACIÓN
+// ------------------------------------
+
+// Función para mover los proyectiles del jugador
+function moveBullets() {
+    // Recorremos el array al revés para evitar problemas al eliminar elementos
+    for (let i = bullets.length - 1; i >= 0; i--) {
+        let bullet = bullets[i];
+        bullet.y -= bullet.speed;
+        if (bullet.y < 0) {
+            bullets.splice(i, 1);
+        }
+    }
+}
+
+// Disparo del jefe: dispara cada 1 segundo
 function bossShoot() {
     if (gameOver || !boss.alive) return;
     const bulletSpeed = 3;
@@ -103,13 +216,6 @@ function moveBossBullets() {
     });
 }
 
-function drawBossBullets() {
-    ctx.fillStyle = "purple";
-    bossBullets.forEach(bullet => {
-        ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
-    });
-}
-
 function checkBossBulletCollisions() {
     bossBullets.forEach((bullet, index) => {
         if (
@@ -119,7 +225,7 @@ function checkBossBulletCollisions() {
             bullet.y + bullet.height > player.y
         ) {
             bossBullets.splice(index, 1);
-            player.health--; // Reducir la salud del jugador
+            player.health--;
             if (player.health <= 0) {
                 gameOver = true;
             }
@@ -127,62 +233,20 @@ function checkBossBulletCollisions() {
     });
 }
 
-function drawGameOver() {
-    ctx.fillStyle = "red";
-    ctx.font = "40px Arial";
-    ctx.fillText("¡Game Over!", canvas.width / 2 - 100, canvas.height / 2);
-}
-
-//-- funcion para dibujar el Boss
-function drawBoss() {
-    if (!boss.alive) return;
-
-    ctx.drawImage(bossImg, boss.x, boss.y, boss.width, boss.height);
-
-    if (boss.damageTimer > 0) {
-        if (boss.damageTimer % 2 === 0) {
-            ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-            ctx.fillRect(boss.x, boss.y, boss.width, boss.height);
-        }
-        boss.damageTimer--;
+function moveBoss() {
+    if (!boss.alive || gameOver) return;
+    boss.x += boss.dx;
+    boss.y += boss.dy;
+    if (boss.x <= 0 || boss.x + boss.width >= canvas.width) {
+        boss.dx *= -1;
     }
+    if (boss.y <= 50 || boss.y + boss.height >= canvas.height / 2) {
+        boss.dy *= -1;
+    }
+    if (Math.random() < 0.01) boss.dx *= -1;
+    if (Math.random() < 0.01) boss.dy *= -1;
 }
 
-//-- funcion para dibujar la barra de vida del boss
-function drawBossHealthBar() {
-    if (!boss.alive) return;
-    const barWidth = 200;
-    const barHeight = 20;
-    const x = canvas.width - barWidth - 20;
-    const y = 20;
-
-    const healthRatio = boss.health / 500; // suponiendo 10 impactos totales
-
-    ctx.fillStyle = "gray";
-    ctx.fillRect(x, y, barWidth, barHeight);
-
-    ctx.fillStyle = "red";
-    ctx.fillRect(x, y, barWidth * healthRatio, barHeight);
-
-    ctx.strokeStyle = "white";
-    ctx.strokeRect(x, y, barWidth, barHeight);
-}
-
-function drawBullets() {
-    ctx.fillStyle = "red";
-    bullets.forEach(bullet => {
-        ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
-    });
-}
-
-function moveBullets() {
-    bullets.forEach((bullet, index) => {
-        bullet.y -= bullet.speed;
-        if (bullet.y < 0) bullets.splice(index, 1);
-    });
-}
-
-//-- funcion para gestionar colisiones entre balas y el boss
 function checkCollisions() {
     bullets.forEach((bullet, bIndex) => {
         if (boss.alive &&
@@ -191,41 +255,35 @@ function checkCollisions() {
             bullet.y < boss.y + boss.height &&
             bullet.y + bullet.height > boss.y) {
             bullets.splice(bIndex, 1);
-            boss.health--; // restamos vida al boss
-            
-            explosions.push({ //añadimos la explosión a la lista de explosiones
-                x: bullet.x - 20, // centramos un poco la explosión
+            boss.health--;
+            explosions.push({
+                x: bullet.x - 20,
                 y: bullet.y - 20,
                 width: 40,
                 height: 40,
                 timer: 10
             });
-
-            boss.damageTimer = 10;// poner en marcha el temporizador de daño
+            boss.damageTimer = 10;
             hitSounds[hitIndex].currentTime = 0;
             hitSounds[hitIndex].play();
             hitIndex = (hitIndex + 1) % hitSounds.length;
             if (boss.health <= 0) {
                 boss.alive = false;
                 victory = true;
-                crearTracaFinal(); // crear la traca final
+                crearTracaFinal();
                 victorySound.play();
             }
         }
     });
 }
 
-//-- funcion para crear la traca final Boss
 function crearTracaFinal() {
     const numExplosiones = 12;
-
     for (let i = 0; i < numExplosiones; i++) {
-        const delay = i * 100; // separamos en el tiempo
-
+        const delay = i * 100;
         setTimeout(() => {
             const offsetX = Math.random() * boss.width;
             const offsetY = Math.random() * boss.height;
-
             explosions.push({
                 x: boss.x + offsetX - 20,
                 y: boss.y + offsetY - 20,
@@ -237,114 +295,184 @@ function crearTracaFinal() {
     }
 }
 
-//-- funcion para disparar balas
-function shoot() {
+// ------------------------------------
+// DISPAROS Y HABILIDAD ESPECIAL (JUGADOR)
+// ------------------------------------
+
+function dispararProyectil() {
+    if (!funcional || !puedeDisparar) return;
+    puedeDisparar = false;
+    // Se usa la posición del jugador para el disparo
     bullets.push({ x: player.x + player.width / 2 - 2.5, y: player.y, width: 5, height: 10, speed: 5 });
     shootSounds[shootIndex].currentTime = 0;
     shootSounds[shootIndex].play();
     shootIndex = (shootIndex + 1) % shootSounds.length;
+    setTimeout(() => {
+        puedeDisparar = true;
+    }, 1200);
 }
 
-//-- funcion para dibujar explosiones
-function drawExplosions() {
-    explosions.forEach((explosion, index) => {
-        ctx.drawImage(explosionImg, explosion.x, explosion.y, explosion.width, explosion.height);
-        explosion.timer--;
-        if (explosion.timer <= 0) {
-            explosions.splice(index, 1);
+function dispararProyectilEspacial() {
+    if (!funcional || !puedeDisparar) return;
+    puedeDisparar = false;
+    let disparosRealizados = 0;
+    let intervaloDisparos = setInterval(() => {
+        if (disparosRealizados >= 10) {
+            clearInterval(intervaloDisparos);
+            puedeDisparar = true;
+            return;
         }
-    });
+        bullets.push({ x: player.x + player.width / 2 - 2.5, y: player.y, width: 5, height: 10, speed: 5 });
+        shootSounds[shootIndex].currentTime = 0;
+        shootSounds[shootIndex].play();
+        shootIndex = (shootIndex + 1) % shootSounds.length;
+        disparosRealizados++;
+    }, 100);
+    let sonido_rafaga = new Audio("VATS.mp3");
+    sonido_rafaga.play();
 }
 
-function drawVictory() {
-    ctx.fillStyle = "green";
-    ctx.font = "40px Arial";
-    ctx.fillText("¡Victoria!", canvas.width / 2 - 80, canvas.height / 2);
+function activarRafaga() {
+    if (habilidadUsada || !funcional) return;
+    habilidadUsada = true;
+    dispararProyectilEspacial();
 }
 
-function update() {
-    if (!victory && !gameOver) {
-        player.x += player.dx;
-        if (player.x < 0) player.x = 0;
-        if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
-        moveBullets();
-        moveBoss();
-        moveBossBullets();
-        checkCollisions();
-        checkBossBulletCollisions();
-    }
-    draw();
-    requestAnimationFrame(update);
-}
-
-
-function moveBoss() {
-    if (!boss.alive || gameOver) return;
-
-    boss.x += boss.dx;
-    boss.y += boss.dy;
-
-    // Rebote en bordes
-    if (boss.x <= 0 || boss.x + boss.width >= canvas.width) {
-        boss.dx *= -1;
-    }
-    if (boss.y <= 50 || boss.y + boss.height >= canvas.height / 2) {
-        boss.dy *= -1;
-    }
-
-    // Cambio aleatorio de dirección
-    if (Math.random() < 0.01) boss.dx *= -1;
-    if (Math.random() < 0.01) boss.dy *= -1;
-}
-
-
-function update() {
-    if (!victory) {
-        player.x += player.dx;
-        if (player.x < 0) player.x = 0;
-        if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
-        moveBullets();
-        moveBossBullets();
-        checkCollisions();
-        checkBossBulletCollisions();
-        moveBoss();
-    }
-    draw();
-    drawBossBullets();
-    requestAnimationFrame(update);
-
-}
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawPlayer();
-    drawBoss();
-    drawBossHealthBar();
-    drawExplosions();
-    drawBullets();
-    drawBossBullets();
-    drawPlayerHealthBar(); // Dibujar la barra de salud del jugador
-    if (victory) {
-        drawVictory();
-    } else if (gameOver) {
-        drawGameOver();
+function verificarRecargaHabilidad() {
+    if (habilidadUsada && rondasTranscurridas >= 2) {
+        habilidadUsada = false;
+        rondasTranscurridas = 0;
+        const mensajeRecarga = document.createElement("div");
+        mensajeRecarga.innerText = "¡Habilidad especial recargada!";
+        mensajeRecarga.style.position = "absolute";
+        mensajeRecarga.style.top = "70%";
+        mensajeRecarga.style.left = "50%";
+        mensajeRecarga.style.transform = "translate(-50%, -50%)";
+        mensajeRecarga.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+        mensajeRecarga.style.color = "white";
+        mensajeRecarga.style.padding = "20px";
+        mensajeRecarga.style.borderRadius = "10px";
+        mensajeRecarga.style.textAlign = "center";
+        mensajeRecarga.style.zIndex = "1000";
+        document.body.appendChild(mensajeRecarga);
+        setTimeout(() => {
+            document.body.removeChild(mensajeRecarga);
+        }, 1000);
     }
 }
-setInterval(bossShoot, 1000); // El jefe disparará cada 2 segundos
-document.addEventListener("keydown", (e) => {
-    if (!gameOver) {
-        if (e.key === "ArrowLeft") player.dx = -player.speed;
-        if (e.key === "ArrowRight") player.dx = player.speed;
-        if (e.key === " ") shoot();
+
+function incrementarRonda() {
+    if (habilidadUsada) {
+        rondasTranscurridas++;
+        verificarRecargaHabilidad();
+    }
+}
+
+// ------------------------------------
+// EVENTOS DE CONTROLES (TECLADO Y BOTONES)
+// ------------------------------------
+
+// Controles táctiles para movimiento
+document.getElementById("btnIzquierda")?.addEventListener("mousedown", function() {
+    if (!funcional) return;
+    moviendoIzquierda = true;
+});
+document.getElementById("btnIzquierda")?.addEventListener("mouseup", function() {
+    moviendoIzquierda = false;
+});
+document.getElementById("btnIzquierda")?.addEventListener("touchstart", function(event) {
+    event.preventDefault();
+    if (!funcional) return;
+    moviendoIzquierda = true;
+});
+document.getElementById("btnIzquierda")?.addEventListener("touchend", function(event) {
+    event.preventDefault();
+    moviendoIzquierda = false;
+});
+
+document.getElementById("btnDerecha")?.addEventListener("mousedown", function() {
+    if (!funcional) return;
+    moviendoDerecha = true;
+});
+document.getElementById("btnDerecha")?.addEventListener("mouseup", function() {
+    moviendoDerecha = false;
+});
+document.getElementById("btnDerecha")?.addEventListener("touchstart", function(event) {
+    event.preventDefault();
+    if (!funcional) return;
+    moviendoDerecha = true;
+});
+document.getElementById("btnDerecha")?.addEventListener("touchend", function(event) {
+    event.preventDefault();
+    moviendoDerecha = false;
+});
+
+// Disparo y habilidad mediante botones (si existen en el HTML)
+document.getElementById("btnShoot")?.addEventListener("click", function() {
+    if (puedeDisparar) {
+        dispararProyectil();
     }
 });
-document.addEventListener("keyup", (e) => {
-    if (!gameOver) {
-        if (e.key === "ArrowLeft" || e.key === "ArrowRight") player.dx = 0;
+document.getElementById("btnShoot")?.addEventListener("touchstart", function(event) {
+    event.preventDefault();
+    if (puedeDisparar) {
+        dispararProyectil();
     }
 });
+
+document.getElementById("btnUlti")?.addEventListener("click", function() {
+    if (funcional) {
+        activarRafaga();
+    }
+});
+document.getElementById("btnUlti")?.addEventListener("touchstart", function(event) {
+    event.preventDefault();
+    if (funcional) {
+        activarRafaga();
+    }
+});
+
+document.addEventListener("keydown", function(event) {
+    if (!funcional) return;
+    if (event.key === "ArrowRight") {
+        player.dx = player.speed;
+    } else if (event.key === "ArrowLeft") {
+        player.dx = -player.speed;
+    } else if (event.key === "ArrowUp" && puedeDisparar) {
+        dispararProyectil();
+    } else if (event.key.toLowerCase() === "s") {
+        activarRafaga();
+    }
+});
+
+document.addEventListener("keyup", function(event) {
+    // Resetea la velocidad horizontal cuando se sueltan las flechas
+    if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        player.dx = 0;
+    }
+});
+
+// (Opcional) mensaje de controles si se pulsa el botón (si existe)
+document.getElementById("btnControles")?.addEventListener("click", () => {
+    if (window.innerWidth <= 768) {
+        alert(`Controles para móvil:
+- Mover: Botones táctiles
+- Disparar: Botón táctil
+- Habilidad Especial: Botón especial (se recarga cada 2 rondas)`);
+    } else {
+        alert(`Controles:
+- Mover: Flechas Izquierda y Derecha
+- Disparar: Flecha Arriba
+- Habilidad Especial: Tecla "S" (se recarga cada 2 rondas)`);
+    }
+});
+
+// ------------------------------------
+// MENSAJE INICIAL (opcional)
+// ------------------------------------
 
 const mensaje = document.createElement("div");
-mensaje.innerText = "La Hermandad del Acero fueron los que trajeron a la horda de monstruos para debilitarnos y ahora vienen con su Prydwen. ¡No podemos dejar que se salgan con la suya!";
+mensaje.innerText = "La Hermandad del Acero trajeron a la horda de monstruos para debilitarnos y ahora vienen con su Prydwen. ¡No podemos dejar que se salgan con la suya!";
 mensaje.style.position = "absolute";
 mensaje.style.top = "50%";
 mensaje.style.left = "50%";
@@ -356,4 +484,51 @@ mensaje.style.borderRadius = "10px";
 mensaje.style.textAlign = "center";
 mensaje.style.zIndex = "1000";
 document.body.appendChild(mensaje);
+
+setTimeout(() => {
+    document.body.removeChild(mensaje);
+}, 3000);
+
+
+// ------------------------------------
+// BUCLE DE ACTUALIZACIÓN PRINCIPAL
+// ------------------------------------
+
+function update() {
+    if (!victory && !gameOver) {
+        // Actualizar posición usando dx para un movimiento fluido
+        player.x += player.dx;
+        
+        // Asegurarse de no salir del canvas
+        if (player.x < 0) {
+            player.x = 0;
+        }
+        if (player.x + player.width > canvas.width) {
+            player.x = canvas.width - player.width;
+        }
+        
+        // También procesar el movimiento de botones táctiles si existieran
+        if (moviendoIzquierda && player.x > 0) {
+            player.x -= player.speed * 0.5;
+        }
+        if (moviendoDerecha && player.x < canvas.width - player.width) {
+            player.x += player.speed * 0.5;
+        }
+    
+        // Mover los disparos del jugador, del boss, detectar colisiones, etc.
+        moveBullets();
+        moveBoss();
+        moveBossBullets();
+        checkCollisions();
+        checkBossBulletCollisions();
+    }
+    draw();
+    drawBossBullets();
+    requestAnimationFrame(update);
+}
+
+// Inicia el disparo periódico del jefe
+setInterval(bossShoot, 1000);
+
+// Inicia automáticamente el juego al cargar el script
 update();
