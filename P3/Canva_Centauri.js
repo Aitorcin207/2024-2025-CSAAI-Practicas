@@ -309,9 +309,12 @@ function reiniciarJuego() {
     if (iniciado == true) {
         audio_nojuego.pause(); // Detener el audio de fondo del menú
         audio_nojuego.currentTime = 0; // Reiniciar el audio al inicio
+        cancelAnimationFrame(bonusAnimationFrame); // Cancelar la animación del bonus
+        clearInterval(bonusInterval);
         velocidad_disparo = 10;
         velocidad_enemigos = 3;
         puntuaje = 0;
+        habilidadUsada = false;
         funcional = true;
         document.getElementById("puntuacion").innerHTML = puntuaje + " pts";
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -406,6 +409,18 @@ document.getElementById("btnShoot").addEventListener("touchstart", function(even
     }
 });
 
+document.getElementById("btnUlti").addEventListener("click", function() {
+    if (funcional) {
+        activarRafaga();
+    }
+});
+document.getElementById("btnUlti").addEventListener("touchstart", function(event) {
+    event.preventDefault();
+    if (funcional) {
+        activarRafaga();
+    }
+});
+
 // Actualizar movimiento continuo con velocidad reducida
 function actualizarMovimiento() {
     if (moviendoIzquierda && x > 0) {
@@ -429,7 +444,7 @@ document.addEventListener("keydown", function(event) {
     } else if (event.key === "ArrowLeft" && funcional) {
         if (x > 0) x -= velocidad_movimiento;
     } else if (event.key === "ArrowUp" && puedeDisparar) {
-        dispararProyectil();
+        dispararProyectil(); 
     }
     dibujarProtagonista();
 });
@@ -441,55 +456,34 @@ let habilidadUsada = false;
 let rayoActivo = false;
 let rayoX, rayoY;
 
-// Función para activar el rayo especial
-// function activarRayo() {
-//     if (habilidadUsada || rayoActivo) return; // Solo se puede usar una vez
-//     habilidadUsada = true;
-//     rayoActivo = true;
-//     rayoX = x + anchoProta / 2 - 5; // Centrar el rayo en el protagonista
-//     rayoY = 0; // Empieza desde la parte superior
 
-//     let sonido_rayo = new Audio("rayo-laser.mp3");
-//     sonido_rayo.play();
+let rondasTranscurridas = 0;
+const modoInfinito = false; // Cambia a true en el modo infinito
 
-//     // Mover el rayo hacia abajo
-//     function moverRayo() {
-//         ctx.clearRect(rayoX, 0, 10, canvas.height); // Limpiar el rayo anterior
-//         ctx.fillStyle = "cyan";
-//         ctx.fillRect(rayoX, 0, 10, canvas.height); // Dibujar el rayo
+function activarRafaga() {
+    if (habilidadUsada || !funcional) return; // Evitar usar la habilidad si ya se ha usado o el juego no está funcional
 
-//         // Verificar colisión con enemigos
-//         for (let i = 0; i < enemigosLista.length; i++) {
-//             let enemigo = enemigosLista[i];
-//             if (rayoX < enemigo.x + enemigo.ancho &&
-//                 rayoX + 10 > enemigo.x) {
-//                 // Eliminar al enemigo si está en la trayectoria del rayo
-//                 ctx.clearRect(enemigo.x, enemigo.y, enemigo.ancho, enemigo.alto);
-//                 enemigosLista.splice(i, 1);
-//                 puntuaje += 500;
-//                 document.getElementById("puntuacion").innerHTML = puntuaje + " pts";
-//                 i--; // Ajustar índice tras eliminación
-//             }
-//         }
+    habilidadUsada = true;
+    let rafagaInterval = setInterval(() => {
+        if (!funcional) {
+            clearInterval(rafagaInterval);
+            return;
+        }
+        dispararProyectilEspacial(); // Disparar proyectil rápidamente
+    }, 100); // Intervalo entre disparos en la ráfaga
 
-//         // Desactivar el rayo después de cierto tiempo
-//         setTimeout(() => {
-//             rayoActivo = false;
-//             ctx.clearRect(rayoX, 0, 10, canvas.height); // Borrar el rayo después de su uso
-//         }, 1000);
-//     }
+    setTimeout(() => {
+        clearInterval(rafagaInterval); // Detener la ráfaga después de 1 segundo
 
-//     // Ejecutar la animación del rayo
-//     const interval = setInterval(() => {
-//         moverRayo();
-//         if (!rayoActivo) clearInterval(interval); // Detener el intervalo cuando el rayo se desactiva
-//     }, 50);
-// }
+    }, 1000);
 
-// Evento para activar la habilidad especial con la tecla "Abajo"
+    let sonido_rafaga = new Audio("VATS.mp3");
+    sonido_rafaga.play();
+}
+
 document.addEventListener("keydown", function(event) {
-    if (event.key === "ArrowDown") {
-        activarRayo();
+    if (event.key.toLowerCase() === "s" && funcional) {
+        activarRafaga();
     }
 });
 
@@ -524,6 +518,37 @@ function dispararProyectil() {
     setTimeout(() => {
         puedeDisparar = true;
     }, 1200); // Permitir otro disparo después de 300ms
+}
+
+function dispararProyectilEspacial() {
+    if (funcional == false) return;
+    if (!puedeDisparar) return;
+
+    puedeDisparar = false;
+
+    let disparosRealizados = 0;
+    let intervaloDisparos = setInterval(() => {
+        if (disparosRealizados >= 10) {
+            clearInterval(intervaloDisparos);
+            puedeDisparar = true;
+            return;
+        }
+
+        let nuevoProyectil = {
+            x: x + anchoProta / 2 - 2,
+            y: y,
+            ancho: 4,
+            alto: 10,
+            velocidad: 5
+        };
+
+        proyectiles.push(nuevoProyectil);
+
+        let sonido_disparo = new Audio("laser-312360.mp3");
+        sonido_disparo.play();
+
+        disparosRealizados++;
+    }, 100); // Disparar cada 100ms
 }
 
 // Dibujar proyectiles en pantalla
