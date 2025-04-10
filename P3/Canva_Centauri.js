@@ -193,15 +193,16 @@ function moverse_enemigos() {
             velocidad_enemigos += 1.3; // Aumentar la velocidad de los enemigos
             velocidad_disparo -= 0.5;
             iniciado = false; // Reiniciar el juego
+            incrementarRonda(); // Incrementar la ronda para recargar la habilidad
             infinitoJuego();
 
             return;
-        }  
+        }
+        // Si el juego es normal y todos los enemigos han sido eliminados
         if (normal == true) {
             audio_fondo.pause();
             audio_fondo.currentTime = 0; // Reiniciar el audio al inicio
-            alert("¡Felicidades! Has eliminado a todos los enemigos.");
-
+            alert("Genial toda la horda de monstruos ha sido derrotada gracias a ti. Prepárate para enfrentarte al jefe final.");
 
             moviendoEnemigos = false; // Detener el movimiento de enemigos
             normal = false;
@@ -210,8 +211,11 @@ function moverse_enemigos() {
             audio_nojuego.loop = true; // Repetir el audio de fondo
             finalizarPartida();
             clearInterval(cronometroIntervalo);
+
+            // Redirigir a la página del jefe final
+            window.location.href = "boss_canva.html";
             return;
-        } 
+        }
 
     }
 
@@ -455,10 +459,8 @@ document.addEventListener("keydown", function(event) {
 let habilidadUsada = false;
 let rayoActivo = false;
 let rayoX, rayoY;
+let rondasTranscurridas = 0; // Contador de rondas para recargar la habilidad
 
-
-let rondasTranscurridas = 0;
-const modoInfinito = false; // Cambia a true en el modo infinito
 
 function activarRafaga() {
     if (habilidadUsada || !funcional) return; // Evitar usar la habilidad si ya se ha usado o el juego no está funcional
@@ -474,11 +476,42 @@ function activarRafaga() {
 
     setTimeout(() => {
         clearInterval(rafagaInterval); // Detener la ráfaga después de 1 segundo
-
     }, 1000);
 
     let sonido_rafaga = new Audio("VATS.mp3");
     sonido_rafaga.play();
+}
+
+function verificarRecargaHabilidad() {
+    if (habilidadUsada && rondasTranscurridas >= 2) {
+        habilidadUsada = false; // Recargar la habilidad después de 2 rondas
+        rondasTranscurridas = 0; // Reiniciar el contador de rondas
+        let mensajeRecarga = document.createElement("div");
+        mensajeRecarga.innerText = "¡Habilidad especial recargada!";
+        mensajeRecarga.style.position = "absolute";
+        mensajeRecarga.style.top = "70%";
+        mensajeRecarga.style.left = "50%";
+        mensajeRecarga.style.transform = "translate(-50%, -50%)";
+        mensajeRecarga.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+        mensajeRecarga.style.color = "white";
+        mensajeRecarga.style.padding = "20px";
+        mensajeRecarga.style.borderRadius = "10px";
+        mensajeRecarga.style.textAlign = "center";
+        mensajeRecarga.style.zIndex = "1000";
+        document.body.appendChild(mensajeRecarga);
+        setTimeout(() => {
+            document.body.removeChild(mensajeRecarga);
+        }, 1000); // Remove the message after 3 seconds
+
+    }
+}
+
+// Incrementar rondas y verificar recarga de habilidad
+function incrementarRonda() {
+    if (habilidadUsada) {
+        rondasTranscurridas++;
+        verificarRecargaHabilidad();
+    }
 }
 
 document.addEventListener("keydown", function(event) {
@@ -490,9 +523,9 @@ document.addEventListener("keydown", function(event) {
 const controles = document.getElementById("btnControles");
 controles.addEventListener("click", () => {
     if (window.innerWidth <= 768) { // Umbral para considerar dispositivos móviles
-        alert(`Controles para móvil:\n- Mover: Botones táctiles\n- Disparar: Botón táctil de disparo\n- Habilidad Especial: Botón táctil especial`);
+        alert(`Controles para móvil:\n- Mover: Botones táctiles\n- Disparar: Botón táctil de disparo\n- Habilidad Especial: Botón táctil especial(solo un uso, en modo infinito se recarga cada 2 rondas)`);
     } else {
-        alert(`Controles:\n- Mover: Flechas Izquierda y Derecha\n- Disparar: Flecha Arriba\n- Habilidad Especial: Flecha Abajo`);
+        alert(`Controles:\n- Mover: Flechas Izquierda y Derecha\n- Disparar: Espacio\n- Habilidad Especial: Flecha Abajo(solo un uso, en modo infinito se recarga cada 2 rondas)`);
     }
 });
 
@@ -606,7 +639,7 @@ function actualizarCanvas() {
 }
 
 const mensaje = document.createElement("div");
-mensaje.innerText = "El refugio está en peligro, vienen oleadas de monstruos mutados a por nosotros y debes defendernos, te daremos chapas a cambio.";
+mensaje.innerText = "New Vegas está en peligro, vienen oleadas de monstruos mutados a por nosotros y debes defendernos, te daremos chapas a cambio.";
 mensaje.style.position = "absolute";
 mensaje.style.top = "50%";
 mensaje.style.left = "50%";

@@ -1,0 +1,118 @@
+
+body {
+    background-color: rgb(4, 5, 6);
+    background-image: url('NEW_VEGAS.png'); /* Reemplaza con la ruta de tu imagen */
+    background-size: cover; /* Asegura que la imagen cubra toda la página */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-attachment: fixed; /* Fija la imagen al fondo */
+    margin: 0; /* Elimina el margen por defecto del body */
+  }
+  
+  .control-container {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    width: 90%; /* Adjust width to ensure buttons stay aligned */
+  }
+  .left-btn, 
+  .right-btn {
+    position: absolute;
+    bottom: 0;
+    font-size: 20px;
+    padding: 10px 20px;
+  }
+  
+  .left-btn {
+    left: 0;
+  }
+  
+  .right-btn {
+    right: 0;
+  }
+  
+  .center-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .center-buttons button {
+    font-size: 20px;
+    padding: 10px 20px;
+  }
+  
+  span {
+    color: rgb(193, 79, 79); /* Color del texto */
+    font-family: 'Brush Script MT', cursive; /* Fuente del texto */
+    font-size: 50px; /* Tamaño de la fuente */
+    text-shadow: 0px 0px 5px rgba(193, 79, 79, 0.7); /* Sombra del texto */
+  }
+  
+  button {
+    background-color: rgb(193, 79, 79); /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none; /* Sin borde */
+    padding: 10px 20px; /* Espaciado interno */
+    text-align: center; /* Centra el texto */
+    text-decoration: none; /* Sin subrayado */
+    display: inline-block; /* Muestra como bloque en línea */
+    font-family: 'Brush Script MT', cursive; /* Fuente del texto */
+    font-size: 16px; /* Tamaño de la fuente */
+    margin: 4px 2px; /* Margen alrededor del botón */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    border-radius: 12px; /* Bordes redondeados */
+  }
+  canvas {
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi transparente */
+    border-style: solid;
+    border-width: 10px;
+    border-color: rgb(193, 79, 79);
+    border-radius: 6px;
+    max-width: 100%; /* Asegura que el canvas no exceda el ancho de la pantalla */
+    height: auto; /* Mantiene la proporción del canvas */
+  }
+  
+  @media (max-width: 768px) {
+    body {
+      background-image: url('NEW_VEGAS.png'); /* Cambia la imagen de fondo para pantallas pequeñas */
+      background-size: cover; /* Asegura que la imagen cubra toda la página */
+      background-position: center; /* Centra la imagen */
+      background-repeat: no-repeat; /* Evita que la imagen se repita */
+      background-attachment: fixed; /* Fija la imagen al fondo */
+    }
+  
+    span {
+      font-size: 30px; /* Reduce el tamaño de la fuente en pantallas pequeñas */
+    }
+  
+    button {
+      font-size: 14px; /* Reduce el tamaño de la fuente del botón */
+      padding: 8px 16px; /* Ajusta el espaciado interno del botón */
+    }
+  
+    canvas {
+      border-width: 5px; /* Reduce el ancho del borde del canvas */
+      width: 100%; /* Asegura que el canvas no se sobresalga por los laterales */
+      box-sizing: border-box; /* Incluye el borde en el ancho total */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    span {
+      font-size: 20px; /* Reduce aún más el tamaño de la fuente en pantallas muy pequeñas */
+    }
+  
+    button {
+      font-size: 12px; /* Ajusta el tamaño de la fuente del botón */
+      padding: 6px 12px; /* Ajusta el espaciado interno del botón */
+    }
+  
+    canvas {
+      border-width: 3px; /* Reduce aún más el ancho del borde del canvas */
+    }
+  }
