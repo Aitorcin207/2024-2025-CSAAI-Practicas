@@ -12,15 +12,15 @@ bossImg.src = "prydwen.png";
 
 // Sonidos para disparos y golpes
 const shootSounds = [
-    new Audio("sound/shoot.mp3"),
-    new Audio("sound/shoot.mp3"),
-    new Audio("sound/shoot.mp3")
+    new Audio("laser-312360.mp3"),
+    new Audio("laser-312360.mp3"),
+    new Audio("laser-312360.mp3")
 ];
 let shootIndex = 0;
 const hitSounds = [
-    new Audio("sound/hit.mp3"),
-    new Audio("sound/hit.mp3"),
-    new Audio("sound/hit.mp3")
+    new Audio("sound/hitted.mp3"),
+    new Audio("sound/hitted.mp3"),
+    new Audio("sound/hitted.mp3")
 ];
 let hitIndex = 0;
 const victorySound = new Audio("sound/victory.mp3");
@@ -95,7 +95,7 @@ function drawPlayerHealthBar() {
     const healthRatio = player.health / 10;
     ctx.fillStyle = "gray";
     ctx.fillRect(x, y, barWidth, barHeight);
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "lightyellow";
     ctx.fillRect(x, y, barWidth * healthRatio, barHeight);
     ctx.strokeStyle = "white";
     ctx.strokeRect(x, y, barWidth, barHeight);
@@ -129,7 +129,7 @@ function drawBossHealthBar() {
 }
 
 function drawBullets() {
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "yellow";
     bullets.forEach(bullet => {
         ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
     });
@@ -224,10 +224,15 @@ function checkBossBulletCollisions() {
             bullet.y < player.y + player.height &&
             bullet.y + bullet.height > player.y
         ) {
-            bossBullets.splice(index, 1);
-            player.health--;
+            bossBullets.splice(index, 1); // Eliminar el disparo del jefe
+            player.health--; // Reducir la salud del jugador
+
+            // Reproducir el sonido del golpe al protagonista
+            const golpeProtaSound = new Audio("golpe_prota.mp3");
+            golpeProtaSound.play();
+
             if (player.health <= 0) {
-                gameOver = true;
+                gameOver = true; // Terminar el juego si la salud llega a 0
             }
         }
     });
@@ -474,7 +479,7 @@ document.getElementById("btnControles")?.addEventListener("click", () => {
 const mensaje = document.createElement("div");
 mensaje.innerText = "La Hermandad del Acero trajeron a la horda de monstruos para debilitarnos y ahora vienen con su Prydwen. ¡No podemos dejar que se salgan con la suya!";
 mensaje.style.position = "absolute";
-mensaje.style.top = "50%";
+mensaje.style.top = "40%";
 mensaje.style.left = "50%";
 mensaje.style.transform = "translate(-50%, -50%)";
 mensaje.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
@@ -530,5 +535,23 @@ function update() {
 // Inicia el disparo periódico del jefe
 setInterval(bossShoot, 1000);
 
+
+const mensajeMejora = document.createElement("div");
+mensajeMejora.innerText = "Te hemos mejorado la servoarmadura para que te puedas mover más rápido y disparar más rápido. ¡No dejes que el Prydwen te alcance y acaba con la hermandad del acero!";
+mensajeMejora.style.position = "absolute";
+mensajeMejora.style.top = "50%";
+mensajeMejora.style.left = "50%";
+mensajeMejora.style.transform = "translate(-50%, -50%)";
+mensajeMejora.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+mensajeMejora.style.color = "white";
+mensajeMejora.style.padding = "20px";
+mensajeMejora.style.borderRadius = "10px";
+mensajeMejora.style.textAlign = "center";
+mensajeMejora.style.zIndex = "1000";
+document.body.appendChild(mensajeMejora);
+
+setTimeout(() => {
+    document.body.removeChild(mensajeMejora);
+}, 3000); // Remove the message after 3 seconds
 // Inicia automáticamente el juego al cargar el script
 update();

@@ -172,22 +172,22 @@ function moverse_enemigos() {
         
         if (infinito == true) {
             audio_fondo.pause();
-            const mensaje = document.createElement("div");
-            mensaje.innerText = "¡Felicidades! Has eliminado a todos los enemigos. ¡Nivel Completo!";
-            mensaje.style.position = "absolute";
-            mensaje.style.top = "50%";
-            mensaje.style.left = "50%";
-            mensaje.style.transform = "translate(-50%, -50%)";
-            mensaje.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
-            mensaje.style.color = "white";
-            mensaje.style.padding = "20px";
-            mensaje.style.borderRadius = "10px";
-            mensaje.style.textAlign = "center";
-            mensaje.style.zIndex = "1000";
-            document.body.appendChild(mensaje);
+            const mensajenivel = document.createElement("div");
+            mensajenivel.innerText = "¡Felicidades! Has eliminado a todos los enemigos. ¡Nivel Completo!";
+            mensajenivel.style.position = "absolute";
+            mensajenivel.style.top = "50%";
+            mensajenivel.style.left = "50%";
+            mensajenivel.style.transform = "translate(-50%, -50%)";
+            mensajenivel.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+            mensajenivel.style.color = "white";
+            mensajenivel.style.padding = "20px";
+            mensajenivel.style.borderRadius = "10px";
+            mensajenivel.style.textAlign = "center";
+            mensajenivel.style.zIndex = "1000";
+            document.body.appendChild(mensajenivel);
 
             setTimeout(() => {
-            document.body.removeChild(mensaje);
+            document.body.removeChild(mensajenivel);
             }, 3000); // Remove the message after 3 seconds
 
             velocidad_enemigos += 1.3; // Aumentar la velocidad de los enemigos
@@ -202,19 +202,40 @@ function moverse_enemigos() {
         if (normal == true) {
             audio_fondo.pause();
             audio_fondo.currentTime = 0; // Reiniciar el audio al inicio
-            alert("Genial toda la horda de monstruos ha sido derrotada gracias a ti. Prepárate para enfrentarte al jefe final.");
+
 
             moviendoEnemigos = false; // Detener el movimiento de enemigos
             normal = false;
             funcional = false; // Desactivar la funcionalidad del juego
             audio_nojuego.play(); // Reiniciar el audio de fondo del menú
-            audio_nojuego.loop = true; // Repetir el audio de fondo
+            // Repetir el audio de fondo
+            const mensajenormal = document.createElement("div");
+            mensajenormal.innerText = "Genial toda la horda de monstruos ha sido derrotada gracias a ti. Prepárate para enfrentarte al jefe final.";
+            mensajenormal.style.position = "absolute";
+            mensajenormal.style.top = "50%";
+            mensajenormal.style.left = "50%";
+            mensajenormal.style.transform = "translate(-50%, -50%)";
+            mensajenormal.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+            mensajenormal.style.color = "white";
+            mensajenormal.style.padding = "20px";
+            mensajenormal.style.borderRadius = "10px";
+            mensajenormal.style.textAlign = "center";
+            mensajenormal.style.zIndex = "1000";
+            document.body.appendChild(mensajenormal);
+
+            setTimeout(() => {
+                document.body.removeChild(mensajenormal);
+            }, 3000); // Remove the message after 3 seconds
+
+            setTimeout(() => {
+                window.location.href = "https://aitorcin207.github.io/2024-2025-CSAAI-Practicas/P3/boss_canva.html";
+            }, 3000); // Wait for 3 seconds before redirecting
+
             finalizarPartida();
             clearInterval(cronometroIntervalo);
-
+            return; // Salir de la función para evitar continuar el bucle
             // Redirigir a la página del jefe final
-            window.location.href = "boss_canva.html";
-            return;
+
         }
 
     }
