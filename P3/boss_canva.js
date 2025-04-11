@@ -478,6 +478,14 @@ document.getElementById("btnControles")?.addEventListener("click", () => {
     }
 });
 
+document.getElementById("btnRestart")?.addEventListener("click", () => {
+    location.reload(); // Recargar la página para reiniciar el juego
+
+});
+document.getElementById("btnVolver")?.addEventListener("click", () => {
+    window.location.href = "https://aitorcin207.github.io/2024-2025-CSAAI-Practicas/P3/index.html"; // Volver a la página principal
+});
+
 // ------------------------------------
 // MENSAJE INICIAL (opcional)
 // ------------------------------------
