@@ -156,12 +156,18 @@ function drawGameOver() {
     ctx.fillStyle = "red";
     ctx.font = "40px Arial";
     ctx.fillText("¡Game Over!", canvas.width / 2 - 100, canvas.height / 2);
+    const text = "Pulsa el botón Restart para reiniciar";
+    const textWidth = ctx.measureText(text).width;
+    ctx.fillText(text, (canvas.width - textWidth) / 2, canvas.height / 2 + 50);
+    window.location.href = "https://www.youtube.com/watch?v=YFnM2idBlZU";
 }
 
 function drawVictory() {
     ctx.fillStyle = "green";
     ctx.font = "40px Arial";
     ctx.fillText("¡Victoria!", canvas.width / 2 - 80, canvas.height / 2);
+    window.location.href = "https://www.youtube.com/watch?v=kAAlEoLRuTA";
+
 }
 
 function draw() {
