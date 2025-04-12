@@ -468,7 +468,7 @@ document.addEventListener("keydown", function(event) {
         if (x < canvas.width - anchoProta) x += velocidad_movimiento;
     } else if (event.key === "ArrowLeft" && funcional) {
         if (x > 0) x -= velocidad_movimiento;
-    } else if (event.key === "ArrowUp" && puedeDisparar) {
+    } else if (event.key === " " && puedeDisparar) {
         dispararProyectil(); 
     }
     dibujarProtagonista();
@@ -690,6 +690,12 @@ setTimeout(() => {
 document.addEventListener("keydown", function(event) {
     if (event.code === "Space" && document.activeElement.tagName === "BUTTON") {
         event.preventDefault();
+    }
+});
+document.addEventListener("keydown", function(event) {
+    if (event.code === "Space") {
+        event.preventDefault(); // Evita que la página se desplace
+        dispararProyectil();    // Llama a tu función de disparo
     }
 });
 
