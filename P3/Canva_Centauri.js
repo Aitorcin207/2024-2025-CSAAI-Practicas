@@ -656,6 +656,18 @@ function moverProyectiles() {
     }
 }
 
+const offscreenCanvas = document.createElement("canvas");
+offscreenCanvas.width = canvas.width;
+offscreenCanvas.height = canvas.height;
+const offscreenCtx = offscreenCanvas.getContext("2d");
+
+// Dibujar elementos estáticos en el canvas fuera de pantalla
+function dibujarFondo() {
+    offscreenCtx.fillStyle = "black";
+    offscreenCtx.fillRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
+    // Agregar otros elementos estáticos aquí
+}
+
 // Actualizar el canvas continuamente
 function actualizarCanvas() {
     // Limpiar solo las áreas necesarias
@@ -669,6 +681,7 @@ function actualizarCanvas() {
     
     requestAnimationFrame(actualizarCanvas);
 }
+dibujarFondo();
 
 const mensaje = document.createElement("div");
 mensaje.innerText = "New Vegas está en peligro, vienen oleadas de monstruos mutados a por nosotros y debes defendernos, te daremos chapas a cambio.";
