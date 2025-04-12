@@ -190,7 +190,7 @@ function moverse_enemigos() {
             document.body.removeChild(mensajenivel);
             }, 3000); // Remove the message after 3 seconds
 
-            velocidad_enemigos += 1.3; // Aumentar la velocidad de los enemigos
+            velocidad_enemigos += 2.3; // Aumentar la velocidad de los enemigos
             velocidad_disparo -= 0.5;
             iniciado = false; // Reiniciar el juego
             incrementarRonda(); // Incrementar la ronda para recargar la habilidad
@@ -556,7 +556,7 @@ controles.addEventListener("click", () => {
     if (window.innerWidth <= 768) { // Umbral para considerar dispositivos móviles
         alert(`Controles para móvil:\n- Mover: Botones táctiles\n- Disparar: Botón táctil de disparo\n- Habilidad Especial: Botón táctil especial(solo un uso, en modo infinito se recarga cada 2 rondas)`);
     } else {
-        alert(`Controles:\n- Mover: Flechas Izquierda y Derecha\n- Disparar: Espacio\n- Habilidad Especial: Flecha Abajo(solo un uso, en modo infinito se recarga cada 2 rondas)`);
+        alert(`Controles:\n- Mover: Flechas Izquierda y Derecha\n- Disparar: Espacio\n- Habilidad Especial: Tecla "S"(solo un uso, en modo infinito se recarga cada 2 rondas)`);
     }
 });
 
