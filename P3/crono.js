@@ -91,7 +91,7 @@ class Crono {
     // Puede ser llamada desde otro archivo JS.
     window.finalizarPartida = () => {
       crono.stop();
-      crono.reset();
+
     };
 
     // Función para iniciar el cronómetro. Puede ser llamada desde otro archivo JS.

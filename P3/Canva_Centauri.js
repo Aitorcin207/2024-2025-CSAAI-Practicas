@@ -262,6 +262,8 @@ function moverse_enemigos() {
         };
         audio_nojuego.loop = true; // Repetir el audio de fondo
         audio_fondo.currentTime = 0; // Reiniciar el audio al inicio
+        health = 10; // Reiniciar la salud del jugador
+        player.health = 10; // Reiniciar la salud del jugador
 
         // Detener el cronómetro
         clearInterval(cronometroIntervalo);
