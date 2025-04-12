@@ -190,7 +190,7 @@ function moverse_enemigos() {
             document.body.removeChild(mensajenivel);
             }, 3000); // Remove the message after 3 seconds
 
-            velocidad_enemigos += 2.3; // Aumentar la velocidad de los enemigos
+            velocidad_enemigos += 1.3; // Aumentar la velocidad de los enemigos
             velocidad_disparo -= 0.5;
             iniciado = false; // Reiniciar el juego
             incrementarRonda(); // Incrementar la ronda para recargar la habilidad
@@ -658,14 +658,15 @@ function moverProyectiles() {
 
 // Actualizar el canvas continuamente
 function actualizarCanvas() {
-    if (iniciado == true) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Limpiar solo las áreas necesarias
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar todo el canvas
+
+        // Dibujar los elementos actualizados
         dibujarProtagonista();
         dibujarEnemigos();
         dibujarProyectiles();
         moverProyectiles();
-
-    }
+    
     requestAnimationFrame(actualizarCanvas);
 }
 
