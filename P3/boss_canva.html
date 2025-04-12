@@ -2,38 +2,45 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salva New Vegas</title>
+    <script src="crono.js" defer></script>
     <script src="boss_canva.js" defer></script>
+
     <link rel="stylesheet" href="boss_canva.css">
     <link rel="shortcut icon" href="icon_fallout.ico" type="image/x-icon">
 </head>
-<div style="position: absolute; top: 10px; right: 10px; font-size: 30px;">
-    <span id="crono">0:0:0</span>
-</div>
-<div style="position: absolute; top: 10px; left: 10px; font-size: 30px;">
-    <span id="puntuacion">0 pts</span>
-</div>
 
-<div style="display: flex; justify-content: center; align-items: center; margin-top: 100px;">
-    <canvas id="canvas"></canvas>
-</div>
-<div>
 
-<div style="display: flex; justify-content: center; margin-top: 20px;">
-    <button id="btnVolver" style="margin-right: 10px; font-size: 16px; padding: 5px 10px;">- Volver</button>
-    <button id="btnRestart" style="margin-right: 10px; font-size: 16px; padding: 5px 10px;">- Restart</button>
-
-    <button id="btnControles" style="margin-right: 10px; font-size: 16px; padding: 5px 10px;">- Controles</button>
-
-</div>
-<div class="control-container" style="display: flex; justify-content: center; align-items: center; margin-top: 20px; gap: 20px; position: relative;"></div>
-    <button id="btnIzquierda" class="left-btn" style="font-size: 32px; padding: 10px 20px;">← Izquierda</button>
-
-    <div class="center-buttons" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-      <button id="btnShoot" style="font-size: 32px; padding: 10px 20px;">↑ Disparar</button>
-      <button id="btnUlti" style="font-size: 32px; padding: 10px 20px;">⎋ Ulti</button>
+    <div style="position: absolute; top: 10px; right: 10px; font-size: 30px;">
+        <span id="crono">BOSS: LA HERMANDAD DEL ACERO</span>
+    </div>
+    <div style="position: absolute; top: 10px; left: 10px; font-size: 30px;">
+        <span id="puntuacion">EL PRYDWEN</span>
     </div>
 
-    <button id="btnDerecha" class="right-btn" style="font-size: 32px; padding: 10px 20px;">→ Derecha</button>
-</div>
+    <div style="display: flex; justify-content: center; align-items: center; margin-top: 100px;">
+        <canvas id="canvas"></canvas>
+    </div>
+    <div>
+
+    <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <button id="btnVolver" style="margin-right: 10px; font-size: 16px; padding: 5px 10px;">- Volver</button>
+        <button id="btnRestart" style="margin-right: 10px; font-size: 16px; padding: 5px 10px;">- Restart</button>
+
+        <button id="btnControles" style="margin-right: 10px; font-size: 16px; padding: 5px 10px;">- Controles</button>
+
+    </div>
+    <div class="control-container" style="display: flex; justify-content: center; align-items: center; margin-top: 20px; gap: 20px; position: relative;"></div>
+        <button id="btnIzquierda" class="left-btn" style="font-size: 32px; padding: 10px 20px;">← Izquierda</button>
+
+        <div class="center-buttons" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <button id="btnShoot" style="font-size: 32px; padding: 10px 20px;">↑ Disparar</button>
+        <button id="btnUlti" style="font-size: 32px; padding: 10px 20px;">⎋ Ulti</button>
+        </div>
+
+        <button id="btnDerecha" class="right-btn" style="font-size: 32px; padding: 10px 20px;">→ Derecha</button>
+    </div>
+
 </html>

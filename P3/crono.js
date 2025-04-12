@@ -72,10 +72,12 @@ class Crono {
       }
     });
   
-    if (window.location.pathname.endsWith("boss_canva.html")) {
-      crono.reset();
+
+
+    const btnDerech = document.getElementById("btnDerecha");
+    btnDerech.addEventListener("click", () => {
       crono.start();
-    }
+    });
 
     // Función para detener el cronómetro cuando finaliza la partida.
     // Puede ser llamada desde otro archivo JS.

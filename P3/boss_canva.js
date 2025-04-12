@@ -645,7 +645,6 @@ setTimeout(() => {
     document.body.removeChild(mensajeMejora);
 }, 3000); // Remove the message after 3 seconds
 // Inicia automáticamente el juego al cargar el script
-// Ensure crono.js is included in the HTML and crono is initialized
 
 
 update();
