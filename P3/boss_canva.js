@@ -158,6 +158,8 @@ function drawGameOver() {
     ctx.font = "40px Arial";
     ctx.fillText("¡Game Over!", canvas.width / 2 - 100, canvas.height / 2);
     const text = "Pulsa el botón Restart para reiniciar";
+    musica_fondo.pause(); // Detener la música de fondo
+    musica_fondo.currentTime = 0; // Reiniciar el tiempo de la música de fondo
     const mensajeDerrota = document.createElement("div");
     mensajeDerrota.innerText = "La hermandad del acero ha destruido New Vegas y ha destruido la ciudad Mr House estara muy decepcionado contigo.";
     mensajeDerrota.style.position = "absolute";
@@ -190,6 +192,8 @@ function drawVictory() {
     ctx.fillStyle = "green";
     ctx.font = "40px Arial";
     ctx.fillText("¡Victoria!", canvas.width / 2 - 80, canvas.height / 2);
+    musica_fondo.pause(); // Detener la música de fondo
+    musica_fondo.currentTime = 0; // Reiniciar el tiempo de la música de fondo
     const mensajeVictoria = document.createElement("div");
     mensajeVictoria.innerText = "¡Has derrotado al Prydwen y salvado New Vegas! Mr. House estará ha preparado una recompensa especial para tí acompañanos.";
     mensajeVictoria.style.position = "absolute";
@@ -646,5 +650,10 @@ setTimeout(() => {
 }, 3000); // Remove the message after 3 seconds
 // Inicia automáticamente el juego al cargar el script
 
+document.addEventListener("keydown", function(event) {
+    if (event.code === "Space" && document.activeElement.tagName === "BUTTON") {
+        event.preventDefault();
+    }
+});
 
 update();

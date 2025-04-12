@@ -687,6 +687,11 @@ setTimeout(() => {
     document.body.removeChild(mensaje);
 }, 3000); // Remove the message after 3 seconds
 
+document.addEventListener("keydown", function(event) {
+    if (event.code === "Space" && document.activeElement.tagName === "BUTTON") {
+        event.preventDefault();
+    }
+});
 
 audio_nojuego.play();
 audio_nojuego.loop = true; // Repetir el audio de fondo
