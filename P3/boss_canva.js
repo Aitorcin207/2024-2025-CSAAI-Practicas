@@ -1,7 +1,9 @@
 var audio_fondo = new Audio("Fallout 4 Main Theme.mp3");
 var audio_gameover = new Audio("game-over.mp3");
 var audio_nojuego = new Audio("I Dont Want To Set The World On Fire-The Ink Spots.mp3");
+let audioFondoIniciado = false;
 // Cargar imagen de la explosión
+
 const explosionImg = new Image();
 explosionImg.src = "assets/explosion.png";
 
@@ -172,14 +174,14 @@ function drawGameOver() {
     
     setTimeout(() => {
         document.body.removeChild(mensajeDerrota);
-    }, 3000); // Remove the message after 3 seconds
+    }, 6000); // Remove the message after 3 seconds
     const textWidth = ctx.measureText(text).width;
     ctx.fillText(text, (canvas.width - textWidth) / 2, canvas.height / 2 + 50);
     audio_gameover.play();
     audio_nojuego.play(); 
     setTimeout(() => {
     window.location.href = "https://www.youtube.com/watch?v=YFnM2idBlZU";
-    }, 3000);
+    }, 6000);
     funcional = false; // Desactivar el juego al ganar
     finalizarPartida(); // Detener el cronómetro al perder
 }
@@ -204,11 +206,11 @@ function drawVictory() {
     
     setTimeout(() => {
         document.body.removeChild(mensajeVictoria);
-    }, 3000); // Remove the message after 3 seconds
+    }, 6000); // Remove the message after 3 seconds
     audio_nojuego.play(); 
     setTimeout(() => {
         window.location.href = "https://www.youtube.com/watch?v=kAAlEoLRuTA";
-    }, 3000);
+    }, 6000);
     funcional = false; // Desactivar el juego al ganar
     finalizarPartida(); // Detener el cronómetro al ganar
 
@@ -488,8 +490,36 @@ document.getElementById("btnUlti")?.addEventListener("touchstart", function(even
     }
 });
 
+function iniciarAudioFondo() {
+    if (!audioFondoIniciado) {
+        const audio_fondo = new Audio("Fallout 4 Main Theme.mp3");
+        audio_fondo.loop = true; // Si deseas que se repita
+        audio_fondo.play().then(() => {
+            console.log("Audio de fondo iniciado correctamente.");
+        }).catch((error) => {
+            console.error("Error al reproducir el audio de fondo:", error);
+        });
+        audioFondoIniciado = true;
+    }
+}
+
+// Agrega un evento de interacción del usuario
+document.addEventListener("click", function iniciarAudioUnaVez() {
+    iniciarAudioFondo();
+    // Remueve el evento después de la primera interacción
+    document.removeEventListener("click", iniciarAudioUnaVez);
+});
+
+document.addEventListener("click", iniciarAudioFondo, { once: true });
+document.addEventListener("keydown", iniciarAudioFondo, { once: true });
+
+// En el manejador de eventos de movimiento del jugador
 document.addEventListener("keydown", function(event) {
     if (!funcional) return;
+
+    // Iniciar el audio de fondo en la primera interacción del usuario
+    iniciarAudioFondo();
+
     if (event.key === "ArrowRight") {
         player.dx = player.speed;
     } else if (event.key === "ArrowLeft") {
@@ -560,6 +590,8 @@ setTimeout(() => {
 
 function update() {
     if (!victory && !gameOver) {
+        // Iniciar el audio de fondo si aún no está reproduciéndose
+
         // Actualizar posición usando dx para un movimiento fluido
         player.x += player.dx;
         
@@ -589,7 +621,6 @@ function update() {
     draw();
     drawBossBullets();
     requestAnimationFrame(update);
-    
 }
 
 // Inicia el disparo periódico del jefe
@@ -615,5 +646,6 @@ setTimeout(() => {
 }, 3000); // Remove the message after 3 seconds
 // Inicia automáticamente el juego al cargar el script
 // Ensure crono.js is included in the HTML and crono is initialized
+
 
 update();

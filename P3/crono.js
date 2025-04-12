@@ -66,10 +66,17 @@ class Crono {
     });
 
     btnReiniciar.addEventListener("click", () => {
+      if (crono.timer) { // Verifica si la partida ya está empezada
       crono.reset();
       crono.start();
+      }
     });
   
+    if (window.location.pathname.endsWith("boss_canva.html")) {
+      crono.reset();
+      crono.start();
+    }
+
     // Función para detener el cronómetro cuando finaliza la partida.
     // Puede ser llamada desde otro archivo JS.
     window.finalizarPartida = () => {
