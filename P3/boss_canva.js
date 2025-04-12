@@ -1,7 +1,6 @@
-// ------------------------------------
-// CARGA DE IMÁGENES Y VARIABLES INICIALES
-// ------------------------------------
-
+var audio_fondo = new Audio("Emi Meyer - For Whom the Bell Tolls (From Blue Eye Samurai).mp3");
+var audio_gameover = new Audio("game-over.mp3");
+var audio_nojuego = new Audio("I Dont Want To Set The World On Fire-The Ink Spots.mp3");
 // Cargar imagen de la explosión
 const explosionImg = new Image();
 explosionImg.src = "assets/explosion.png";
@@ -157,9 +156,30 @@ function drawGameOver() {
     ctx.font = "40px Arial";
     ctx.fillText("¡Game Over!", canvas.width / 2 - 100, canvas.height / 2);
     const text = "Pulsa el botón Restart para reiniciar";
+    const mensajeDerrota = document.createElement("div");
+    mensajeDerrota.innerText = "La hermandad del acero ha destruido New Vegas y ha destruido la ciudad Mr House estara muy decepcionado contigo.";
+    mensajeDerrota.style.position = "absolute";
+    mensajeDerrota.style.top = "50%";
+    mensajeDerrota.style.left = "50%";
+    mensajeDerrota.style.transform = "translate(-50%, -50%)";
+    mensajeDerrota.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+    mensajeDerrota.style.color = "white";
+    mensajeDerrota.style.padding = "20px";
+    mensajeDerrota.style.borderRadius = "10px";
+    mensajeDerrota.style.textAlign = "center";
+    mensajeDerrota.style.zIndex = "1000";
+    document.body.appendChild(mensajeDerrota);
+    
+    setTimeout(() => {
+        document.body.removeChild(mensajeDerrota);
+    }, 3000); // Remove the message after 3 seconds
     const textWidth = ctx.measureText(text).width;
     ctx.fillText(text, (canvas.width - textWidth) / 2, canvas.height / 2 + 50);
+    audio_gameover.play();
+    audio_nojuego.play(); 
+    setTimeout(() => {
     window.location.href = "https://www.youtube.com/watch?v=YFnM2idBlZU";
+    }, 3000);
     funcional = false; // Desactivar el juego al ganar
     finalizarPartida(); // Detener el cronómetro al perder
 }
@@ -168,9 +188,30 @@ function drawVictory() {
     ctx.fillStyle = "green";
     ctx.font = "40px Arial";
     ctx.fillText("¡Victoria!", canvas.width / 2 - 80, canvas.height / 2);
-    window.location.href = "https://www.youtube.com/watch?v=kAAlEoLRuTA";
+    const mensajeVictoria = document.createElement("div");
+    mensajeVictoria.innerText = "¡Has derrotado al Prydwen y salvado New Vegas! Mr. House estará ha preparado una recompensa especial para tí acompañanos.";
+    mensajeVictoria.style.position = "absolute";
+    mensajeVictoria.style.top = "50%";
+    mensajeVictoria.style.left = "50%";
+    mensajeVictoria.style.transform = "translate(-50%, -50%)";
+    mensajeVictoria.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+    mensajeVictoria.style.color = "white";
+    mensajeVictoria.style.padding = "20px";
+    mensajeVictoria.style.borderRadius = "10px";
+    mensajeVictoria.style.textAlign = "center";
+    mensajeVictoria.style.zIndex = "1000";
+    document.body.appendChild(mensajeVictoria);
+    
+    setTimeout(() => {
+        document.body.removeChild(mensajeVictoria);
+    }, 3000); // Remove the message after 3 seconds
+    audio_nojuego.play(); 
+    setTimeout(() => {
+        window.location.href = "https://www.youtube.com/watch?v=kAAlEoLRuTA";
+    }, 3000);
     funcional = false; // Desactivar el juego al ganar
     finalizarPartida(); // Detener el cronómetro al ganar
+
 
 }
 
