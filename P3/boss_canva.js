@@ -1,4 +1,4 @@
-var audio_fondo = new Audio("Emi Meyer - For Whom the Bell Tolls (From Blue Eye Samurai).mp3");
+var audio_fondo = new Audio("Fallout 4 Main Theme.mp3");
 var audio_gameover = new Audio("game-over.mp3");
 var audio_nojuego = new Audio("I Dont Want To Set The World On Fire-The Ink Spots.mp3");
 // Cargar imagen de la explosión
