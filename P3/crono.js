@@ -75,4 +75,9 @@ class Crono {
     window.finalizarPartida = () => {
       crono.stop();
     };
+
+    // Función para iniciar el cronómetro. Puede ser llamada desde otro archivo JS.
+    window.iniciarPartida = () => {
+      crono.start();
+    };
   });

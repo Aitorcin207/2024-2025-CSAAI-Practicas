@@ -160,6 +160,8 @@ function drawGameOver() {
     const textWidth = ctx.measureText(text).width;
     ctx.fillText(text, (canvas.width - textWidth) / 2, canvas.height / 2 + 50);
     window.location.href = "https://www.youtube.com/watch?v=YFnM2idBlZU";
+    funcional = false; // Desactivar el juego al ganar
+    finalizarPartida(); // Detener el cronómetro al perder
 }
 
 function drawVictory() {
@@ -167,6 +169,8 @@ function drawVictory() {
     ctx.font = "40px Arial";
     ctx.fillText("¡Victoria!", canvas.width / 2 - 80, canvas.height / 2);
     window.location.href = "https://www.youtube.com/watch?v=kAAlEoLRuTA";
+    funcional = false; // Desactivar el juego al ganar
+    finalizarPartida(); // Detener el cronómetro al ganar
 
 }
 
@@ -544,6 +548,7 @@ function update() {
     draw();
     drawBossBullets();
     requestAnimationFrame(update);
+    
 }
 
 // Inicia el disparo periódico del jefe
@@ -568,4 +573,6 @@ setTimeout(() => {
     document.body.removeChild(mensajeMejora);
 }, 3000); // Remove the message after 3 seconds
 // Inicia automáticamente el juego al cargar el script
+// Ensure crono.js is included in the HTML and crono is initialized
+
 update();
