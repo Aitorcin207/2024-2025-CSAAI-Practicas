@@ -3,10 +3,6 @@
     src: url(./Montserrat-Regular.ttf);
 }
 
-/* Y así podremos hacer referencia al font-family Montserrat más adelante
-font-family: Montserrat;
-*/
-
 .game {
     position: absolute;
     top: 50%;
@@ -24,9 +20,10 @@ button {
 
 .card {
     position: relative;
-    width: 100px;
-    height: 100px;
+    width: 240px; /* Ancho estándar de una carta de póker */
+    height: 336px; /* Altura estándar de una carta de póker */
     cursor: pointer;
+    perspective: 1000px;
 }
 
 .card-front,
@@ -35,24 +32,38 @@ button {
     border-radius: 5px;
     width: 100%;
     height: 100%;
-    background: #282A3A;
-    transition: transform .6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
     backface-visibility: hidden;
 }
 
-.card-back {
+.card-front {
+    background-color: #fcc70b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 28pt;
-    text-align: center;
-    line-height: 100px;
-    background: #FDF8E6;
-    transform: rotateY(180deg) rotateZ(50deg);
     user-select: none;
 }
 
+.card-back {
+    background-image: url(./fondo_carta.png); /* Cambia la ruta a la imagen de la parte trasera de la carta */
+    background-size: cover; /* Ajusta la imagen para cubrir toda la carta */
+    background-position: center; /* Centra la imagen en la carta */
+    transform: rotateY(180deg);
+}
+
 .card.flipped .card-front {
-    transform: rotateY(180deg) rotateZ(50deg);
+    transform: rotateY(180deg);
 }
 
 .card.flipped .card-back {
-    transform: rotateY(0) rotateZ(0);
+    transform: rotateY(0);
+}
+
+.tablero {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 10px; /* Espacio entre las cartas */
+    justify-items: center; /* Centra las cartas en el tablero */
 }
