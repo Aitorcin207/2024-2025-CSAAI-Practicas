@@ -70,6 +70,10 @@ class Crono {
       crono.reset();
       crono.start();
       }
+      else if (crono.cent !== 0 || crono.seg !== 0 || crono.min !== 0) {
+        crono.reset();
+        crono.start();
+      }
     });
   
 
