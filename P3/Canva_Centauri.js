@@ -3,6 +3,8 @@ var audio_fondo = new Audio("Emi Meyer - For Whom the Bell Tolls (From Blue Eye 
 var audio_gameover = new Audio("game-over.mp3");
 var audio_nojuego = new Audio("I Dont Want To Set The World On Fire-The Ink Spots.mp3");
 const canvas = document.getElementById("canvas");
+var audioHitted = new Audio("sound/hitted.mp3");
+
 canvas.height = 650;
 canvas.width = 900;
 const ctx = canvas.getContext("2d");
@@ -11,6 +13,7 @@ let x = (canvas.width - 60) / 2; // Centrado horizontalmente
 let y = canvas.height - 80; // Posición inicial
 let normal = false;
 let infinito = false;
+let mododificil = false;
 const anchoProta = 60, altoProta = 60;
 const protaImg = new Image();
 protaImg.src = "servo.png"; // Imagen del protagonista
@@ -242,8 +245,9 @@ function moverse_enemigos() {
 
     // Calcular la posición más baja de los enemigos vivos
     let alturaMasBaja = Math.max(...enemigosVivos.map(enemigo => enemigo.y + enemigo.alto));
-    if (alturaMasBaja >= canvas.height - 70) { // Ajusta el umbral según tus necesidades
-        alert("Los monstruos han conseguido entrar en el refugio y han hecho una matanza :(.");
+    if (alturaMasBaja >= canvas.height - 70 || player.health <= 0) { // Ajusta el umbral según tus necesidades
+        alert("Los monstruos han conseguido entrar en New Vegas y han hecho una matanza :(.");
+        mododificil = false; // Desactivar modo difícil
         finalizarPartida();
         cancelAnimationFrame(bonusAnimationFrame); // Cancelar la animación del bonus
         clearInterval(bonusInterval);
@@ -264,7 +268,7 @@ function moverse_enemigos() {
 
         return;
     }
-
+    
     // Cambiar dirección si llegan a los bordes
     if (em1x + columnas * separacionX >= canvas.width || em1x <= 0) {
         velocidad_enemigos = -velocidad_enemigos;
@@ -294,6 +298,84 @@ function moverse_enemigos() {
     if (iniciado) {
         requestAnimationFrame(moverse_enemigos); // Continuar moviendo solo si el juego está iniciado
     }
+}
+
+// Lista para almacenar los proyectiles de los enemigos
+let enemyBullets = [];
+
+// Función para que un enemigo dispare
+function enemyShoot(enemigo) {
+    const bulletSpeed = 3;
+    const bulletWidth = 5;
+    const bulletHeight = 10;
+    const bulletX = enemigo.x + enemigo.ancho / 2 - bulletWidth / 2;
+    const bulletY = enemigo.y + enemigo.alto;
+    enemyBullets.push({
+        x: bulletX,
+        y: bulletY,
+        width: bulletWidth,
+        height: bulletHeight,
+        speed: bulletSpeed
+    });
+}
+
+// Función para mover los proyectiles de los enemigos
+function moveEnemyBullets() {
+    for (let i = enemyBullets.length - 1; i >= 0; i--) {
+        const bullet = enemyBullets[i];
+        bullet.y += bullet.speed;
+
+        // Dibujar la bala de color morado
+        ctx.fillStyle = "purple";
+        ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+
+        // Eliminar la bala si sale del canvas
+        if (bullet.y > canvas.height) {
+            enemyBullets.splice(i, 1);
+        }
+
+        // Detectar colisión con el protagonista
+        if (
+            bullet.x < x + anchoProta &&
+            bullet.x + bullet.width > x &&
+            bullet.y < y + altoProta &&
+            bullet.y + bullet.height > y
+        ) {
+            enemyBullets.splice(i, 1); // Eliminar la bala
+            player.health--; // Reducir la salud del protagonista
+
+            audioHitted.currentTime = 0; // Reiniciar el sonido
+            audioHitted.play(); // Reproducir el sonido de daño
+            if (player.health <= 0) {
+                alert("Has sido derrotado por los monstruos Mr. House estará muy decepcionado.");
+                finalizarPartida();
+            }
+        }
+    }
+}
+
+// Llamar a moveEnemyBullets en el bucle de actualización del canvas
+
+// Intervalo para que un enemigo aleatorio dispare cada cierto tiempo
+setInterval(() => {
+    if (enemigosLista.length === 0) return;
+    const randomIndex = Math.floor(Math.random() * enemigosLista.length);
+    const enemigo = enemigosLista[randomIndex];
+    enemyShoot(enemigo);
+}, 1000); // Ajusta el tiempo según tus necesidades
+
+function drawPlayerHealthBar() {
+    const barWidth = 100;
+    const barHeight = 10;
+    const x = 20;
+    const y = canvas.height - barHeight - 20;
+    const healthRatio = player.health / 10;
+    ctx.fillStyle = "gray";
+    ctx.fillRect(x, y, barWidth, barHeight);
+    ctx.fillStyle = "lightyellow";
+    ctx.fillRect(x, y, barWidth * healthRatio, barHeight);
+    ctx.strokeStyle = "white";
+    ctx.strokeRect(x, y, barWidth, barHeight);
 }
 
 // Dibujar al protagonista
@@ -356,6 +438,33 @@ function reiniciarJuego() {
 
 function infinitoJuego() {
     if (iniciado == false) {
+
+        audio_nojuego.pause(); // Detener el audio de fondo del menú
+        audio_nojuego.currentTime = 0; // Reiniciar el audio al inicio
+        audio_fondo.play();
+        audio_fondo.loop = true;
+        
+        funcional = true;
+        em1x = 130;
+        em1y = 60;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        dibujarProtagonista();
+        generarEnemigos();
+        dibujarEnemigos();
+        iniciarBonus();
+        iniciado = true;
+        infinito = true;
+        moviendoEnemigos = false; 
+        if (!moviendoEnemigos) {
+            moviendoEnemigos = true;
+            moverse_enemigos();
+        }
+    }
+}
+
+function infinitoJuegoDificil() {
+    if (iniciado == false) {
+        mododificil = true; // Activar modo difícil para que los enemigos disparen
         audio_nojuego.pause(); // Detener el audio de fondo del menú
         audio_nojuego.currentTime = 0; // Reiniciar el audio al inicio
         audio_fondo.play();
@@ -381,6 +490,7 @@ function infinitoJuego() {
 
 document.getElementById("btnIniciar").addEventListener("click", iniciarJuego);
 document.getElementById("btnInfinito").addEventListener("click", infinitoJuego);
+document.getElementById("btnDificil").addEventListener("click",  infinitoJuegoDificil);
 document.getElementById("btnReiniciar").addEventListener("click", reiniciarJuego);
 
 
@@ -657,17 +767,20 @@ function moverProyectiles() {
     }
 }
 
-// Actualizar el canvas continuamente
+
 function actualizarCanvas() {
     // Limpiar solo las áreas necesarias
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar todo el canvas
 
-        // Dibujar los elementos actualizados
-        dibujarProtagonista();
-        dibujarEnemigos();
-        dibujarProyectiles();
-        moverProyectiles();
-    
+    // Dibujar los elementos actualizados
+    dibujarProtagonista();
+    dibujarEnemigos();
+    dibujarProyectiles();
+    moverProyectiles();
+    if (mododificil == true) {
+    moveEnemyBullets(); // Mover y dibujar las balas de los enemigos
+    drawPlayerHealthBar();
+    }
     requestAnimationFrame(actualizarCanvas);
 }
 

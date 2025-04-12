@@ -65,6 +65,10 @@ class Crono {
       crono.start();
     });
 
+    btnDificil.addEventListener("click", () => {
+      crono.start();
+    });
+    
     btnReiniciar.addEventListener("click", () => {
       if (crono.timer) { // Verifica si la partida ya está empezada
       crono.reset();
