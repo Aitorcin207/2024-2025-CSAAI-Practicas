@@ -3,37 +3,65 @@
     src: url(./Montserrat-Regular.ttf);
 }
 
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #1e1e1e;
+    font-family: Arial, sans-serif;
+}
+
 .game {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
 }
 
-button {
-    cursor: pointer;
+.controles {
+    display: flex;
+    gap: 10px;
 }
 
-.disabled {
-    color: #757575;
+.grid-container {
+    position: relative;
+}
+
+.tablero {
+    display: grid;
+    grid-template-columns: repeat(6, 80px);
+    grid-template-rows: repeat(6, 120px);
+    gap: 10px;
+    padding: 20px;
+    border: 5px solid #fff;
+    border-radius: 10px;
+    background-color: #333;
 }
 
 .card {
     position: relative;
-    width: 240px; /* Ancho estándar de una carta de póker */
-    height: 336px; /* Altura estándar de una carta de póker */
-    cursor: pointer;
+    width: 80px;
+    height: 120px;
     perspective: 1000px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
 }
 
-.card-front,
-.card-back {
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-front, .card-back {
     position: absolute;
-    border-radius: 5px;
     width: 100%;
     height: 100%;
-    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
     backface-visibility: hidden;
+    border-radius: 8px;
 }
 
 .card-front {
@@ -41,14 +69,14 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 28pt;
+    font-size: 24pt;
     user-select: none;
 }
 
 .card-back {
-    background-image: url(./fondo_carta.png); /* Cambia la ruta a la imagen de la parte trasera de la carta */
-    background-size: cover; /* Ajusta la imagen para cubrir toda la carta */
-    background-position: center; /* Centra la imagen en la carta */
+    background-image: url('fondo_carta.png');
+    background-size: cover;
+    background-position: center;
     transform: rotateY(180deg);
 }
 
@@ -60,10 +88,34 @@ button {
     transform: rotateY(0);
 }
 
-.tablero {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-    gap: 10px; /* Espacio entre las cartas */
-    justify-items: center; /* Centra las cartas en el tablero */
+.win {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 255, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 24px;
+    color: white;
+    display: none;
+}
+
+.controles button {
+    padding: 8px 16px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.controles button:hover {
+    background-color: #666;
+}
+
+.display {
+    color: white;
+    margin-left: 20px;
 }
