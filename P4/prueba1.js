@@ -57,7 +57,7 @@ function startGame() {
   drawBoard();
 
   if (mode === 'tiempo') {
-    const timeLimits = { 2: 2, 4: 30, 6: 60 };
+    const timeLimits = { 2: 2, 4: 30, 6: 120 };
     const limit = timeLimits[size];
 
     timer = setInterval(() => {
@@ -220,6 +220,10 @@ function shuffle(array) {
   }
   return array;
 }
+
+document.addEventListener('dragstart', function(event) {
+  event.preventDefault();
+});
 
 startBtn.addEventListener('click', startGame);
 resetBtn.addEventListener('click', resetGame);
