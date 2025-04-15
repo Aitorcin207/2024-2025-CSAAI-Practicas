@@ -19,7 +19,8 @@ h1 {
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #111;
+    background: url('fondo_city.gif') no-repeat center center fixed;
+    background-size: cover;
     color: #fff;
     display: flex;
     flex-direction: column;

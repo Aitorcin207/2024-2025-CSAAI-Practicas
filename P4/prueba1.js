@@ -30,8 +30,11 @@ let moves = 0;
 let time = 0;
 let timer;
 let gameStarted = false;
+let jugando = false; // Variable para controlar si el juego ha comenzado
 
 function startGame() {
+  if (jugando) return; // Evita iniciar el juego si ya está en curso
+  jugando = true; // Marca que el juego ha comenzado
   size = parseInt(sizeSelect.value);
   const mode = gameModeSelect.value;
   board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
@@ -217,6 +220,7 @@ function resetGame() {
   gameOver = false;
   musica_fondo.pause(); // Detiene la música de fondo
   musica_fondo.currentTime = 0; // Reinicia la música de fondo
+  jugando = false; // Reinicia la variable de control del juego
 }
 
 function shuffle(array) {
