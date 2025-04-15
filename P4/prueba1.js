@@ -9,6 +9,7 @@ const finalMoves = document.getElementById('finalMoves');
 const finalTime = document.getElementById('finalTime');
 const gameModeSelect = document.getElementById('gameMode');
 const flipSound = new Audio('flipcard.mp3');
+var musica_fondo = new Audio('The Whims of Fate.mp3');
 
 const images = [
   '8ball_joker.png', 'balatro_joker.png', 'blue_joker.png', 'borroso_joker.png', 'cyan_joker.png', 'egg_joker.png',
@@ -43,6 +44,9 @@ function startGame() {
   moves = 0;
   time = 0;
   gameStarted = false;
+  musica_fondo.play();
+  musica_fondo.loop = true; // Reproduce la música de fondo en bucle
+  musica_fondo.volume = 0.3; // Ajusta el volumen de la música de fondo (0.0 a 1.0)
   movesDisplay.textContent = moves;
   timeDisplay.textContent = time;
   winMessage.classList.add('hidden');
@@ -57,7 +61,7 @@ function startGame() {
   drawBoard();
 
   if (mode === 'tiempo') {
-    const timeLimits = { 2: 2, 4: 30, 6: 120 };
+    const timeLimits = { 2: 2, 4: 30, 6: 90 };
     const limit = timeLimits[size];
 
     timer = setInterval(() => {
@@ -211,6 +215,8 @@ function resetGame() {
   document.getElementById('startHint').style.display = 'block';
   document.getElementById('startHint2').style.display = 'block';
   gameOver = false;
+  musica_fondo.pause(); // Detiene la música de fondo
+  musica_fondo.currentTime = 0; // Reinicia la música de fondo
 }
 
 function shuffle(array) {
