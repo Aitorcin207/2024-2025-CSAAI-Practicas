@@ -213,6 +213,7 @@ function handleCardClick(e) {
         winMessage.classList.remove('hidden');
         resetBtn.disabled = false;
         gameOver = true;
+        guardarTiempo(gameModeSelect.value, time, size);
       } else {
         setTimeout(() => {
           first.classList.remove('revealed');
@@ -261,7 +262,7 @@ function handleCardClick(e) {
         gameOver = true;
         // alert('¡Felicidades! Has ganado el juego.');
         // Guardar el tiempo en los mejores tiempos
-        guardarTiempo(gameModeSelect.value, time, size);
+        guardarTiempo(gameModeSelect.value, time, size, moves);
 
       }
       
@@ -329,7 +330,7 @@ function mostrarCartaObjetivo(valor) {
   }, 2000);
 }
 
-function guardarTiempo(modo, tiempo, size) {
+function guardarTiempo(modo, tiempo, size, movimientos) {
   const clave = 'mejoresTiempos';
   const datos = JSON.parse(sessionStorage.getItem(clave)) || {};
   const ahora = new Date();
@@ -338,13 +339,13 @@ function guardarTiempo(modo, tiempo, size) {
     hour: '2-digit', minute: '2-digit'
   });
 
-  const modoYSize = `${modo}-${size}`; // Aquí está el cambio importante
+  const modoYSize = `${modo}-${size}`;
 
   if (!datos[modoYSize]) {
     datos[modoYSize] = [];
   }
 
-  datos[modoYSize].push({ tiempo, fecha });
+  datos[modoYSize].push({ tiempo, movimientos, fecha });
 
   // Ordenar por tiempo ascendente y mantener solo los 10 mejores
   datos[modoYSize].sort((a, b) => a.tiempo - b.tiempo);
@@ -353,12 +354,19 @@ function guardarTiempo(modo, tiempo, size) {
   sessionStorage.setItem(clave, JSON.stringify(datos));
 }
 
-
 function mostrarMejoresTiempos(modo, size) {
   const clave = 'mejoresTiempos';
   const datos = JSON.parse(sessionStorage.getItem(clave)) || {};
   const modoYSize = `${modo}-${size}`;
   const tiempos = datos[modoYSize] || [];
+
+  // Ordenar por tiempo ascendente y, en caso de empate, por movimientos ascendente
+  tiempos.sort((a, b) => {
+    if (a.tiempo === b.tiempo) {
+      return a.movimientos - b.movimientos;
+    }
+    return a.tiempo - b.tiempo;
+  });
 
   const contenedor = document.getElementById('mejoresTiempos');
   if (contenedor) {
@@ -366,14 +374,14 @@ function mostrarMejoresTiempos(modo, size) {
     const lista = document.createElement('ul');
     tiempos.forEach((registro, index) => {
       const item = document.createElement('li');
-      item.textContent = `${index + 1}. ${registro.tiempo.toFixed(2)} segundos - ${registro.fecha}`;
+      item.textContent = `${index + 1}. ${registro.tiempo.toFixed(2)} segundos, ${registro.movimientos} movimientos - ${registro.fecha}`;
       lista.appendChild(item);
     });
     contenedor.appendChild(lista);
   } else {
     console.log(`🏆 Mejores tiempos para ${modo} (${size}):`);
     tiempos.forEach((registro, index) => {
-      console.log(`${index + 1}. ${registro.tiempo.toFixed(2)} segundos - ${registro.fecha}`);
+      console.log(`${index + 1}. ${registro.tiempo.toFixed(2)} segundos, ${registro.movimientos} movimientos - ${registro.fecha}`);
     });
   }
 }
