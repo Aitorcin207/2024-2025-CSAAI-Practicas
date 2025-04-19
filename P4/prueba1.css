@@ -171,6 +171,8 @@ body {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   animation: fadeIn 1s forwards ease-out;
   animation-delay: 0.5s;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+  font-size: 1.1rem;
 }
 
 .objetivo {
