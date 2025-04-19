@@ -263,11 +263,15 @@ button {
 @media (max-width: 480px) {
   .board {
     gap: 5px;
+    padding: 5px;
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+    max-width: 100%;
+    overflow-x: auto;
   }
 
   .card {
     width: 40px;
-    height: 60px;
+    height: 53px; /* Maintain the same proportion as the original size */
   }
 
   .controls label,
