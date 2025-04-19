@@ -8,13 +8,19 @@
   src: url('./PressStart2P-vaV7.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: "04b";
+  src: url('./04B_30__.TTF') format('truetype');
+}
+  
 p {
   font-family: "Press Start 2P";
-
+  color: #ffffff;
 }
+
 h1 {
   font-family: "Press Start 2P";
-
+  color: #ffffff;
 }
 
 body {
@@ -34,6 +40,7 @@ body {
     margin-bottom: 15px;
     align-items: center;
     flex-wrap: wrap;
+    
   }
   
   .controls label,
@@ -46,6 +53,7 @@ body {
     padding: 8px 12px;
     border-radius: 6px;
     font-size: 14px;
+    font-family: "04b";
   }
   
   .controls select {
@@ -133,6 +141,7 @@ body {
     border-radius: 10px;
     color: lightgreen;
     font-size: 18px;
+    font-family: "Press Start 2P";
   }
   
   .hidden {
@@ -141,7 +150,74 @@ body {
   
   .start-hint {
     text-align: center;
-    color: #ccc;
+    color: #ed24f7;
     font-style: italic;
     margin-top: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
   }
+
+  #winMessage,
+#mejoresTiempos {
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+  color: white;
+  padding: 15px 25px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 20px auto;
+  max-width: 500px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 1s forwards ease-out;
+  animation-delay: 0.5s;
+}
+
+.objetivo {
+  text-align: center;
+  margin: 20px auto;
+  background-color: black;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 20px;
+  max-width: 320px;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+  font-size: 1.1rem;
+  animation: fadeOut 2s forwards ease-out 2s;
+}
+
+.objetivo-imagen {
+  width: 100px;
+  height: auto;
+  margin-top: 10px;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+select {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 8px;
+  font-family: "04b";
+  cursor: pointer;
+}
+
+button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 8px;
+  font-family: "04b";
+  cursor: pointer;
+}

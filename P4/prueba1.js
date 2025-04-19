@@ -32,6 +32,38 @@ let timer;
 let gameStarted = false;
 let jugando = false; // Variable para controlar si el juego ha comenzado
 
+function iniciarTemporizador(callback, limite) {
+  clearInterval(timer); // Limpia cualquier temporizador anterior
+  time = 0;
+
+  if (limite !== null) {
+    timeDisplay.textContent = limite - time;
+  }
+  else {
+    timeDisplay.textContent = time;
+  }
+  timer = setInterval(() => {
+    time++;
+
+    if (limite !== null) {
+      timeDisplay.textContent = limite - time;
+    }
+    else {
+      timeDisplay.textContent = time;
+    }
+
+    if (limite !== null && time >= limite) {
+      detenerTemporizador();
+      callback();
+    }
+  }, 1000);
+}
+
+function detenerTemporizador() {
+  clearInterval(timer);
+  timer = null;
+}
+
 function startGame() {
   if (jugando) return; // Evita iniciar el juego si ya está en curso
   jugando = true; // Marca que el juego ha comenzado
@@ -63,23 +95,39 @@ function startGame() {
   cards = generateCards(size, mode);
   drawBoard();
 
-  if (mode === 'tiempo') {
-    const timeLimits = { 2: 2, 4: 30, 6: 90 };
-    const limit = timeLimits[size];
+  const timeLimits = {
+    normal: null,
+    tiempo: { 2: 2, 4: 30, 6: 90 },
+    puntos: { 2: 3, 4: 30, 6: 50 },
+  };
+  
+  if (mode === 'tiempo' || mode === 'puntos') {
+    const limit = timeLimits[mode][size];
 
-    timer = setInterval(() => {
-      time++;
-      timeDisplay.textContent = time;
+    if (mode === 'puntos') {
+      const duplicadas = cards.filter((item, index, arr) =>
+        arr.indexOf(item) !== index
+      );
+      const cartaObjetivo = duplicadas[Math.floor(Math.random() * duplicadas.length)];
+      window.cartaObjetivo = cartaObjetivo;
+      mostrarCartaObjetivo(cartaObjetivo);
+    }
 
-      if (time >= limit) {
-        clearInterval(timer);
-        alert('¡Se acabó el tiempo!');
-        resetBtn.disabled = false;
-        gameOver = true;
-      }
-    }, 1000);
+    iniciarTemporizador(() => {
+      gameOver = true;
+      jugando = false;
+      alert('¡Se acabó el tiempo! No encontraste la pareja.');
+      resetBtn.disabled = false;
+    }, limit);
+  } else {
+    detenerTemporizador(); // Para evitar que quede corriendo un temporizador anterior
+    timeDisplay.textContent = 0;
   }
+  // Mostrar los mejores tiempos al iniciar el juego
+  document.getElementById('mejoresTiempos').classList.remove('hidden');
+  mostrarMejoresTiempos('modo', 'size');
 }
+
 
 function generateCards(size, mode) {
   const totalCards = size * size;
@@ -97,6 +145,7 @@ function generateCards(size, mode) {
     const fullDeck = [...selected, ...selected];
     return shuffle(fullDeck);
   }
+  
 }
 
 function drawBoard() {
@@ -127,7 +176,7 @@ function drawBoard() {
     inner.appendChild(front);
     inner.appendChild(back);
     card.appendChild(inner);
-
+    card.style.cursor = 'pointer';
     card.addEventListener('click', handleCardClick);
     board.appendChild(card);
   });
@@ -139,14 +188,10 @@ function handleCardClick(e) {
   const index = card.dataset.index;
   if (gameOver || card.classList.contains('revealed') || card.classList.contains('matched') || revealedCards.length >= 2) return;
 
-  if (!gameStarted && gameModeSelect.value !== 'tiempo') {
+  if (!gameStarted && (gameModeSelect.value === 'normal' || gameModeSelect.value === 'muerte')) {
     gameStarted = true;
-    timer = setInterval(() => {
-      time++;
-      timeDisplay.textContent = time;
-    }, 1000);
+    iniciarTemporizador(() => {}, null); // sin límite de tiempo
   }
-
   card.classList.add('revealed');
   revealedCards.push(card);
     flipSound.currentTime = 0; // Reinicia el sonido al inicio
@@ -154,6 +199,27 @@ function handleCardClick(e) {
 
   if (revealedCards.length === 2) {
     const [first, second] = revealedCards;
+
+    // Si estamos en modo "puntos" (Encontrar la pareja)
+    if (gameModeSelect.value === 'puntos') {
+      moves++;
+      movesDisplay.textContent = moves;
+      if (first.dataset.value === window.cartaObjetivo && second.dataset.value === window.cartaObjetivo) {
+        clearInterval(timer);
+        finalMoves.textContent = moves;
+        finalTime.textContent = time;
+        winMessage.classList.remove('hidden');
+        resetBtn.disabled = false;
+        gameOver = true;
+      } else {
+        setTimeout(() => {
+          first.classList.remove('revealed');
+          second.classList.remove('revealed');
+          revealedCards = [];
+        }, 800);
+      }
+      return; // Salimos para no seguir con la lógica normal
+    }
 
     // Revisa muerte
     if (first.dataset.value === muerteCard && second.dataset.value === muerteCard && gameModeSelect.value === 'muerte') {
@@ -192,6 +258,9 @@ function handleCardClick(e) {
         resetBtn.disabled = false;
         gameOver = true;
         // alert('¡Felicidades! Has ganado el juego.');
+        // Guardar el tiempo en los mejores tiempos
+        guardarTiempo(gameModeSelect.value, time, size);
+
       }
       
     } else {
@@ -221,6 +290,12 @@ function resetGame() {
   musica_fondo.pause(); // Detiene la música de fondo
   musica_fondo.currentTime = 0; // Reinicia la música de fondo
   jugando = false; // Reinicia la variable de control del juego
+
+  // Ocultar los mejores tiempos
+  document.getElementById('mejoresTiempos').classList.add('hidden');
+
+  const objetivo = document.querySelector('.objetivo');
+if (objetivo) objetivo.remove();
 }
 
 function shuffle(array) {
@@ -234,6 +309,71 @@ function shuffle(array) {
 document.addEventListener('dragstart', function(event) {
   event.preventDefault();
 });
+
+function mostrarCartaObjetivo(valor) {
+  const contenedor = document.createElement('div');
+  contenedor.classList.add('objetivo');
+  contenedor.innerHTML = `
+    <p class="objetivo-texto">Encuentra la pareja de esta carta:</p>
+    <img src="./${valor}" alt="Carta objetivo" class="objetivo-imagen">
+  `;
+  document.body.insertBefore(contenedor, board);
+
+  // Eliminar la carta objetivo tras 2 segundos
+  setTimeout(() => {
+    contenedor.remove();
+  }, 2000);
+}
+
+function guardarTiempo(modo, tiempo, size) {
+  const clave = 'mejoresTiempos';
+  const datos = JSON.parse(sessionStorage.getItem(clave)) || {};
+  const ahora = new Date();
+  const fecha = ahora.toLocaleString('es-ES', {
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit'
+  });
+
+  const modoYSize = `${modo}-${size}`; // Aquí está el cambio importante
+
+  if (!datos[modoYSize]) {
+    datos[modoYSize] = [];
+  }
+
+  datos[modoYSize].push({ tiempo, fecha });
+
+  // Ordenar por tiempo ascendente y mantener solo los 10 mejores
+  datos[modoYSize].sort((a, b) => a.tiempo - b.tiempo);
+  datos[modoYSize] = datos[modoYSize].slice(0, 10);
+
+  sessionStorage.setItem(clave, JSON.stringify(datos));
+}
+
+
+function mostrarMejoresTiempos(modo, size) {
+  const clave = 'mejoresTiempos';
+  const datos = JSON.parse(sessionStorage.getItem(clave)) || {};
+  const modoYSize = `${modo}-${size}`;
+  const tiempos = datos[modoYSize] || [];
+
+  const contenedor = document.getElementById('mejoresTiempos');
+  if (contenedor) {
+    contenedor.innerHTML = `<h3>🏆 Mejores tiempos para ${modo} (${size}):</h3>`;
+    const lista = document.createElement('ul');
+    tiempos.forEach((registro, index) => {
+      const item = document.createElement('li');
+      item.textContent = `${index + 1}. ${registro.tiempo.toFixed(2)} segundos - ${registro.fecha}`;
+      lista.appendChild(item);
+    });
+    contenedor.appendChild(lista);
+  } else {
+    console.log(`🏆 Mejores tiempos para ${modo} (${size}):`);
+    tiempos.forEach((registro, index) => {
+      console.log(`${index + 1}. ${registro.tiempo.toFixed(2)} segundos - ${registro.fecha}`);
+    });
+  }
+}
+
 
 startBtn.addEventListener('click', startGame);
 resetBtn.addEventListener('click', resetGame);
