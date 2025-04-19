@@ -66,6 +66,8 @@ function detenerTemporizador() {
 
 function startGame() {
   if (jugando) return; // Evita iniciar el juego si ya está en curso
+  const contenedorTiempos = document.getElementById('mejoresTiempos');
+  contenedorTiempos.style.display = 'block';
   jugando = true; // Marca que el juego ha comenzado
   size = parseInt(sizeSelect.value);
   const mode = gameModeSelect.value;
@@ -125,7 +127,7 @@ function startGame() {
   }
   // Mostrar los mejores tiempos al iniciar el juego
   document.getElementById('mejoresTiempos').classList.remove('hidden');
-  mostrarMejoresTiempos('modo', 'size');
+  mostrarMejoresTiempos(gameModeSelect.value, size);
 }
 
 
@@ -277,6 +279,8 @@ function handleCardClick(e) {
 
 function resetGame() {
   clearInterval(timer);
+  const contenedorTiempos = document.getElementById('mejoresTiempos');
+  contenedorTiempos.style.display = 'none';
   gameStarted = false;
   sizeSelect.disabled = false;
   gameModeSelect.disabled = false;
