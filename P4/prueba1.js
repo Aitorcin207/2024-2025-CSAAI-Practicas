@@ -213,7 +213,7 @@ function handleCardClick(e) {
         winMessage.classList.remove('hidden');
         resetBtn.disabled = false;
         gameOver = true;
-        guardarTiempo(gameModeSelect.value, time, size);
+        guardarTiempo(gameModeSelect.value, time, size, moves);
       } else {
         setTimeout(() => {
           first.classList.remove('revealed');

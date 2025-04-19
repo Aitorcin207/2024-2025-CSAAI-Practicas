@@ -175,6 +175,12 @@ body {
   font-size: 1.1rem;
 }
 
+.tabladetiempos {
+  font-family: "04b";
+  color: #f099f0;
+  font-size: small;
+}
+
 .objetivo {
   text-align: center;
   margin: 20px auto;
