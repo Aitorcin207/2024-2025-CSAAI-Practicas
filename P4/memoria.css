@@ -279,7 +279,7 @@ button {
 
   .card {
     width: 40px;
-    height: 53px; /* Maintain the same proportion as the original size */
+    height: 53px; 
   }
 
   .controls label,

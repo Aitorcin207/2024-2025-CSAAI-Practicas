@@ -1,32 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> Memory </title>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Juego de Memoria</title>
+  <link rel="stylesheet" href="memoria.css" />
+  <link rel="icon" href="balatro_icono.ico" type="image/x-icon" />
+</head>
+<body>
+    <div>
+        <h1 style="text-align: center;">Juego de Memoria</h1>
+        <p id="startHint2" class="start-hint">Encuentra los pares de cartas iguales.</p>
+        <p id="startHint" class="start-hint">Elige un tamaño y haz clic en "Comenzar" para empezar a jugar.</p>
 
-        <link rel="stylesheet" href="memory.css" />
-        <script src="memory.js" defer></script>
-    </head>
-    <body>
-        <div class="game">
-            <div class="controles">
-                <button id="Inicio">Comenzar</button>
-                <button id="Reinicio">Reiniciar</button>
-                <div class="display">
-                    <div class="movimientos">0 movimientos</div>
-                    <div class="timer">tiempo: 0 sec</div>
-                </div>
-            </div>
-            <div class="grid-container">
-                <div class="tablero" grid-dimension="6">
-                    <!-- Generate a 6x6 grid of cards -->
-                    <!-- Each card has a front and back -->
-                    <!-- Example card structure repeated for 36 cards -->
-                </div>
-                <div class="win">¡Has Ganado!</div>
-            </div>
-        </div>
-    </body>
+    </div>
+  <div class="controls">
+    <label for="size">Tamaño del tablero:</label>
+    <select id="size">
+      <option value="2">2x2</option>
+      <option value="4" selected>4x4</option>
+      <option value="6">6x6</option>
+    </select>
+    <select id="gameMode">
+        <option value="normal">Normal</option>
+        <option value="muerte">Carta de Muerte</option>
+        <option value="tiempo">Contrarreloj</option>
+        <option value="puntos">Encontrar la pareja</option>
+        <!-- <option value="puntos2">Contra la máquina</option> -->
+      </select>
+    <button id="startBtn">Comenzar</button>
+    <button id="resetBtn" disabled>Reiniciar</button>
+    <div class="stats">
+      <span>Movimientos: <span id="moves">0</span></span>
+      <span>Tiempo: <span id="time">0</span>s</span>
+    </div>
+  </div>
+  <div id="gameBoard" class="board"></div>
+
+  <div id="winMessage" class="win-message hidden">
+    ¡Has ganado en <span id="finalMoves"></span> movimientos y <span id="finalTime"></span> segundos!
+  </div>
+  <div id="mejoresTiempos" class="tabladetiempos" style="display:none;">
+
+    
+  </div>
+
+  <script src="memoria.js"></script>
+</body>
 </html>
