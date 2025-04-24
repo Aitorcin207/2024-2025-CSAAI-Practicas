@@ -141,7 +141,9 @@ function generateCards(size, mode) {
     const selected = shuffle(availableImages).slice(0, neededPairs - 1);
     selected.push(muerteCard); // Solo una carta muerte (duplicada después)
     const fullDeck = [...selected, ...selected];
+    reglasmuerte(muerteCard);
     return shuffle(fullDeck);
+    
   } else {
     const selected = shuffle(availableImages).slice(0, neededPairs);
     const fullDeck = [...selected, ...selected];
@@ -329,6 +331,22 @@ function mostrarCartaObjetivo(valor) {
     contenedor.remove();
   }, 2000);
 }
+
+function reglasmuerte(valor) {
+  const contenedor = document.createElement('div');
+  contenedor.classList.add('objetivo');
+  contenedor.innerHTML = `
+    <p class="objetivo-texto">Evita la pareja de cartas de muerte y revela el resto de parejas.</p>
+    <img src="./${valor}" alt="Carta objetivo" class="objetivo-imagen">
+  `;
+  document.body.insertBefore(contenedor, board);
+
+  // Eliminar la carta objetivo tras 2 segundos
+  setTimeout(() => {
+    contenedor.remove();
+  }, 4000);
+}
+
 
 function guardarTiempo(modo, tiempo, size, movimientos) {
   const clave = 'mejoresTiempos';
