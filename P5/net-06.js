@@ -6,11 +6,21 @@ let redAleatoria;
 let nodoOrigen = 0, nodoDestino = 0;
 let rutaMinimaConRetardos;
 
+const pantallaWidth = 120;
+const pantallaHeight = 120;
+
 const nodeRadius = 40;
 const numNodos = 5;
 const nodeConnect = 2;
 const nodeRandomDelay = 1000;
 const pipeRandomWeight = 100; // No hay retardo entre nodos 100
+
+const imgPantalla = new Image();
+imgPantalla.src = "pantalla.png";
+
+const imgPantallaVerde = new Image();
+imgPantallaVerde.src = "pantalla-verde.png"; // Esta debes crearla
+
 
 // Localizando elementos en el DOM
 const btnCNet = document.getElementById("btnCNet");
@@ -252,19 +262,21 @@ function drawNet(nnodes, ruta = []) {
 
   // Dibujar nodos
   nnodes.forEach(nodo => {
-    ctx.beginPath();
-    ctx.arc(nodo.x, nodo.y, nodeRadius, 0, 2 * Math.PI);
-    ctx.fillStyle = ruta.includes(nodo) ? 'green' : 'blue';
-    ctx.fill();
-    ctx.stroke();
-    ctx.fillStyle = 'white';
+    const esRuta = ruta.includes(nodo);
+    const imagen = esRuta ? imgPantallaVerde : imgPantalla;
+  
+    // Dibujar la imagen como nodo
+    ctx.drawImage(imagen, nodo.x - pantallaWidth / 2, nodo.y - pantallaHeight / 2, pantallaWidth, pantallaHeight);
+  
+    // Dibujar el texto encima de la imagen
+    ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.font = '12px Arial';
-    nodoDesc = "N" + nodo.id + " delay " + Math.floor(nodo.delay);
-    ctx.fillText(`N${nodo.id} delay ${Math.floor(nodo.delay)}`, nodo.x, nodo.y + 5);
+    const nodoDesc = `N${nodo.id} delay ${Math.floor(nodo.delay)}`;
+    ctx.fillText(nodoDesc, nodo.x, nodo.y + 5);
   });
+  
 }
-
 
 
 // Función de calback para generar la red de manera aleatoria
