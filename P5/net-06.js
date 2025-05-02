@@ -281,37 +281,38 @@ btnCNet.onclick = () => {
   drawNet(redAleatoria);
 
 }
-
 btnMinPath.onclick = () => {
+  if (!redAleatoria || redAleatoria.length === 0) {
+    alert("Primero debes crear la red haciendo clic en 'Crear Red'");
+    return;
+  }
+
   nodoOrigen = redAleatoria[0]; // Nodo de origen
   nodoDestino = redAleatoria[numNodos - 1]; // Nodo de destino
 
-  // Calcular la ruta mínima entre el nodo origen y el nodo destino
   rutaMinimaConRetardos = dijkstraConRetardos(redAleatoria, nodoOrigen, nodoDestino);
   console.log("Ruta mínima con retrasos:", rutaMinimaConRetardos);
 
-  // Limpiar el canvas y redibujar la red con la ruta mínima destacada
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawNet(redAleatoria, rutaMinimaConRetardos);
 
-  // Mostrar la ruta más corta debajo del canvas
   const rutaTexto = document.getElementById("rutaTexto");
   const rutaIds = rutaMinimaConRetardos.map(n => `N${n.id}`);
   rutaTexto.innerText = `Ruta más corta: ${rutaIds.join(" → ")}`;
+
+  // Deshabilitar botón hasta nueva red
+  btnMinPath.disabled = true;
 };
 
-  // Método para saber si un nodo está en la lista de conexiones de otro
-  function isconnected(idn) {
+// Generar nueva red
+btnCNet.onclick = () => {
+  redAleatoria = crearRedAleatoriaConCongestion(numNodos, nodeConnect);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawNet(redAleatoria);
 
-    let isconnected = false;
+  // Limpiar texto de ruta si existe
+  const rutaTexto = document.getElementById("rutaTexto");
+  if (rutaTexto) rutaTexto.innerText = "";
 
-    this.conexiones.forEach(({ nodo: conexion, peso }) => {      
-      if (idn == conexion.id) {
-        //console.log("id nodo conectado:" + conexion.id);
-        isconnected = true;
-      }      
-    });
-    
-    return isconnected;
-  }
-  
+  // Volver a habilitar el botón de calcular ruta
+  btnMinPath.disabled = false;
+};
