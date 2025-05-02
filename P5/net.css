@@ -1,7 +1,16 @@
 canvas {
-    border: 1px solid black;
-  }
-  
+  border: 10px solid black;
+  background: white; /* Fondo blanco para el canvas */
+}
+
+body {
+  background: url('fondo.gif') no-repeat center center fixed; /* Fondo con un GIF */
+  background-size: cover; /* Ajusta el tamaño del GIF para cubrir todo el fondo */
+  color: #FFF;
+  font-family: Fredoka;
+  font-size: 18pt;
+}
+
   .controls {
     display: flex;
     gap: 20px;
