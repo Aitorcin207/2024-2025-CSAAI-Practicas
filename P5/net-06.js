@@ -309,7 +309,7 @@ btnMinPath.onclick = () => {
 
   const rutaTexto = document.getElementById("rutaTexto");
   const rutaIds = rutaMinimaConRetardos.map(n => `N${n.id}`);
-  rutaTexto.innerText = `Ruta más corta: ${rutaIds.join(" → ")}`;
+  rutaTexto.innerText = `Ruta más corta hasta el PC hackeado: ${rutaIds.join(" → ")}`;
 
   // Deshabilitar botón hasta nueva red
   btnMinPath.disabled = true;
