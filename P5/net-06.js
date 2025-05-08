@@ -299,32 +299,77 @@ btnMinPath.onclick = () => {
     return;
   }
 
-  nodoOrigen = redAleatoria[0]; // Nodo de origen
-  nodoDestino = redAleatoria[numNodos - 1]; // Nodo de destino
+  nodoOrigen = redAleatoria[0];
+  nodoDestino = redAleatoria[numNodos - 1];
 
   rutaMinimaConRetardos = dijkstraConRetardos(redAleatoria, nodoOrigen, nodoDestino);
-  console.log("Ruta mínima con retrasos:", rutaMinimaConRetardos);
-
   drawNet(redAleatoria, rutaMinimaConRetardos);
 
-  const rutaTexto = document.getElementById("rutaTexto");
-  const rutaIds = rutaMinimaConRetardos.map(n => `N${n.id}`);
-  rutaTexto.innerText = `Ruta más corta hasta el PC hackeado: ${rutaIds.join(" → ")}`;
-
-  // Deshabilitar botón hasta nueva red
-  btnMinPath.disabled = true;
+  const tiempoTotal = rutaMinimaConRetardos.reduce((total, nodo) => total + nodo.delay, 0);
+  const rutaTexto = document.getElementById("infoRed");
+  rutaTexto.innerHTML = `
+    <div><strong>Número de nodos:</strong> ${redAleatoria.length}</div>
+    <div><strong>Tiempo total:</strong> ${Math.floor(tiempoTotal)} ms</div>
+    <div><strong>Ruta más corta:</strong> ${rutaMinimaConRetardos.map(n => `N${n.id}`).join(" → ")}</div>
+    <div><em>¡¡¡Red Generada!!!</em></div>
+  `;
 };
 
-// Generar nueva red
-btnCNet.onclick = () => {
-  redAleatoria = crearRedAleatoriaConCongestion(numNodos, nodeConnect);
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawNet(redAleatoria);
 
-  // Limpiar texto de ruta si existe
-  const rutaTexto = document.getElementById("rutaTexto");
-  if (rutaTexto) rutaTexto.innerText = "";
 
-  // Volver a habilitar el botón de calcular ruta
-  btnMinPath.disabled = false;
-};
+
+
+
+function dijkstraConRetardos(nodos, nodoInicio, nodoFin) {
+  const distancias = new Map();
+  const previos = new Map();
+  const visitados = new Set();
+
+  // Inicializar distancias y previos
+  nodos.forEach(nodo => {
+    distancias.set(nodo.id, Infinity);
+    previos.set(nodo.id, null);
+  });
+  distancias.set(nodoInicio.id, nodoInicio.delay); // El coste inicial es el retardo del nodo de inicio
+
+  while (visitados.size < nodos.length) {
+    // Encontrar el nodo no visitado con la menor distancia
+    let nodoActual = null;
+    let menorDistancia = Infinity;
+
+    distancias.forEach((distancia, id) => {
+      if (!visitados.has(id) && distancia < menorDistancia) {
+        menorDistancia = distancia;
+        nodoActual = nodos.find(n => n.id === id);
+      }
+    });
+
+    if (!nodoActual) {
+      break; // No hay más nodos alcanzables
+    }
+
+    visitados.add(nodoActual.id);
+
+    // Actualizar distancias a los nodos vecinos
+    nodoActual.conexiones.forEach(({ nodo: vecino }) => {
+      if (!visitados.has(vecino.id)) {
+        const nuevaDistancia = distancias.get(nodoActual.id) + vecino.delay;
+        if (nuevaDistancia < distancias.get(vecino.id)) {
+          distancias.set(vecino.id, nuevaDistancia);
+          previos.set(vecino.id, nodoActual.id);
+        }
+      }
+    });
+  }
+
+  // Reconstruir la ruta desde el nodoFin hacia el nodoInicio
+  const ruta = [];
+  let nodoId = nodoFin.id;
+  while (nodoId !== null) {
+    const nodo = nodos.find(n => n.id === nodoId);
+    ruta.unshift(nodo);
+    nodoId = previos.get(nodoId);
+  }
+
+  return ruta;
+}
