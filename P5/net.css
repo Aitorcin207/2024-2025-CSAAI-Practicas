@@ -1,6 +1,7 @@
 canvas {
   border: 10px solid black;
-  background: white; /* Fondo blanco para el canvas */
+  background: url('wallpaper1.jpg') no-repeat center center; /* Fondo con una imagen */
+  background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el canvas */
 }
 
 body {

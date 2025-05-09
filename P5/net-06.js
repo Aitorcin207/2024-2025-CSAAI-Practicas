@@ -10,7 +10,7 @@ const pantallaWidth = 120;
 const pantallaHeight = 120;
 
 const nodeRadius = 40;
-const numNodos = 5;
+let numNodos = randomNumber(2, 6); // Generar un número aleatorio entre 2 y 5
 const nodeConnect = 2;
 const nodeRandomDelay = 1000;
 const pipeRandomWeight = 100; // No hay retardo entre nodos 100
@@ -233,11 +233,11 @@ function drawNet(nnodes, ruta = []) {
       ctx.beginPath();
       ctx.moveTo(nodo.x, nodo.y);
       ctx.lineTo(conexion.x, conexion.y);
-      ctx.strokeStyle = 'black';
+      ctx.strokeStyle = 'white';
       ctx.stroke();
       
       ctx.font = '12px Arial';
-      ctx.fillStyle = 'black';
+      ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
       pw = "N" + nodo.id + " pw " + peso;
       const midX = Math.floor((nodo.x + conexion.x)/2);
@@ -282,6 +282,7 @@ function drawNet(nnodes, ruta = []) {
 // Función de calback para generar la red de manera aleatoria
 btnCNet.onclick = () => {
 
+  numNodos = randomNumber(2, 6);
   // Generar red de nodos con congestión creada de manera aleatoria redAleatoria
   // Cada nodo tendrá un delay aleatorio para simular el envío de paquetes de datos
   redAleatoria = crearRedAleatoriaConCongestion(numNodos, nodeConnect);
@@ -292,6 +293,24 @@ btnCNet.onclick = () => {
   // Dibujar la red que hemos generado
   drawNet(redAleatoria);
 
+  // Mostrar información de los nodos
+  const infoNodosDiv = document.getElementById("infoNodos");
+  infoNodosDiv.innerHTML = ""; // Limpia los nodos anteriores
+
+  redAleatoria.forEach(nodo => {
+    const nodoDiv = document.createElement("div");
+    const colorValue = Math.floor((nodo.id / (redAleatoria.length - 1)) * 255);
+    nodoDiv.style.border = `10px solid rgb(${colorValue}, ${colorValue}, ${colorValue})`;
+    nodoDiv.style.padding = "10px";
+    nodoDiv.style.width = "120px";
+    nodoDiv.style.textAlign = "center";
+    nodoDiv.style.backgroundColor = "gray";
+    nodoDiv.style.color = "white";
+    nodoDiv.style.margin = "5px";
+    nodoDiv.style.borderRadius = "8px";
+    nodoDiv.innerHTML = `<strong>N${nodo.id}</strong><br>Delay: ${Math.floor(nodo.delay)} ms`;
+    infoNodosDiv.appendChild(nodoDiv);
+  });
 }
 btnMinPath.onclick = () => {
   if (!redAleatoria || redAleatoria.length === 0) {
@@ -310,7 +329,8 @@ btnMinPath.onclick = () => {
   rutaTexto.innerHTML = `
     <div><strong>Número de nodos:</strong> ${redAleatoria.length}</div>
     <div><strong>Tiempo total:</strong> ${Math.floor(tiempoTotal)} ms</div>
-    <div><strong>Ruta más corta:</strong> ${rutaMinimaConRetardos.map(n => `N${n.id}`).join(" → ")}</div>
+    <div><strong>Ruta más corta:</strong></div>
+    <div>${rutaMinimaConRetardos.map(n => `N${n.id}`).join(" → ")}</div>
     <div><em>¡¡¡Red Generada!!!</em></div>
   `;
 };
@@ -373,3 +393,4 @@ function dijkstraConRetardos(nodos, nodoInicio, nodoFin) {
 
   return ruta;
 }
+
