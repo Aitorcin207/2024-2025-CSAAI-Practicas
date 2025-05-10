@@ -28,3 +28,43 @@ body {
     font-family: Fredoka;
     font-size: 18pt;
   }
+
+/* Media queries para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 16pt; /* Reduce el tamaño de la fuente en pantallas más pequeñas */
+  }
+
+  canvas {
+    border: 5px solid black; /* Reduce el grosor del borde del canvas */
+  }
+
+  .controls {
+    gap: 10px; /* Reduce el espacio entre los botones */
+  }
+
+  button {
+    font-size: 14pt; /* Reduce el tamaño de la fuente de los botones */
+    padding: 8px 15px; /* Ajusta el tamaño del botón */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  body {
+    font-size: 14pt; /* Reduce aún más el tamaño de la fuente */
+  }
+
+  canvas {
+    border: 3px solid black; /* Reduce aún más el grosor del borde del canvas */
+  }
+
+  .controls {
+    flex-direction: column; /* Coloca los botones en una columna */
+    gap: 15px; /* Ajusta el espacio entre los botones */
+  }
+
+  button {
+    font-size: 12pt; /* Reduce el tamaño de la fuente de los botones */
+    padding: 6px 10px; /* Ajusta el tamaño del botón */
+  }
+}
