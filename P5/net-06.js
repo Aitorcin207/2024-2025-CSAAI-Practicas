@@ -1,6 +1,15 @@
+
 // Variables de trabajo
 const canvas = document.getElementById('networkCanvas');
 const ctx = canvas.getContext('2d');
+const miAudio = new Audio('Canción misión imposible.mp3');
+const btnReproducir = document.getElementById('btnCNet');
+btnReproducir.addEventListener('click', () => {
+  if (miAudio.paused) {
+    miAudio.loop = true; // Hacer que el audio se repita
+    miAudio.play();
+  }
+});
 
 let redAleatoria;
 let nodoOrigen = 0, nodoDestino = 0;
@@ -393,4 +402,3 @@ function dijkstraConRetardos(nodos, nodoInicio, nodoFin) {
 
   return ruta;
 }
-

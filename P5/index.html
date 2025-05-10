@@ -13,21 +13,30 @@
 
 </head>
 <body>
+    <div id = "texto">
     <h1>Hackeando la red.</h1>
 
     <div class="controls">
         <button id="btnCNet">Generar Red</button>
         <button id="btnMinPath">Calcular ruta</button>
     </div>
-    <div id="infoRed" style="position: absolute; top: 40px; left: 25%; transform: translateX(0); display: flex; flex-direction: column; align-items: flex-start; justify-content: center; text-align: left; padding: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+    <div id="infoRed" style="position: absolute; top: 0px; left: calc(50% + 300px); max-width: calc(100% - 50px - (50% + 300px)); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
         <div><strong>Número de nodos: 0</strong></div>
         <div><strong>Tiempo total: 0 sec</strong></div>
         <div><strong>Ruta más corta:</strong></div>
         <div><em>¡¡¡Red Generada!!!</em></div>
     </div>
-    <div id="infoNodos" style="position: absolute; top: 30px; left:40%; transform: translateX(0); display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;"></div>
+    </div>
 
     <canvas id="networkCanvas" width="1500" height="800"></canvas>
     <div id="rutaTexto" style="margin-top: 10px; font-family: Arial, sans-serif;"></div>
+    <div id="infoNodos" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; max-width: 90%; justify-content: center;"></div>
+
+
+
 </body>
 </html>
+
+
+
+

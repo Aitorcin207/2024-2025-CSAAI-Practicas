@@ -1,8 +1,20 @@
+
 canvas {
   border: 10px solid black;
   background: url('wallpaper1.jpg') no-repeat center center; /* Fondo con una imagen */
   background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el canvas */
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  margin: 0;
+  padding: 0;
 }
+html, body {
+  margin: 0;
+  padding: 0;
+
+}
+
 
 body {
   background: url('fondo.gif') no-repeat center center fixed; /* Fondo con un GIF */
@@ -29,42 +41,10 @@ body {
     font-size: 18pt;
   }
 
-/* Media queries para pantallas pequeñas */
-@media screen and (max-width: 768px) {
-  body {
-    font-size: 16pt; /* Reduce el tamaño de la fuente en pantallas más pequeñas */
-  }
+#texto {
+  color: #FFF;
+  font-family: Fredoka;
+  font-size: calc(1vw + 1vh + 10px); /* Escala con el tamaño de la pantalla */
 
-  canvas {
-    border: 5px solid black; /* Reduce el grosor del borde del canvas */
-  }
 
-  .controls {
-    gap: 10px; /* Reduce el espacio entre los botones */
-  }
-
-  button {
-    font-size: 14pt; /* Reduce el tamaño de la fuente de los botones */
-    padding: 8px 15px; /* Ajusta el tamaño del botón */
-  }
-}
-
-@media screen and (max-width: 480px) {
-  body {
-    font-size: 14pt; /* Reduce aún más el tamaño de la fuente */
-  }
-
-  canvas {
-    border: 3px solid black; /* Reduce aún más el grosor del borde del canvas */
-  }
-
-  .controls {
-    flex-direction: column; /* Coloca los botones en una columna */
-    gap: 15px; /* Ajusta el espacio entre los botones */
-  }
-
-  button {
-    font-size: 12pt; /* Reduce el tamaño de la fuente de los botones */
-    padding: 6px 10px; /* Ajusta el tamaño del botón */
-  }
 }
