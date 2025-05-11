@@ -15,6 +15,11 @@ html, body {
 
 }
 
+#networkCanvas {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 
 body {
   background: url('fondo.gif') no-repeat center center fixed; /* Fondo con un GIF */
