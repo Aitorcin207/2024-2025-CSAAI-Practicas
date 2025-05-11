@@ -35,18 +35,6 @@ imgPantallaVerde.src = "pantalla-verde.png"; // Esta debes crearla
 const btnCNet = document.getElementById("btnCNet");
 const btnMinPath = document.getElementById("btnMinPath");
 
-function resizeCanvas() {
-  const dpr = window.devicePixelRatio || 1;
-  const scaleX = window.innerWidth / canvas.width;
-  const scaleY = window.innerHeight / canvas.height;
-  const scale = Math.min(scaleX, scaleY);
-
-  canvas.style.width = `${canvas.width * scale}px`;
-  canvas.style.height = `${canvas.height * scale}px`;
-
-  ctx.setTransform(dpr * scale, 0, 0, dpr * scale, 0, 0);
-}
-
 // Clase para representar un nodo en el grafo
 class Nodo {
 
@@ -245,11 +233,8 @@ function randomNumber(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-refWidth = canvas.width;
-refHeight = canvas.height;
-
 function drawNet(nnodes, ruta = []) {
-  ctx.clearRect(0, 0, refWidth, refHeight);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Dibujar conexiones
   nnodes.forEach(nodo => {

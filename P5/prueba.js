@@ -245,6 +245,16 @@ function randomNumber(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
+window.addEventListener('resize', () => {
+  resizeCanvas();
+  drawNet(redAleatoria, rutaMinimaConRetardos);
+});
+
+window.addEventListener('load', () => {
+  resizeCanvas();
+  drawNet(redAleatoria, rutaMinimaConRetardos);
+});
+
 refWidth = canvas.width;
 refHeight = canvas.height;
 
